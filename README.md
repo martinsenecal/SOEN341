@@ -5,11 +5,12 @@
 - Graeme Killick (Git Username: gkillick) gkillick@gmail.com
 - Kimiya Derakhshani (Git Username: kimdera) kimdera199@gmail.com
 - Amanda Simard (Git Username: amanda6mard) amanda6mard@gmail.com
+- Militsa Bogdeva (Git Username: MilitsaB) militsa.bogdeva1@gmail.com
 
 
 ## Tools and Technologies
 - Languages:
-  - Javascript
+  - Javascript (React, Node)
   - Typescript
   - CSS
   - HTML
