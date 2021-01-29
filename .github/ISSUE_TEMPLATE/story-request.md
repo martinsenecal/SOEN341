@@ -17,7 +17,7 @@ What should we expect once the task is complete:
 -xxx
 -xxx
 
-**Sub-Tasks**
+**Sub-Tasks/Steps**
 - [ ] ToDo1
 - [ ] ToDo2
 
