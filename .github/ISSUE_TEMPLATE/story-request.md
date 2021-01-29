@@ -1,6 +1,6 @@
 ---
 name: Story request
-about: Describe the story (of the EPIC).
+about: Describe the story (smaller part of the EPIC).
 title: "[STORY]:[TITLE]"
 labels: User Story
 assignees: ''
