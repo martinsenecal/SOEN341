@@ -1,7 +1,7 @@
 ---
-name: Feature request
+name: EPIC/Feature request
 about: Suggest an idea for this project
-title: "[FEATURE]:[TITLE]"
+title: "[EPIC FEATURE]:[TITLE]"
 labels: Enhancement
 assignees: ''
 
@@ -18,3 +18,6 @@ A clear and concise description of any alternative solutions or features you've 
 
 **Additional context**
 Add any other context or screenshots about the feature request here.
+
+**Stories**
+Link to the different user stories from this EPIC Feature
