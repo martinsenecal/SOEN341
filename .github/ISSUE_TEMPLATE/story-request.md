@@ -9,6 +9,7 @@ assignees: ''
 
 ## About this story 
 **Priority**: [High/Medium/Low]
+**Story Points**: Fibonacci Sequence: (0, 1, 1, 2, 3, 5, 8, 13, 21)
 **Description**: 
 A clear and concise description of what the problem is. 
 
