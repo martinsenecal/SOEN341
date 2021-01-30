@@ -9,7 +9,7 @@ assignees: ''
 
 ## About this story 
 **Priority**: [High/Medium/Low]
-**Story Points**: Fibonacci Sequence: (0, 1, 1, 2, 3, 5, 8, 13, 21)
+**Story Points**: Fibonacci Sequence: (0, 1, 2, 3, 5, 8, 13, 21)
 **Priority of Solution**: Based on Story Point and Priority
 **Description**: 
 A clear and concise description of what the problem is. 
