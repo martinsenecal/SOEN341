@@ -3,7 +3,7 @@
 ## Project Description
 Creating an Instagram-like application for photo sharing.
 
-## Objetive
+## Objective
 The objective of the project is to create an interactive, photo-sharing platform. This platform will allow users to post pictures to a profile, follow other users and post comments on photos. The main point of interaction will be a photo-feed which displays the photos the user posts as well as the photos posted by followed users. User will then be able to comment to and like photos directly from this feed.
 
 ## Core features
