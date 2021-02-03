@@ -12,7 +12,7 @@ The objective of the project is to create an interactive, photo-sharing platform
 - Leaving a comment on a photo
 
 ## Team Members
-- Martin Senécal (Git Username: martinsenecal) martinsenecal2000@gmail.com
+- Martin Senécal - Team Lead - (Git Username: martinsenecal) martinsenecal2000@gmail.com
 - Graeme Killick (Git Username: gkillick) gkillick@gmail.com
 - Kimiya Derakhshani (Git Username: kimdera) kimdera199@gmail.com
 - Amanda Simard (Git Username: amanda6mard) amanda6mard@gmail.com
