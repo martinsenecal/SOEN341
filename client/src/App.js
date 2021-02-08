@@ -7,7 +7,7 @@ const App = () => {
     <div>
       <h1>Hello!</h1>
       <Button variant="contained" color="primary">
-        Hello World. I am a Button made with Material UI
+        Hello World! I am a Button made with Material UI
       </Button>
     </div>
   );
