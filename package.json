@@ -4,6 +4,8 @@
   "description": "SOEN341 - Instagram Web App",
   "main": "server.js",
   "scripts": {
+    "start": "node server.js",
+    "test": "echo \"No test specified\"",
     "prod": "cross-env NODE_ENV=production node backend/server.js",
     "server": "cross-env NODE_ENV=development nodemon backend/server.js",
     "client": "npm start --prefix client",
