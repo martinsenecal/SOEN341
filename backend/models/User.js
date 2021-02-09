@@ -4,6 +4,9 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  name: {
+    type: String,
+  },
   email: {
     type: String,
     required: true,
@@ -13,7 +16,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  profile: {
+  profilePicture: {
     type: String,
   },
   date: {
