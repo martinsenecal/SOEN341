@@ -2,9 +2,12 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
-const User = require('../../models/User');
 const jwt = require('jsonwebtoken');
 const config = require('../../../config/config');
+const auth = require('../../middleware/auth');
+
+const User = require('../../models/User');
+const Follow = require('../../models/Follow');
 
 // @route   Post api/users
 // @desc    Register user
@@ -72,5 +75,32 @@ router.post(
     }
   }
 );
+
+// Goal: add APIs regarding: modifying profile info, delete users/profile, follow/unfollow users, get profile (by id)
+
+// @route   GET api/users/:id
+// @desc    Get current users profile
+// @access  Private
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const profile = await User.findById(req.params.id).select('-password');
+    // Find Follow (followers and following) of this user.
+    // const follow = await Follow.find({ follower: profile }); // might break something
+    // Find all the posts of this user.
+
+    if (!profile) {
+      return res.status(400).json({ msg: 'There is no profile for this user' });
+    }
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   PUT api/users/:id
+// @desc    Get current users profile
+// @access  Private
 
 module.exports = router;
