@@ -106,16 +106,27 @@ router.get('/:username', auth, async (req, res) => {
   }
 });
 
-// @route   GET api/users/settings
+// @route   GET api/users/settings/:username
 // @desc    Get user settings
 // @access  Private
-
-
+router.get('/settings/:username', auth, async (req, res) => {
+    try {
+      const profile = await User.findOne({"username":req.params.username}).select('-password');
+    
+      if (!profile) {
+        return res.status(400).json({ msg: 'There is no profile for this user' });
+      }
+  
+      res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  });
 
 // @route   PUT api/users/settings
 // @desc    Modify user settings
 // @access  Private
-
 router.put(
     '/settings',
     [
@@ -130,7 +141,6 @@ router.put(
         return res.status(400).json({ errors: errors.array() });
       }
 
-      
       const {
         username,
         bio,
