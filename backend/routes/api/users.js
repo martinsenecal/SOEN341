@@ -33,6 +33,13 @@ router.post(
     //See if user exists
     try {
       let user = await User.findOne({ email });
+      let existingUsername = await User.findOne({ username });
+
+      if (existingUsername) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Username is taken' }] });
+      }
 
       if (user) {
         return res
@@ -81,9 +88,9 @@ router.post(
 // @route   GET api/users/:id
 // @desc    Get current users profile
 // @access  Private
-router.get('/:id', auth, async (req, res) => {
+router.get('/:username', auth, async (req, res) => {
   try {
-    const profile = await User.findById(req.params.id).select('-password');
+    const profile = await User.findOne({"username":req.params.username}).select('-password');
     // Find Follow (followers and following) of this user.
     // const follow = await Follow.find({ follower: profile }); // might break something
     // Find all the posts of this user.
@@ -99,11 +106,15 @@ router.get('/:id', auth, async (req, res) => {
   }
 });
 
-// @route   PUT api/users/:id
-// @desc    Modify user settings
+// @route   GET api/users/settings
+// @desc    Get user settings
 // @access  Private
 
-//Add get request
+
+
+// @route   PUT api/users/settings
+// @desc    Modify user settings
+// @access  Private
 
 router.put(
     '/settings',
@@ -118,6 +129,8 @@ router.put(
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
+
+      
       const {
         username,
         bio,
@@ -132,6 +145,15 @@ router.put(
         name
       };
   
+      let user = await User.findOne(req.user_id );
+      let existingUsername = await User.findOne({ username });
+
+      if (user.username !== username && existingUsername) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'Username already exists' }] });
+      }
+   
       try {
         let user = await User.findOneAndUpdate(
           { id: req.user_id },
@@ -139,7 +161,7 @@ router.put(
           { new: true, setDefaultsOnInsert: true, useFindAndModify: false }
         );
 
-
+        
 
         res.json(user);
       } catch (err) {
