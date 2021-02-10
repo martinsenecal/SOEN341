@@ -100,7 +100,54 @@ router.get('/:id', auth, async (req, res) => {
 });
 
 // @route   PUT api/users/:id
-// @desc    Get current users profile
+// @desc    Modify user settings
 // @access  Private
+
+//Add get request
+
+router.put(
+    '/settings',
+    [
+      auth,
+      [
+        check('username', 'Username is required').not().isEmpty(),
+      ],
+    ],
+    async (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+      const {
+        username,
+        bio,
+        profilePicture,
+        name
+      } = req.body;
+  
+      //Build User Object
+      const userFields = {
+        profilePicture,
+        username,
+        name
+      };
+  
+      try {
+        let user = await User.findOneAndUpdate(
+          { id: req.user_id },
+          { $set: userFields },
+          { new: true, setDefaultsOnInsert: true, useFindAndModify: false }
+        );
+
+
+
+        res.json(user);
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+      }
+    }
+  );
+  
 
 module.exports = router;
