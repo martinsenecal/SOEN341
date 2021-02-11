@@ -13,7 +13,6 @@ connectDB();
 // Middleware
 app.use(
   cors({
-    origin: config.HOME_PAGE_DOMAIN, // allow to server to accept request from different origin
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // allow session cookie from browser to pass through
   })
