@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = () => {
+  const [error, setError] = useState(false);
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm();
 
@@ -64,7 +65,7 @@ const SignIn = () => {
         if (errors.response) {
           console.log(errors.response.data.errors[0].msg); // => the response payload
           if (errors.response.data.errors[0].msg === 'Invalid Credentials') {
-            alert('Email or Password is invalid'); //TODO make "Email or Password is invalid" print
+            setError(true);
           }
         }
       });
@@ -135,6 +136,9 @@ const SignIn = () => {
               <p className="validationError">
                 Password must be at least 6 characters long
               </p>
+            )}
+            {error && (
+              <p className="validationError">Email or password is invalid.</p>
             )}
             <Button
               type="submit"

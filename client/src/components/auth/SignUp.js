@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -39,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = () => {
   const classes = useStyles();
+  const [error, setError] = useState(false);
+  const [errorExists, setErrorExists] = useState(false);
 
   //react form
   const { register, handleSubmit, errors } = useForm();
@@ -53,7 +55,7 @@ const SignUp = () => {
         if (error.response) {
           console.log(error.response.data.errors[0].msg); // => the response payload
           if (error.response.data.errors[0].msg === 'User already exists') {
-            alert('User already exist. Username or email already used.'); //TODO make "Email or Password is invalid" print
+            setErrorExists(true);
           }
         }
       });
@@ -156,6 +158,11 @@ const SignUp = () => {
             {errors.password && (
               <p className="validationError">
                 Password must be at least 6 characters long
+              </p>
+            )}
+            {errorExists && (
+              <p className="validationError">
+                User already exist. Username or email already used.
               </p>
             )}
           </Grid>
