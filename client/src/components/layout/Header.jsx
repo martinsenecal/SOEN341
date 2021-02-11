@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -114,8 +115,10 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Sign In</MenuItem>
+      <MenuItem component={Link} to="/signin">
+        Profile
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>Log Out</MenuItem>
     </Menu>
   );
 
@@ -148,19 +151,21 @@ export default function Header() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <div className="container">
-            <img
-              alt=""
-              src={logo}
-              width="40"
-              height="40"
-              className="d-inline-block align-top"
-            />
-          </div>
+          <IconButton component={Link} to="/">
+            <div className="container">
+              <img
+                alt=""
+                src={logo}
+                width="40"
+                height="40"
+                className="d-inline-block align-top"
+              />
+            </div>
+          </IconButton>
 
           <Typography
             className={classes.title}
-            variant="h6"
+            variant="h5"
             noWrap
             style={{
               marginLeft: '1rem',
