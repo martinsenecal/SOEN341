@@ -6,6 +6,9 @@ const PostSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'users',
   },
+  postedPicture: {
+    type: String,
+  },
   description: {
     type: String,
   },
