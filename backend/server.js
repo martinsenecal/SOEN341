@@ -13,18 +13,19 @@ connectDB();
 // Middleware
 app.use(
   cors({
-    origin: config.HOME_PAGE_DOMAIN, // allow to server to accept request from different origin
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // allow session cookie from browser to pass through
   })
 );
 
-app.use(bodyParser.json());
+//Init Middleware for routes
+app.use(express.json({ extended: false }));
 
 app.get('/', (req, res) => res.send('API Running'));
 
 // Define Routes
-// app.use('/api/users', require('./routes/api/users'));
+app.use('/api/users', require('./routes/api/users'));
+app.use('/api/auth', require('./routes/api/auth'));
 
 app.listen(config.PORT, () =>
   console.log(`Server started on port ${config.PORT}`)
