@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import S3 from 'react-aws-s3';
-import uuid from 'uuid/v4';
+import { v4 as uuid } from 'uuid';
+import { DropzoneArea } from 'material-ui-dropzone';
 
 //setup env vars for s3 bucket
 const awsConfig = {
