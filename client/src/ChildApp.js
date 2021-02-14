@@ -14,7 +14,6 @@ import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
 import Landing from './components/layout/Landing';
 import Feed from './components/layout/Feed';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Context (State) Import
 import { AuthContext } from './context/AuthContext';
