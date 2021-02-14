@@ -6,6 +6,7 @@ export const AuthProvider = (props) => {
   const [auth, setAuth] = useState({
     token: localStorage.getItem('token'),
     isAuthenticated: null,
+    loading: true,
     user: null,
   });
 

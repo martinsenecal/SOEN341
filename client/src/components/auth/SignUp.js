@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import setAuthToken from '../../utils/setAuthToken';
 
 import Copyright from '../layout/Copyright';
 import logo from '../../static/image/logo.png';
@@ -39,26 +41,73 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = () => {
   const classes = useStyles();
-  const [error, setError] = useState(false);
   const [errorExists, setErrorExists] = useState(false);
+  const [auth, setAuth] = useContext(AuthContext);
 
-  //react form
+  // react form
   const { register, handleSubmit, errors } = useForm();
 
-  //send user data to back end
+  // send user data to back end
   const onSubmit = async (data) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
     console.log(data);
-    await axios
-      .post('http://localhost:5000/api/users', data)
-      .then((res) => console.log(res.data))
-      .catch((error) => {
-        if (error.response) {
-          console.log(error.response.data.errors[0].msg); // => the response payload
-          if (error.response.data.errors[0].msg === 'User already exists') {
-            setErrorExists(true);
-          }
-        }
+    try {
+      const res = await axios.post('/api/users', data, config);
+      let token = res.data.token;
+      console.log(token);
+      // console.log(res.json());
+      localStorage.setItem('token', token);
+      setAuth({
+        token: localStorage.getItem('token'),
+        isAuthenticated: true,
+        loading: false,
+        user: null,
       });
+      await loadUser();
+    } catch (error) {
+      localStorage.removeItem('token');
+      setAuth({
+        ...auth,
+        isAuthenticated: false,
+        token: null,
+        loading: false,
+      });
+      if (error.response) {
+        // Register Fail
+        console.log(error.response.data.errors[0].msg); // => the response payload
+        if (error.response.data.errors[0].msg === 'User already exists') {
+          setErrorExists(true);
+        }
+      }
+    }
+  };
+
+  const loadUser = async () => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token); //set header token if there is one
+    }
+
+    try {
+      const res = await axios.get('/api/auth');
+      setAuth({
+        ...auth,
+        isAuthenticated: true,
+        loading: false,
+        user: res.data,
+      });
+    } catch (err) {
+      localStorage.removeItem('token');
+      setAuth({
+        ...auth,
+        isAuthenticated: false,
+        token: null,
+        loading: false,
+      });
+    }
   };
 
   return (
