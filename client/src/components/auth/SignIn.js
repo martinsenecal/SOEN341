@@ -7,6 +7,7 @@ import setAuthToken from '../../utils/setAuthToken';
 
 import Copyright from '../layout/Copyright';
 import logo from '../../static/image/logo.png';
+import HeaderInitial from '../layout/HeaderInitial';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -55,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignIn = () => {
   const [error, setError] = useState(false);
+  const [errorEmail, setErrorEmail] = useState(false);
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm();
   const [auth, setAuth] = useContext(AuthContext);
@@ -93,6 +95,11 @@ const SignIn = () => {
         if (error.response.data.errors[0].msg === 'Invalid Credentials') {
           setError(true);
         }
+        if (
+          error.response.data.errors[0].msg === 'Please include a valid email'
+        ) {
+          setErrorEmail(true);
+        }
       }
     }
   };
@@ -127,97 +134,100 @@ const SignIn = () => {
   }
 
   return (
-    <Grid container component="main" className={classes.root}>
-      <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Avatar
-            src={logo}
-            style={{
-              margin: '10px',
-              width: '50px',
-              height: '50px',
-            }}
-          >
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign In
-          </Typography>
-          <form
-            className={classes.form}
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-          >
-            <TextField
-              variant="outlined"
-              margin="normal"
-              inputRef={register({
-                required: true,
-                pattern: {
-                  value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                },
-              })}
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            {errors.email && (
-              <p className="validationError">Invalid Email Address</p>
-            )}
-            <TextField
-              variant="outlined"
-              margin="normal"
-              inputRef={register({
-                required: true,
-                minLength: {
-                  value: 6,
-                },
-              })}
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            {errors.password && (
-              <p className="validationError">
-                Password must be at least 6 characters long
-              </p>
-            )}
-            {error && (
-              <p className="validationError">Email or password is invalid.</p>
-            )}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
+    <div>
+      <HeaderInitial />
+      <Grid container component="main" className={classes.root}>
+        <CssBaseline />
+        <Grid item xs={false} sm={4} md={7} className={classes.image} />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <div className={classes.paper}>
+            <Avatar
+              src={logo}
+              style={{
+                margin: '10px',
+                width: '50px',
+                height: '50px',
+              }}
             >
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
               Sign In
-            </Button>
-            <Grid container justify="flex-end">
-              <Grid item>
-                <Link to="/signup" variant="body2">
-                  New to PhotoX? Sign Up
-                </Link>
+            </Typography>
+            <form
+              className={classes.form}
+              noValidate
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <TextField
+                variant="outlined"
+                margin="normal"
+                inputRef={register({
+                  required: true,
+                })}
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
+              {errors.email && (
+                <p className="validationError">Email Required</p>
+              )}
+              {errorEmail && (
+                <p className="validationError">Invalid Email Address</p>
+              )}
+              <TextField
+                variant="outlined"
+                margin="normal"
+                inputRef={register({
+                  required: true,
+                  minLength: {
+                    value: 6,
+                  },
+                })}
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              {errors.password && (
+                <p className="validationError">
+                  Password must be at least 6 characters long
+                </p>
+              )}
+              {error && (
+                <p className="validationError">Email or password is invalid.</p>
+              )}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign In
+              </Button>
+              <Grid container justify="flex-end">
+                <Grid item>
+                  <Link to="/signup" variant="body2">
+                    New to PhotoX? Sign Up
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </form>
-        </div>
+              <Box mt={5}>
+                <Copyright />
+              </Box>
+            </form>
+          </div>
+        </Grid>
       </Grid>
-    </Grid>
+    </div>
   );
 };
 

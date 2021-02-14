@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { Link, Redirect } from 'react-router-dom';
+import Header from './Header';
 
 const Feed = () => {
   const [auth, setAuth] = useContext(AuthContext);
@@ -17,6 +18,7 @@ const Feed = () => {
   };
   return (
     <div>
+      <Header />
       <h1>This is the feed! Wohoooo!</h1>
       {!auth.loading && (
         <>

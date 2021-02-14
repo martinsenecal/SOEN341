@@ -12,9 +12,9 @@ import setAuthToken from './utils/setAuthToken';
 // Components Import
 import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
-import Header from './components/layout/Header';
 import Landing from './components/layout/Landing';
 import Feed from './components/layout/Feed';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Context (State) Import
 import { AuthContext } from './context/AuthContext';
@@ -68,7 +68,6 @@ const ChildApp = () => {
 
   return (
     <Router>
-      <Header />
       <Switch>
         <Route exact path="/" component={Landing} />
         <Route exact path="/signin" component={SignIn} />

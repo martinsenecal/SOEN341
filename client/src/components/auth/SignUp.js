@@ -7,6 +7,7 @@ import setAuthToken from '../../utils/setAuthToken';
 
 import Copyright from '../layout/Copyright';
 import logo from '../../static/image/logo.png';
+import HeaderInitial from '../layout/HeaderInitial';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 const SignUp = () => {
   const classes = useStyles();
   const [errorExists, setErrorExists] = useState(false);
+  const [errorEmail, setErrorEmail] = useState(false);
   const [auth, setAuth] = useContext(AuthContext);
 
   // react form
@@ -82,6 +84,12 @@ const SignUp = () => {
         if (error.response.data.errors[0].msg === 'User already exists') {
           setErrorExists(true);
         }
+
+        if (
+          error.response.data.errors[0].msg === 'Please include a valid email'
+        ) {
+          setErrorEmail(true);
+        }
       }
     }
   };
@@ -115,132 +123,137 @@ const SignUp = () => {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar
-          src={logo}
-          style={{
-            margin: '10px',
-            width: '50px',
-            height: '50px',
-          }}
-        >
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign Up
-        </Typography>
-        <form
-          className={classes.form}
-          noValidate
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="fname"
-                name="name"
-                variant="outlined"
-                inputRef={register({
-                  required: true,
-                })}
-                required
-                fullWidth
-                id="name"
-                label="Name"
-                autoFocus
-              />
-            </Grid>
-            {errors.name && <p className="validationError">Name Required</p>}
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                inputRef={register({
-                  required: true,
-                })}
-                required
-                fullWidth
-                id="username"
-                label="Username"
-                name="username"
-                autoComplete="username"
-              />
-            </Grid>
-            {errors.username && (
-              <p className="validationError">Username Required</p>
-            )}
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                inputRef={register({
-                  required: true,
-                  pattern: {
-                    value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                  },
-                })}
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-              />
-            </Grid>
-            {errors.email && (
-              <p className="validationError">Invalid Email Address</p>
-            )}
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                inputRef={register({
-                  required: true,
-                  minLength: {
-                    value: 6,
-                  },
-                })}
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-            </Grid>
-            {errors.password && (
-              <p className="validationError">
-                Password must be at least 6 characters long
-              </p>
-            )}
-            {errorExists && (
-              <p className="validationError">
-                User already exist. Username or email already used.
-              </p>
-            )}
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
+    <div className="register">
+      <HeaderInitial />
+
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+
+        <div className={classes.paper}>
+          <Avatar
+            src={logo}
+            style={{
+              margin: '10px',
+              width: '50px',
+              height: '50px',
+            }}
           >
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
             Sign Up
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link to="/signin" variant="body2">
-                Already have an account? Sign In
-              </Link>
+          </Typography>
+          <form
+            className={classes.form}
+            noValidate
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="fname"
+                  name="name"
+                  variant="outlined"
+                  inputRef={register({
+                    required: true,
+                  })}
+                  required
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  autoFocus
+                />
+              </Grid>
+              {errors.name && <p className="validationError">Name Required</p>}
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  inputRef={register({
+                    required: true,
+                  })}
+                  required
+                  fullWidth
+                  id="username"
+                  label="Username"
+                  name="username"
+                  autoComplete="username"
+                />
+              </Grid>
+              {errors.username && (
+                <p className="validationError">Username Required</p>
+              )}
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  inputRef={register({
+                    required: true,
+                  })}
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              {errors.email && (
+                <p className="validationError">Email Required</p>
+              )}
+              {errorEmail && (
+                <p className="validationError">Invalid Email Address</p>
+              )}
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  inputRef={register({
+                    required: true,
+                    minLength: {
+                      value: 6,
+                    },
+                  })}
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+              </Grid>
+              {errors.password && (
+                <p className="validationError">
+                  Password must be at least 6 characters long
+                </p>
+              )}
+              {errorExists && (
+                <p className="validationError">
+                  User already exist. Username or email already used.
+                </p>
+              )}
             </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={5}>
-        <Copyright />
-      </Box>
-    </Container>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Sign Up
+            </Button>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <Link to="/signin" variant="body2">
+                  Already have an account? Sign In
+                </Link>
+              </Grid>
+            </Grid>
+          </form>
+        </div>
+        <Box mt={5}>
+          <Copyright />
+        </Box>
+      </Container>
+    </div>
   );
 };
 export default SignUp;

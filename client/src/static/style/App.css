@@ -6,3 +6,90 @@
   margin-block-start: 0;
   margin-block-end: 0;
 }
+
+.navbar-nav > .active > a {
+  text-decoration: none !important;
+  color: white !important;
+}
+
+.nav > a {
+  text-decoration: none !important;
+  color: white !important;
+}
+
+.bg-light {
+  background-color: #3f51b5 !important;
+}
+
+.form-inline .form-control {
+  background-color: #6f7dc8;
+  border: 1px solid#6f7dc8 !important;
+  color: white !important;
+}
+
+::placeholder {
+  color: #ced4da !important;
+}
+
+input .search-query {
+  color: white !important;
+}
+
+.navbar {
+  background-color: #3f51b5;
+}
+
+.nav {
+  background-color: #3f51b5;
+  padding: 0.5em;
+}
+
+.btn-secondary {
+  background-color: #6f7dc8 !important;
+  margin-right: 1rem;
+  border: 1px solid#6f7dc8 !important;
+}
+
+.nav-link {
+  color: #fff;
+  margin-left: 1em;
+  font-size: large;
+}
+
+.btn-secondary:hover {
+  border-color: #ced4da !important;
+}
+
+.dropdown-pull-right {
+  float: right !important;
+  right: 0;
+  left: auto;
+}
+
+.dropdown-pull-right > .dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
+.MuiContainer-maxWidthXs {
+  max-width: 444px;
+  background-color: white;
+  border-radius: 25px;
+  padding-block-end: 1em;
+}
+
+.MuiContainer-root {
+  padding-left: 30px !important;
+  padding-right: 30px !important;
+}
+
+.MuiAvatar-root {
+  margin-top: 1rem !important;
+}
+
+.register {
+  background-image: url(https://i.pinimg.com/originals/c1/c3/23/c1c323d6e501553c0054d1ede1912d1f.jpg);
+  background-repeat: repeat;
+  background-size: 100% 100%;
+  height: 800px;
+}
