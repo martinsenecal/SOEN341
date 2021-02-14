@@ -1,7 +1,12 @@
 // General Import
 import React, { useEffect, useContext } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom';
 import setAuthToken from './utils/setAuthToken';
 
 // Components Import
@@ -9,9 +14,26 @@ import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
 import Header from './components/layout/Header';
 import Landing from './components/layout/Landing';
+import Feed from './components/layout/Feed';
 
 // Context (State) Import
 import { AuthContext } from './context/AuthContext';
+
+const PrivateRoute = ({ component: Component, ...rest }) => {
+  const [auth] = useContext(AuthContext);
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        !auth.isAuthenticated && !auth.loading ? (
+          <Redirect to="/signin" />
+        ) : (
+          <Component {...props} />
+        )
+      }
+    />
+  );
+};
 
 const ChildApp = () => {
   const [auth, setAuth] = useContext(AuthContext);
@@ -49,8 +71,9 @@ const ChildApp = () => {
       <Header />
       <Switch>
         <Route exact path="/" component={Landing} />
-        <Route exact path="/SignIn" component={SignIn} />
-        <Route exact path="/SignUp" component={SignUp} />
+        <Route exact path="/signin" component={SignIn} />
+        <Route exact path="/signup" component={SignUp} />
+        <PrivateRoute exact path="/feed" component={Feed} />
       </Switch>
     </Router>
   );

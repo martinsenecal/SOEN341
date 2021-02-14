@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import setAuthToken from '../../utils/setAuthToken';
 
 import Copyright from '../layout/Copyright';
@@ -73,10 +73,11 @@ const SignIn = () => {
       // console.log(res.json());
       localStorage.setItem('token', token);
       setAuth({
-        token: localStorage.getItem('token'),
+        ...auth,
+        // token: localStorage.getItem('token'),
         isAuthenticated: true,
         loading: false,
-        user: null,
+        // user: null,
       });
       await loadUser();
     } catch (error) {
@@ -119,6 +120,11 @@ const SignIn = () => {
       });
     }
   };
+
+  // Redirect if logged in
+  if (auth.isAuthenticated) {
+    return <Redirect to="/feed" />;
+  }
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -200,7 +206,7 @@ const SignIn = () => {
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link to="/SignUp" variant="body2">
+                <Link to="/signup" variant="body2">
                   New to PhotoX? Sign Up
                 </Link>
               </Grid>
