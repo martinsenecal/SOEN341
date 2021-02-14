@@ -1,3 +1,4 @@
+// General Import
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
@@ -5,10 +6,11 @@ import { useForm } from 'react-hook-form';
 import { Link, Redirect } from 'react-router-dom';
 import setAuthToken from '../../utils/setAuthToken';
 
+// Component Import
 import Copyright from '../layout/Copyright';
 import logo from '../../static/image/logo.png';
-import HeaderInitial from '../layout/HeaderInitial';
 
+// Material UI Import
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -124,8 +126,6 @@ const SignUp = () => {
 
   return (
     <div className="register">
-      <HeaderInitial />
-
       <Container component="main" maxWidth="xs">
         <CssBaseline />
 

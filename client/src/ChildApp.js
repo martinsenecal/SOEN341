@@ -14,6 +14,7 @@ import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
 import Landing from './components/layout/Landing';
 import Feed from './components/layout/Feed';
+import Header from './components/layout/Header';
 
 // Context (State) Import
 import { AuthContext } from './context/AuthContext';
@@ -36,10 +37,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
 
 const ChildApp = () => {
   const [auth, setAuth] = useContext(AuthContext);
+
   useEffect(() => {
-    // Content of LoadUser();
     const getLoadUser = async () => {
-      // await loadUser();
       if (localStorage.token) {
         setAuthToken(localStorage.token); //set header token if there is one
       }
@@ -67,6 +67,7 @@ const ChildApp = () => {
 
   return (
     <Router>
+      <Header />
       <Switch>
         <Route exact path="/" component={Landing} />
         <Route exact path="/signin" component={SignIn} />

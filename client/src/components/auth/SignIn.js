@@ -1,3 +1,4 @@
+// General Import
 import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
@@ -5,10 +6,10 @@ import { useForm } from 'react-hook-form';
 import { Link, Redirect } from 'react-router-dom';
 import setAuthToken from '../../utils/setAuthToken';
 
+// Component Import
 import Copyright from '../layout/Copyright';
-import logo from '../../static/image/logo.png';
-import HeaderInitial from '../layout/HeaderInitial';
 
+// Material UI Import
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -19,6 +20,8 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+
+import logo from '../../static/image/logo.png';
 
 // Material UI styling
 const useStyles = makeStyles((theme) => ({
@@ -135,7 +138,6 @@ const SignIn = () => {
 
   return (
     <div>
-      <HeaderInitial />
       <Grid container component="main" className={classes.root}>
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7} className={classes.image} />

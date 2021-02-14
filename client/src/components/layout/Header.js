@@ -20,12 +20,12 @@ const Header = () => {
   return (
     <div>
       <nav
-        class="navbar navbar-expand-md navbar-dark "
+        className="navbar navbar-expand-md navbar-dark "
         style={{
           paddingLeft: '30px',
         }}
       >
-        <a class="navbar-brand" href="/">
+        <a className="navbar-brand" href="#!">
           <img
             src={logo}
             width="40"
@@ -35,86 +35,71 @@ const Header = () => {
           ></img>
         </a>
         <a
-          class="navbar-brand"
-          href="/"
+          className="navbar-brand"
+          href="#!"
           style={{
             fontSize: '25px',
           }}
         >
           PhotoX
         </a>
-        <button
-          type="button"
-          class="navbar-toggler"
-          data-toggle="collapse"
-          data-target="#navbarCollapse"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div
-          class="collapse navbar-collapse justify-content-end"
-          id="navbarCollapse"
-        >
-          <div class="navbar-nav">
-            <form class="form-inline">
-              <div class="input-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Search..."
-                />
-                <div class="input-group-append">
-                  <button type="button" class="btn btn-secondary">
-                    <i class="fa fa-search"></i>
-                  </button>
+        {auth.isAuthenticated && (
+          <>
+            <button
+              type="button"
+              className="navbar-toggler"
+              data-toggle="collapse"
+              data-target="#navbarCollapse"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div
+              className="collapse navbar-collapse justify-content-end"
+              id="navbarCollapse"
+            >
+              <div className="navbar-nav">
+                <form className="form-inline">
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Search..."
+                    />
+                    <div className="input-group-append">
+                      <button type="button" className="btn btn-secondary">
+                        <i className="fa fa-search"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+                <Link className="nav-item nav-link active" to="/feed">
+                  Feed
+                </Link>
+                <Link className="nav-item nav-link active" to="/">
+                  New Post
+                </Link>
+                <div className="nav-item dropdown active">
+                  <a
+                    href="#!"
+                    className="nav-link dropdown-toggle"
+                    data-toggle="dropdown"
+                  >
+                    <i className="fa fa-user-circle-o fa-lg"></i>
+                  </a>
+                  <div className="dropdown-menu dropdown-menu-sm-right">
+                    <Link className="dropdown-item" to="/">
+                      Profile
+                    </Link>
+                    <a onClick={logout} className="dropdown-item" href="#!">
+                      <i className="fas fa-sign-out-alt"></i>
+                      <span className="hide-sm">Logout</span>
+                    </a>
+                  </div>
                 </div>
               </div>
-            </form>
-            <a href="/" class="nav-item nav-link active">
-              <Link to="/feed">Feed</Link>
-            </a>
-            <a href="/" class="nav-item nav-link active">
-              New Post
-            </a>
-            <div class="nav-item dropdown active">
-              <a
-                href="/"
-                class="nav-link dropdown-toggle"
-                data-toggle="dropdown"
-              >
-                <i class="fa fa-user-circle-o fa-lg"></i>
-              </a>
-              <div class="dropdown-menu dropdown-menu-sm-right">
-                <a href="/" class="dropdown-item">
-                  Profile
-                </a>
-
-                {!auth.loading && (
-                  <>
-                    {' '}
-                    {auth.isAuthenticated ? (
-                      <>
-                        <div>
-                          <a onClick={logout} class="dropdown-item" href="#!">
-                            Log Out
-                          </a>
-                        </div>{' '}
-                      </>
-                    ) : (
-                      <>
-                        {' '}
-                        <Link to="/signin">
-                          Bring me to the Sign In Page.
-                        </Link>{' '}
-                      </>
-                    )}{' '}
-                  </>
-                )}
-              </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
       </nav>
     </div>
   );
