@@ -15,6 +15,7 @@ import SignUp from './components/auth/SignUp';
 import Landing from './components/layout/Landing';
 import Feed from './components/layout/Feed';
 import Header from './components/layout/Header';
+import Profile from './components/layout/Profile';
 
 // Context (State) Import
 import { AuthContext } from './context/AuthContext';
@@ -73,6 +74,7 @@ const ChildApp = () => {
         <Route exact path="/signin" component={SignIn} />
         <Route exact path="/signup" component={SignUp} />
         <PrivateRoute exact path="/feed" component={Feed} />
+        <Route exact path="/profile" component={Profile} />
       </Switch>
     </Router>
   );
