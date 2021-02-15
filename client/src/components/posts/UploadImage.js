@@ -43,7 +43,7 @@ const UploadImage = () => {
        
          const config = {
           headers: {
-            'Contenet-Tupe': 'application/json'
+            'Content-Type': 'application/json'
           }
          }
        
