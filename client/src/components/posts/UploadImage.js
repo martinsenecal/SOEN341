@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import axios from 'axios';
 import S3 from 'react-aws-s3';
 import { v4 as uuid } from 'uuid';
 import '../../static/style/Upload.css';
@@ -26,17 +27,35 @@ const UploadImage = () => {
   const inputImageRef = useRef();
 
   const newFileName = uuid();
-  const upload = (e) => {
+  const upload = async (data)  => {
     //e.target.files[0]
     S3FileUpload.uploadFile(validFiles[0], newFileName)
-      .then((data) => {
+      .then(async(data) => {
         setUploadedPath(data.location);
 
         //Call node backend here and save data.location which contains the image url on s3
-
+        
+        const post = {
+          //postedBy:req.user
+         description:"test",
+         postedPicture: data.location,
+       };
+       
+         const config = {
+          headers: {
+            'Contenet-Tupe': 'application/json'
+          }
+         }
+       
+       const body = JSON.stringify();
+       const res = await axios.post('http://localhost:5000/api/feed', post, config);
+            
+        
         setUploadComplete('uploaded');
         console.log(data.location);
-      })
+     }
+     )
+    
       .catch((err) => {
         alert(err);
       });
