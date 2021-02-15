@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
-
+const Schema = mongoose.Schemal;
 // Post model: will be information of a picture, nb likes/comments, userId
 const PostSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: 'users',
+  },
+  postedPicture: {
+    type: String,
   },
   description: {
     type: String,
