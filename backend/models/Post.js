@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-
+const Schema = mongoose.Schemal;
 // Post model: will be information of a picture, nb likes/comments, userId
-const PostSchema = new mongoose.Schema({
+const PostSchema = new Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'users',
   },
   postedPicture: {
@@ -15,7 +15,7 @@ const PostSchema = new mongoose.Schema({
   likes: [
     {
       user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'users',
       },
     },
@@ -23,7 +23,7 @@ const PostSchema = new mongoose.Schema({
   comments: [
     {
       user: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'users',
       },
       text: {
