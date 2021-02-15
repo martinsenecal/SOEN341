@@ -49,7 +49,19 @@ const ImageCard = (props) => {
                     <small>{formatNumber(props.commentsNumber)}</small></div>
                 </div>
             </div>   
-            <div class="card-footer add-comment-display">This is a  test</div>
+            <div class="card-footer add-comment-display">
+                <form>
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Leave a comment :) " />
+                        </div>
+                        <div class="col-xs-auto">
+                            <button type="submit" class="btn btn-primary mb-2"><i class="fa fa-send-o"></i></button>
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
             
         </div>
     )
