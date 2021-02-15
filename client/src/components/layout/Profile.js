@@ -38,6 +38,14 @@ const photoData = [
         commentsNumber: 125,
         liked: true,
         id: 1,
+        user :
+          {
+            username: "example01",
+            bio: " user defined bio -- max length = ?, default blank",
+            profilePicture: "https://images.unsplash.com/photo-1613140952277-1c6bd0386ff5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80",
+            followingNumber: 1257,
+            followerNumber: 12,
+          }
     },
     {
         image: 'https://images.unsplash.com/photo-1591160690555-5debfba289f0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80',
@@ -47,6 +55,14 @@ const photoData = [
         commentsNumber: 1234,
         liked: true,
         id: 2,
+        user :
+          {
+            username: "example01",
+            bio: " user defined bio -- max length = ?, default blank",
+            profilePicture: "https://images.unsplash.com/photo-1613140952277-1c6bd0386ff5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80",
+            followingNumber: 1257,
+            followerNumber: 12,
+          }
     },
     {
         image: 'https://images.unsplash.com/photo-1565553642973-6afe791aee33?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=723&q=80',
@@ -56,6 +72,14 @@ const photoData = [
         commentsNumber: 5,
         liked: false,
         id: 3,
+        user :
+          {
+            username: "example01",
+            bio: " user defined bio -- max length = ?, default blank",
+            profilePicture: "https://images.unsplash.com/photo-1613140952277-1c6bd0386ff5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80",
+            followingNumber: 1257,
+            followerNumber: 12,
+          }
     },
     {
         image: 'https://images.unsplash.com/photo-1613225133848-bf053ca4d90e?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80',
@@ -65,6 +89,14 @@ const photoData = [
         commentsNumber: 100,
         liked: false,
         id: 4,
+        user :
+          {
+            username: "example01",
+            bio: " user defined bio -- max length = ?, default blank",
+            profilePicture: "https://images.unsplash.com/photo-1613140952277-1c6bd0386ff5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80",
+            followingNumber: 1257,
+            followerNumber: 12,
+          }
     },
     {
         image: 'https://images.unsplash.com/photo-1557979619-445218f326b9?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
@@ -74,6 +106,14 @@ const photoData = [
         commentsNumber: 100,
         liked: false,
         id: 5,
+        user :
+          {
+            username: "example01",
+            bio: " user defined bio -- max length = ?, default blank",
+            profilePicture: "https://images.unsplash.com/photo-1613140952277-1c6bd0386ff5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80",
+            followingNumber: 1257,
+            followerNumber: 12,
+          }
     },
     {
         image: 'https://images.unsplash.com/photo-1571506538622-d3cf4eec01ae?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
@@ -83,6 +123,14 @@ const photoData = [
         commentsNumber: 100,
         liked: false,
         id: 6,
+        user :
+          {
+            username: "example01",
+            bio: " user defined bio -- max length = ?, default blank",
+            profilePicture: "https://images.unsplash.com/photo-1613140952277-1c6bd0386ff5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80",
+            followingNumber: 1257,
+            followerNumber: 12,
+          }
     },
 
 ];
@@ -149,7 +197,7 @@ export const Profile = () => {
                     
                     {photoData.map((photo) => (
                         <div className = "col mb-4">
-                            <ImageCard user = {user} image={photo.image} description = {photo.description} likesNumber =  { photo.likesNumber } commentsNumber = { photo.commentsNumber} date = {photo.date} liked = {photo.liked} id = {photo.id}/>
+                            <ImageCard user = {photo.user} image={photo.image} description = {photo.description} likesNumber =  { photo.likesNumber } commentsNumber = { photo.commentsNumber} date = {photo.date} liked = {photo.liked} id = {photo.id}/>
                         </div>
                     ))}
                 </div>

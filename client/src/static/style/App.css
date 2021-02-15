@@ -171,13 +171,25 @@ input .search-query {
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.add-comment-display,
-.description-display,
-.poster-info-display {
+#photo-card-grid .add-comment-display,
+#photo-card-grid .description-display,
+#photo-card-grid .poster-info-display {
   display: none;
+}
+
+.card img {
+  width: 100%;
+}
+
+/* feed styling */
+#feed-list {
+  margin: 2em auto auto auto;
+}
+
+#feed-list .card {
+  margin-bottom: 1.5em;
 }
