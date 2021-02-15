@@ -1,4 +1,4 @@
-
+import React from 'react';
 const LikeButton = (props) => {
 
     if(props.liked)
@@ -8,7 +8,7 @@ const LikeButton = (props) => {
                 className = "like-button"
                 onClick = {() => console.log("clicked")}
             >
-                <i class="fa fa-heart"></i>
+                <i className="fa fa-heart"></i>
             </button>
         )
     }
@@ -19,7 +19,7 @@ const LikeButton = (props) => {
                 className = "like-button"
                 onClick = {() => console.log("clicked")}
             >
-                <i class="fa fa-heart-o"></i>
+                <i className="fa fa-heart-o"></i>
             </button>
         )
     }

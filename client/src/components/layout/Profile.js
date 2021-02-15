@@ -1,3 +1,5 @@
+import React from 'react';
+
 //Import required components
 import ImageCard from './ImageCard'
 import FollowButton from './FollowButton'
@@ -12,9 +14,6 @@ const user =
   followerNumber: 12,
 }
 
-
-
-var userFollowed = false;
 //The profile of the user = true, other user's profile = false
 var userProfile = true;
 
@@ -147,17 +146,6 @@ function formatNumber(number)
 
 }
 
-const getUserInfoButton = () =>
-{
-  if(userProfile)
-    {
-      return (<p className="text-right w-100"><button className="btn btn-primary" onClick={() => console.log("edit profile clicked")}> edit profile </button></p>)
-    } else
-    {
-      return (<p className="text-right w-100"><FollowButton followed={userFollowed}/></p>)
-    }
-}
-
 export const Profile = () => {
 
     return (
@@ -186,7 +174,7 @@ export const Profile = () => {
                                 <p>{ user.bio }</p>
                             </div>
                             <div className="row">
-                              {getUserInfoButton()}
+                              <p className="text-right w-100"><button className="btn btn-primary" onClick={() => console.log("edit profile clicked")}> edit profile </button></p>
                             </div>
                         </div>
                     </div>
@@ -197,7 +185,7 @@ export const Profile = () => {
                     
                     {photoData.map((photo) => (
                         <div className = "col mb-4">
-                            <ImageCard user = {photo.user} image={photo.image} description = {photo.description} likesNumber =  { photo.likesNumber } commentsNumber = { photo.commentsNumber} date = {photo.date} liked = {photo.liked} id = {photo.id}/>
+                            <ImageCard key = {photo.id} user = {photo.user} image={photo.image} description = {photo.description} likesNumber =  { photo.likesNumber } commentsNumber = { photo.commentsNumber} date = {photo.date} liked = {photo.liked} id = {photo.id}/>
                         </div>
                     ))}
                 </div>

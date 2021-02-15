@@ -124,17 +124,29 @@ const Feed = () => {
   const [auth, setAuth] = useContext(AuthContext);
 
   return (
+    <>
+      {auth.loading || auth.user === null ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          {' '}
+          <h1>This is the feed! Wohoooo!</h1>
+          <h2>Your username is: {auth.user.username}</h2>
+          <div className = "container">
+            <div id = "feed-list" className="container w-50">  
+              {photoData.map((photo) => (
+                    <div className = "row">
+                      <ImageCard key = {photo.id} user = {photo.user} image={photo.image} description = {photo.description} likesNumber =  { photo.likesNumber } commentsNumber = { photo.commentsNumber} date = {photo.date} liked = {photo.liked} id = {photo.id}/>
+                    </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </>
     
-    <div className = "container">
-      <div id = "feed-list" className="container w-50">  
-        {photoData.map((photo) => (
-              <div className = "row">
-                <ImageCard user = {photo.user} image={photo.image} description = {photo.description} likesNumber =  { photo.likesNumber } commentsNumber = { photo.commentsNumber} date = {photo.date} liked = {photo.liked} id = {photo.id}/>
-              </div>
-        ))}
-      </div>
-    </div>
   );
 };
 
 export default Feed;
+

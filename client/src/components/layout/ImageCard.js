@@ -1,3 +1,4 @@
+import React from 'react';
 //Import components
 import LikeButton from "./LikeButton"
 
@@ -15,8 +16,8 @@ function formatNumber(number)
 
 const ImageCard = (props) => {
     return (
-        <div class = "card image-card">
-            <div class="card-header p-1 poster-info-display">
+        <div className = "card image-card">
+            <div className="card-header p-1 poster-info-display">
                 <div className="row align-items-center">
                     <div className="col-xs-auto">
                         <div className = "card-profile-picture-container ml-3">
@@ -35,8 +36,8 @@ const ImageCard = (props) => {
             </div>
             <div className = "card-body">
                 <div className="card-text description-display">
-                    {props.description.map((line) => 
-                        <p>{line}</p>
+                    {props.description.map((line , index) => 
+                        <p key={ index }>{line}</p>
                     )}
                 </div>
                 <div className="card-text"><small className = "text-muted">Posted {props.date} </small></div>
@@ -44,19 +45,19 @@ const ImageCard = (props) => {
                     <div className="like-count-display d-inline"><LikeButton liked = {props.liked}/> 
                     <small>{formatNumber(props.likesNumber)}</small> </div>
                     <div className="comment-count-display d-inline"><button className = "comment-button" onClick = {() => console.log("comment button clicked.")}>
-                        <i class="fa fa-comment-o"></i>
+                        <i className="fa fa-comment-o"></i>
                     </button> 
                     <small>{formatNumber(props.commentsNumber)}</small></div>
                 </div>
             </div>   
-            <div class="card-footer add-comment-display">
+            <div className="card-footer add-comment-display">
                 <form>
-                    <div class="form-row">
-                        <div class="col">
-                            <input type="text" class="form-control" placeholder="Leave a comment :) " />
+                    <div className="form-row">
+                        <div className="col">
+                            <input type="text" className="form-control" placeholder="Leave a comment :) " />
                         </div>
-                        <div class="col-xs-auto">
-                            <button type="submit" class="btn btn-primary mb-2"><i class="fa fa-send-o"></i></button>
+                        <div className="col-xs-auto">
+                            <button type="submit" className="btn btn-primary mb-2"><i className="fa fa-send-o"></i></button>
                         </div>
                     </div>
                 </form>
