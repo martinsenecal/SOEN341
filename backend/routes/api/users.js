@@ -85,7 +85,7 @@ router.post(
 
 // Goal: add APIs regarding: modifying profile info, delete users/profile, follow/unfollow users, get profile (by id)
 
-// @route   GET api/users/:id
+// @route   GET api/users/:username
 // @desc    Get current users profile
 // @access  Private
 router.get('/:username', auth, async (req, res) => {
