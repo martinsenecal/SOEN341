@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schemal;
+const Schema = mongoose.Schema;
 // Post model: will be information of a picture, nb likes/comments, userId
 const PostSchema = new Schema({
   user: {
