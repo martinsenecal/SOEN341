@@ -135,8 +135,8 @@ const Feed = () => {
           <div className = "container">
             <div id = "feed-list" className="container w-50">  
               {photoData.map((photo) => (
-                    <div className = "row">
-                      <ImageCard key = {photo.id} user = {photo.user} image={photo.image} description = {photo.description} likesNumber =  { photo.likesNumber } commentsNumber = { photo.commentsNumber} date = {photo.date} liked = {photo.liked} id = {photo.id}/>
+                    <div key = {photo.id}  className = "row">
+                      <ImageCard user = {photo.user} image={photo.image} description = {photo.description} likesNumber =  { photo.likesNumber } commentsNumber = { photo.commentsNumber} date = {photo.date} liked = {photo.liked} id = {photo.id}/>
                     </div>
               ))}
             </div>

@@ -184,8 +184,8 @@ export const Profile = () => {
                 <div className = "row row-cols-1 row-cols-md-3">
                     
                     {photoData.map((photo) => (
-                        <div className = "col mb-4">
-                            <ImageCard key = {photo.id} user = {photo.user} image={photo.image} description = {photo.description} likesNumber =  { photo.likesNumber } commentsNumber = { photo.commentsNumber} date = {photo.date} liked = {photo.liked} id = {photo.id}/>
+                        <div key = {photo.id}  className = "col mb-4">
+                            <ImageCard user = {photo.user} image={photo.image} description = {photo.description} likesNumber =  { photo.likesNumber } commentsNumber = { photo.commentsNumber} date = {photo.date} liked = {photo.liked} id = {photo.id}/>
                         </div>
                     ))}
                 </div>
