@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+// General Import
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import setAuthToken from '../../utils/setAuthToken';
 
+// Component Import
 import Copyright from '../layout/Copyright';
-import logo from '../../static/image/logo.png';
 
+// Material UI Import
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -16,6 +20,8 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+
+import logo from '../../static/image/logo.png';
 
 // Material UI styling
 const useStyles = makeStyles((theme) => ({
@@ -53,116 +59,177 @@ const useStyles = makeStyles((theme) => ({
 
 const SignIn = () => {
   const [error, setError] = useState(false);
+  const [errorEmail, setErrorEmail] = useState(false);
   const classes = useStyles();
   const { register, handleSubmit, errors } = useForm();
+  const [auth, setAuth] = useContext(AuthContext);
 
-  const registerUser = async (data) => {
+  const onSubmit = async (data) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
     console.log(data);
-    await axios
-      .post('http://localhost:5000/api/auth', data)
-      .then((res) => console.log(res.data))
-      .catch((errors) => {
-        if (errors.response) {
-          console.log(errors.response.data.errors[0].msg); // => the response payload
-          if (errors.response.data.errors[0].msg === 'Invalid Credentials') {
-            setError(true);
-          }
-        }
+    try {
+      const res = await axios.post('/api/auth', data, config);
+      let token = res.data.token;
+      console.log(token);
+      // console.log(res.json());
+      localStorage.setItem('token', token);
+      setAuth({
+        ...auth,
+        // token: localStorage.getItem('token'),
+        isAuthenticated: true,
+        loading: false,
+        // user: null,
       });
+      await loadUser();
+    } catch (error) {
+      localStorage.removeItem('token');
+      setAuth({
+        ...auth,
+        isAuthenticated: false,
+        token: null,
+        loading: false,
+      });
+      if (error.response) {
+        console.log(error.response.data.errors[0].msg); // => the response payload
+        if (error.response.data.errors[0].msg === 'Invalid Credentials') {
+          setError(true);
+        }
+        if (
+          error.response.data.errors[0].msg === 'Please include a valid email'
+        ) {
+          setErrorEmail(true);
+        }
+      }
+    }
   };
 
+  const loadUser = async () => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token); //set header token if there is one
+    }
+
+    try {
+      const res = await axios.get('/api/auth');
+      setAuth({
+        ...auth,
+        isAuthenticated: true,
+        loading: false,
+        user: res.data,
+      });
+    } catch (err) {
+      localStorage.removeItem('token');
+      setAuth({
+        ...auth,
+        isAuthenticated: false,
+        token: null,
+        loading: false,
+      });
+    }
+  };
+
+  // Redirect if logged in
+  if (auth.isAuthenticated) {
+    return <Redirect to="/feed" />;
+  }
+
   return (
-    <Grid container component="main" className={classes.root}>
-      <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Avatar
-            src={logo}
-            style={{
-              margin: '10px',
-              width: '50px',
-              height: '50px',
-            }}
-          >
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign In
-          </Typography>
-          <form
-            className={classes.form}
-            noValidate
-            onSubmit={handleSubmit(registerUser)}
-          >
-            <TextField
-              variant="outlined"
-              margin="normal"
-              inputRef={register({
-                required: true,
-                pattern: {
-                  value: /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                },
-              })}
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            {errors.email && (
-              <p className="validationError">Invalid Email Address</p>
-            )}
-            <TextField
-              variant="outlined"
-              margin="normal"
-              inputRef={register({
-                required: true,
-                minLength: {
-                  value: 6,
-                },
-              })}
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            {errors.password && (
-              <p className="validationError">
-                Password must be at least 6 characters long
-              </p>
-            )}
-            {error && (
-              <p className="validationError">Email or password is invalid.</p>
-            )}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
+    <div>
+      <Grid container component="main" className={classes.root}>
+        <CssBaseline />
+        <Grid item xs={false} sm={4} md={7} className={classes.image} />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <div className={classes.paper}>
+            <Avatar
+              src={logo}
+              style={{
+                margin: '10px',
+                width: '50px',
+                height: '50px',
+              }}
             >
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
               Sign In
-            </Button>
-            <Grid container justify="flex-end">
-              <Grid item>
-                <Link to="/SignUp" variant="body2">
-                  New to PhotoX? Sign Up
-                </Link>
+            </Typography>
+            <form
+              className={classes.form}
+              noValidate
+              onSubmit={handleSubmit(onSubmit)}
+            >
+              <TextField
+                variant="outlined"
+                margin="normal"
+                inputRef={register({
+                  required: true,
+                })}
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
+              {errors.email && (
+                <p className="validationError">Email Required</p>
+              )}
+              {errorEmail && (
+                <p className="validationError">Invalid Email Address</p>
+              )}
+              <TextField
+                variant="outlined"
+                margin="normal"
+                inputRef={register({
+                  required: true,
+                  minLength: {
+                    value: 6,
+                  },
+                })}
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              {errors.password && (
+                <p className="validationError">
+                  Password must be at least 6 characters long
+                </p>
+              )}
+              {error && (
+                <p className="validationError">Email or password is invalid.</p>
+              )}
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Sign In
+              </Button>
+              <Grid container justify="flex-end">
+                <Grid item>
+                  <Link to="/signup" variant="body2">
+                    New to PhotoX? Sign Up
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
-            <Box mt={5}>
-              <Copyright />
-            </Box>
-          </form>
-        </div>
+              <Box mt={5}>
+                <Copyright />
+              </Box>
+            </form>
+          </div>
+        </Grid>
       </Grid>
-    </Grid>
+    </div>
   );
 };
 
