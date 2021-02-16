@@ -2,7 +2,7 @@ import React from 'react';
 //Import components
 import {Link} from 'react-router-dom'
 import LikeButton from "./LikeButton"
-import formatNumber from "./NumberFormat"
+import formatNumber from "../../utils/numberFormat"
 import UserTag from "./UserTag"
 
 const ImageCard = (props) => {

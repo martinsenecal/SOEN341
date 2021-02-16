@@ -3,7 +3,7 @@ import React from 'react';
 //Import required components
 import ImageCard from '../building-blocks/ImageCard'
 import FollowButton from '../building-blocks/FollowButton'
-import formatNumber from "../building-blocks/NumberFormat"
+import formatNumber from "../../utils/numberFormat"
 
 //(hardcoded variables for front-end development) (does not match backend at this point)
 const user =
