@@ -12,7 +12,7 @@ const ImageCard = (props) => {
                 <UserTag profilePicture={props.user.profilePicture} username={props.user.username}  />
             </div>
             <div className="photo-container"> 
-                <Link to={"/p/" + props.id} ><img src = {props.image} alt = {props.date} onClick={() => console.log("photo clicked: " + props.id)}/> </Link>
+                <Link to={"/photo/" + props.id} ><img src = {props.image} alt = {props.date} onClick={() => console.log("photo clicked: " + props.id)}/> </Link>
             </div>
             <div className = "card-body">
                 <div className="card-text description-display">

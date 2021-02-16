@@ -76,7 +76,7 @@ const ChildApp = () => {
         <Route exact path="/signup" component={SignUp} />
         <PrivateRoute exact path="/feed" component={Feed} />
         <PrivateRoute exact path="/profile" component={Profile} />
-        <PrivateRoute exact path="/p/:id" children={<PhotoPage />} />
+        <PrivateRoute exact path="/photo/:id" children={<PhotoPage />} />
       </Switch>
     </Router>
   );

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router'
-import formatNumber from "../building-blocks/NumberFormat"
+import formatNumber from "../../utils/numberFormat"
 import LikeButton from "../building-blocks/LikeButton"
 import UserTag from "../building-blocks/UserTag"
 
