@@ -20,28 +20,32 @@ const Header = () => {
   return (
     <div>
       <nav
-        className="navbar navbar-expand-md navbar-dark "
+        className="navbar navbar-expand-md navbar-dark"
         style={{
-          paddingLeft: '30px',
+          padding: '5px 26px 5px 30px',
         }}
       >
-        <a className="navbar-brand" href="#!">
+        <a className="navbar-brand" href="#!"
+          style={{
+            marginRight: '12px',
+          }}
+        >
           <img
             src={logo}
             width="40"
             height="40"
             alt="logo"
-            style={{ MarginLeft: '2rem' }}
           ></img>
         </a>
         <a
-          className="navbar-brand"
+          className="navbar-brand p-0"
           href="#!"
           style={{
-            fontSize: '25px',
+            fontSize: '30px',
           }}
         >
-          PhotoX
+          <span class="logo logo-photo logo-photo-on-drk">photo</span>
+          <span class="logo logo-X">X</span>
         </a>
         {auth.isAuthenticated && (
           <>
