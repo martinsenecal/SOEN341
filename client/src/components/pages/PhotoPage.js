@@ -156,7 +156,7 @@ function getPhoto(id)
     var photo;
     for (var p in photoData) {
         var obj = photoData[p]
-        if (obj.id == id)
+        if (obj.id.toString() === id)
         {
             photo = obj;
             break;

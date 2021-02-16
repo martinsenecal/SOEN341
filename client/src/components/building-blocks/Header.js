@@ -44,8 +44,8 @@ const Header = () => {
             fontSize: '30px',
           }}
         >
-          <span class="logo logo-photo logo-photo-on-drk">photo</span>
-          <span class="logo logo-X">X</span>
+          <span className="logo logo-photo logo-photo-on-drk">photo</span>
+          <span className="logo logo-X">X</span>
         </a>
         {auth.isAuthenticated && (
           <>
