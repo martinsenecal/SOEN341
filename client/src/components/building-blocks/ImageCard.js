@@ -1,38 +1,18 @@
 import React from 'react';
 //Import components
+import {Link} from 'react-router-dom'
 import LikeButton from "./LikeButton"
-
-function formatNumber(number)
-{
-    if(number<1000)
-        return number
-    else
-    {
-        var formattedNum = Math.round(number/100) / 10;
-        return formattedNum + "k "
-    }
-
-}
+import formatNumber from "./NumberFormat"
+import UserTag from "./UserTag"
 
 const ImageCard = (props) => {
     return (
         <div className = "card image-card">
             <div className="card-header p-1 poster-info-display">
-                <div className="row align-items-center">
-                    <div className="col-xs-auto">
-                        <div className = "card-profile-picture-container ml-3">
-                                <img src={props.user.profilePicture} alt={props.user.username} className = "rounded-circle card-profile-picture" />
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div className="text-muted d-inline-block">
-                            {props.user.username}
-                        </div>    
-                    </div>    
-            </div>
+                <UserTag profilePicture={props.user.profilePicture} username={props.user.username}  />
             </div>
             <div className="photo-container"> 
-                <img src = {props.image} alt = {props.date} onClick={() => console.log("photo clicked: " + props.id)}/>
+                <Link to={"/p/" + props.id} ><img src = {props.image} alt = {props.date} onClick={() => console.log("photo clicked: " + props.id)}/> </Link>
             </div>
             <div className = "card-body">
                 <div className="card-text description-display">

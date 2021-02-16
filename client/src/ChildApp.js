@@ -12,10 +12,11 @@ import setAuthToken from './utils/setAuthToken';
 // Components Import
 import SignIn from './components/auth/SignIn';
 import SignUp from './components/auth/SignUp';
-import Landing from './components/layout/Landing';
-import Feed from './components/layout/Feed';
-import Header from './components/layout/Header';
-import Profile from './components/layout/Profile';
+import Landing from './components/pages/Landing';
+import Feed from './components/pages/Feed';
+import Header from './components/building-blocks/Header';
+import Profile from './components/pages/Profile';
+import PhotoPage from './components/pages/PhotoPage';
 
 // Context (State) Import
 import { AuthContext } from './context/AuthContext';
@@ -75,6 +76,7 @@ const ChildApp = () => {
         <Route exact path="/signup" component={SignUp} />
         <PrivateRoute exact path="/feed" component={Feed} />
         <PrivateRoute exact path="/profile" component={Profile} />
+        <PrivateRoute exact path="/p/:id" children={<PhotoPage />} />
       </Switch>
     </Router>
   );
