@@ -1,4 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, {
+  useState,
+  useRef,
+  useImperativeHandle,
+  forwardRef,
+} from 'react';
 import axios from 'axios';
 import S3 from 'react-aws-s3';
 import { v4 as uuid } from 'uuid';
@@ -14,11 +19,10 @@ const awsConfig = {
   s3Url: 'https://soen341insta.s3.amazonaws.com',
 };
 
-const UploadImage = () => {
+const UploadImage = forwardRef((props, ref) => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [validFiles, setValidFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [uploadedPath, setUploadedPath] = useState('');
   const [uploadComplete, setUploadComplete] = useState('');
   const [previewPath, setPreviewPath] = useState('');
   const S3FileUpload = new S3(awsConfig);
@@ -27,41 +31,39 @@ const UploadImage = () => {
   const inputImageRef = useRef();
 
   const newFileName = uuid();
-  const upload = async (data) => {
-    //e.target.files[0]
-    S3FileUpload.uploadFile(validFiles[0], newFileName)
-      .then(async (data) => {
-        setUploadedPath(data.location);
+  useImperativeHandle(ref, () => ({
+    async upload() {
+      //e.target.files[0]
+      return S3FileUpload.uploadFile(validFiles[0], newFileName)
+        .then(async (data) => {
+          //Call node backend here and save data.location which contains the image url on s3
 
-        //Call node backend here and save data.location which contains the image url on s3
+          const post = {
+            //postedBy:req.user
+            description: 'test',
+            postedPicture: data.location,
+          };
 
-        const post = {
-          //postedBy:req.user
-          description: 'test',
-          postedPicture: data.location,
-        };
+          const config = {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          };
 
-        const config = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        };
+          const body = JSON.stringify();
+          const res = await axios.post(
+            'http://localhost:5000/api/feed',
+            post,
+            config
+          );
+          return data.location;
+        })
 
-        const body = JSON.stringify();
-        const res = await axios.post(
-          'http://localhost:5000/api/feed',
-          post,
-          config
-        );
-
-        setUploadComplete('uploaded');
-        console.log(data.location);
-      })
-
-      .catch((err) => {
-        alert(err);
-      });
-  };
+        .catch((err) => {
+          alert(err);
+        });
+    },
+  }));
 
   //events for dropzone
   const dragOver = (e) => {
@@ -161,7 +163,7 @@ const UploadImage = () => {
             onClick={openFile}
           >
             <div className="drop-message">
-              <i class="fa fa-cloud-upload"></i>
+              <i className="fa fa-cloud-upload"></i>
               Drag & Drop files here or click to upload
             </div>
           </div>
@@ -174,14 +176,7 @@ const UploadImage = () => {
           <div className="upload-button mt-2">
             <button
               type="button"
-              className="btn btn-primary"
-              onClick={() => upload()}
-            >
-              Upload Files
-            </button>
-            <button
-              type="button"
-              class="ml-1 btn btn-outline-danger"
+              className="ml-1 btn btn-outline-danger"
               onClick={removeFile}
             >
               Remove
@@ -194,6 +189,6 @@ const UploadImage = () => {
       </div>
     </div>
   );
-};
+});
 
 export default UploadImage;
