@@ -27,35 +27,37 @@ const UploadImage = () => {
   const inputImageRef = useRef();
 
   const newFileName = uuid();
-  const upload = async (data)  => {
+  const upload = async (data) => {
     //e.target.files[0]
     S3FileUpload.uploadFile(validFiles[0], newFileName)
-      .then(async(data) => {
+      .then(async (data) => {
         setUploadedPath(data.location);
 
         //Call node backend here and save data.location which contains the image url on s3
-        
+
         const post = {
           //postedBy:req.user
-         description:"test",
-         postedPicture: data.location,
-       };
-       
-         const config = {
+          description: 'test',
+          postedPicture: data.location,
+        };
+
+        const config = {
           headers: {
-            'Content-Type': 'application/json'
-          }
-         }
-       
-       const body = JSON.stringify();
-       const res = await axios.post('http://localhost:5000/api/feed', post, config);
-            
-        
+            'Content-Type': 'application/json',
+          },
+        };
+
+        const body = JSON.stringify();
+        const res = await axios.post(
+          'http://localhost:5000/api/feed',
+          post,
+          config
+        );
+
         setUploadComplete('uploaded');
         console.log(data.location);
-     }
-     )
-    
+      })
+
       .catch((err) => {
         alert(err);
       });
@@ -118,9 +120,10 @@ const UploadImage = () => {
       } else {
         files[i]['invalid'] = true;
         // add to the same array so we can display the name of the file
-        setSelectedFiles((prevArray) => [...prevArray, files[i]]);
+        setSelectedFiles([]);
+        setValidFiles([]);
         // set error message
-        setErrorMessage('File type not permitted');
+        alert('File type not permitted');
       }
     }
   };
@@ -131,20 +134,11 @@ const UploadImage = () => {
   };
 
   //remove file
-  const removeFile = (name) => {
-    // find the index of the item
-    // remove the item from array
-
-    const validFileIndex = validFiles.findIndex((e) => e.name === name);
-    validFiles.splice(validFileIndex, 1);
-    // update validFiles array
-    setValidFiles([...validFiles]);
+  const removeFile = () => {
+    setValidFiles([]);
     //remove preview image
     setPreviewPath('');
-    const selectedFileIndex = selectedFiles.findIndex((e) => e.name === name);
-    selectedFiles.splice(selectedFileIndex, 1);
-    // update selectedFiles array
-    setSelectedFiles([...selectedFiles]);
+    setSelectedFiles([]);
   };
 
   return (
@@ -155,51 +149,44 @@ const UploadImage = () => {
         onChange={fileAdd}
         ref={inputImageRef}
       />
-      <div className="container">
-        <div
-          className="drop-container"
-          onDragOver={dragOver}
-          onDragEnter={dragEnter}
-          onDragLeave={dragLeave}
-          onDrop={fileDrop}
-          onClick={openFile}
-        >
-          <div className="drop-message">
-            <div className="upload-icon"></div>
-            Drag & Drop files here or click to upload
-          </div>
-        </div>
 
-        <div className="file-display-container">
-          {selectedFiles.map((data, i) => (
-            <div className="file-status-bar" key={i}>
-              <div>
-                <span
-                  className={`file-name ${data.invalid ? 'file-error' : ''}`}
-                >
-                  {data.name}
-                </span>
-                {data.invalid && (
-                  <span className="file-error-message">({errorMessage})</span>
-                )}
-              </div>
-              <div
-                className="file-remove"
-                onClick={() => removeFile(data.name)}
-              >
-                X
-              </div>
+      <div className="container">
+        {!previewPath ? (
+          <div
+            className="drop-container"
+            onDragOver={dragOver}
+            onDragEnter={dragEnter}
+            onDragLeave={dragLeave}
+            onDrop={fileDrop}
+            onClick={openFile}
+          >
+            <div className="drop-message">
+              <i class="fa fa-cloud-upload"></i>
+              Drag & Drop files here or click to upload
             </div>
-          ))}
-        </div>
+          </div>
+        ) : null}
 
         {previewPath ? (
           <img className="image-preview" src={previewPath}></img>
         ) : null}
         {validFiles.length > 0 ? (
-          <button className="file-upload-btn" onClick={() => upload()}>
-            Upload Files
-          </button>
+          <div className="upload-button mt-2">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => upload()}
+            >
+              Upload Files
+            </button>
+            <button
+              type="button"
+              class="ml-1 btn btn-outline-danger"
+              onClick={removeFile}
+            >
+              Remove
+            </button>
+          </div>
         ) : (
           ''
         )}
