@@ -1,3 +1,25 @@
+/*font import for logo */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Satisfy&display=swap');
+
+/* logo styles */
+
+.logo-X {
+  font-family: 'DM Serif Display', serif;
+  color: #75d9f0;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  font-size: 1.25em;
+}
+
+.logo-photo {
+  font-family: 'Satisfy', cursive;
+  position: relative;
+  top: -0.125em;
+}
+
+.logo-photo-on-drk {
+  color: white;
+}
+
 .validationError {
   margin-left: 0.5em;
   margin-bottom: 0.1em;
