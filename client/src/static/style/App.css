@@ -97,7 +97,7 @@ input .search-query {
 
 /* styling for user info display on profile */
 #user-info {
-  margin: 50px auto;
+  margin-top: 50px;
 }
 
 /* Like and comment button styling */

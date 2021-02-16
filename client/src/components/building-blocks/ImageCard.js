@@ -2,32 +2,32 @@ import React from 'react';
 //Import components
 import {Link} from 'react-router-dom'
 import LikeButton from "./LikeButton"
-import formatNumber from "./NumberFormat"
+import formatNumber from "../../utils/numberFormat"
 import UserTag from "./UserTag"
 
-const ImageCard = (props) => {
+const ImageCard = ({photo, loggedIn}) => {
     return (
         <div className = "card image-card">
             <div className="card-header p-1 poster-info-display">
-                <UserTag profilePicture={props.user.profilePicture} username={props.user.username}  />
+                <UserTag profilePicture={photo.user.profilePicture} username={photo.user.username}  />
             </div>
             <div className="photo-container"> 
-                <Link to={"/photo/" + props.id} ><img src = {props.image} alt = {props.date} onClick={() => console.log("photo clicked: " + props.id)}/> </Link>
-            </div>
+                <Link to={"/photo/" + photo.id} ><img src = {photo.image} alt = {photo.date}/> </Link>
+                </div>
             <div className = "card-body">
                 <div className="card-text description-display">
-                    {props.description.map((line , index) => 
+                    {photo.description.map((line , index) => 
                         <p key={ index }>{line}</p>
                     )}
                 </div>
-                <div className="card-text"><small className = "text-muted">Posted {props.date} </small></div>
+                <div className="card-text"><small className = "text-muted">Posted {photo.date} </small></div>
                 <div className="card-text">
-                    <div className="like-count-display d-inline"><LikeButton liked = {props.liked}/> 
-                    <small>{formatNumber(props.likesNumber)}</small> </div>
+                    <div className="like-count-display d-inline"><LikeButton liked = {photo.liked}/> 
+                    <small>{formatNumber(photo.likesNumber)}</small> </div>
                     <div className="comment-count-display d-inline"><button className = "comment-button" onClick = {() => console.log("comment button clicked.")}>
                         <i className="fa fa-comment-o"></i>
                     </button> 
-                    <small>{formatNumber(props.commentsNumber)}</small></div>
+                    <small>{formatNumber(photo.commentsNumber)}</small></div>
                 </div>
             </div>   
             <div className="card-footer add-comment-display">
