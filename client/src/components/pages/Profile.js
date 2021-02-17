@@ -1,24 +1,42 @@
 import React from 'react';
 
 //Import required components
+import { useParams } from 'react-router'
 import ImageCard from '../building-blocks/ImageCard'
 import FollowButton from '../building-blocks/FollowButton'
 import formatNumber from "../../utils/numberFormat"
 
 //(hardcoded variables for front-end development) (does not match backend at this point)
-const user =
-{
-  username: "example01",
-  bio: " user defined bio -- max length = ?, default blank",
-  profilePicture: "https://images.unsplash.com/photo-1613140952277-1c6bd0386ff5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80",
-  followingNumber: 1257,
-  followerNumber: 12,
-}
+const users =
+[
+  {
+    username: "example01",
+    bio: " user defined bio -- max length = ?, default blank",
+    profilePicture: "https://images.unsplash.com/photo-1613140952277-1c6bd0386ff5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80",
+    followingNumber: 1257,
+    followerNumber: 12,
+    loggedIn: true
+  },
+  {
+    username: "example02",
+    bio: "",
+    profilePicture: "https://images.unsplash.com/photo-1543255006-d6395b6f1171?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
+    followingNumber: 1257,
+    followerNumber: 12,
+    loggedIn:false
+  },
+  {
+    username: "example03",
+    bio: "I'm super cool",
+    profilePicture: 'https://images.unsplash.com/photo-1591160690555-5debfba289f0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80',
+    followingNumber: 1257,
+    followerNumber: 12,
+    loggedIn:false
+  },
+  
+]
 
-//The profile of the user = true, other user's profile = false
-var userProfile = true;
-
-//Hard-coded test cards 
+//Hard-coded test cards (does not match backend at this point)
 const photoData = [
     /*template
     {
@@ -135,12 +153,41 @@ const photoData = [
 
 ];
 
+function getUser(username)
+{
+    var user;
+    for (var u in users) {
+        var obj = users[u]
+        if (obj.username === username)
+        {
+            user = obj;
+            break;
+        }
+        
+    }
+    return user
+}
+
+function getFollowButton(user)
+{
+  if(user.loggedIn)
+  {
+    return <button className="btn btn-primary" onClick={() => console.log("edit profile clicked")}> edit profile </button>
+  } else{
+    return <FollowButton followed = {false}/>
+  }
+}
+
 export const Profile = () => {
+
+  let { username } = useParams()
+
+  var user = getUser(username)
 
     return (
         <div className = "container">
             <div className = "container" id= "user-info">
-                <div className = "row">
+                <div className = "row align-items-center">
                     <div className = "col-4" >
                       <div className="profile-photo-container">
                         <img className = "rounded-circle" alt={ user.username } src= { user.profilePicture } />
@@ -148,10 +195,10 @@ export const Profile = () => {
                     </div>
                     <div className = "col-8">
                         <div className = "container p-4" >
-                            <div className = "row"> 
+                            <div> 
                                 <h3>{ user.username }</h3>
                             </div>
-                            <div className ="row"> 
+                            <div > 
                               <h6><span id="follower-number" onClick={() => console.log("follower span clicked")}> 
                                 {formatNumber(user.followerNumber)} <span className="text-muted"> followers </span>
                               </span>  
@@ -159,22 +206,24 @@ export const Profile = () => {
                                 {formatNumber(user.followingNumber)} <span className="text-muted">  following</span> 
                               </span></h6>
                             </div>
-                            <div className = "row"> 
+                            <div > 
                                 <p>{ user.bio }</p>
                             </div>
-                            <div className="row">
-                              <p className="text-right w-100"><button className="btn btn-primary" onClick={() => console.log("edit profile clicked")}> edit profile </button></p>
+                            <div>
+                              { getFollowButton(user)}
+                              
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id = "photo-card-grid" className="container">
+            <hr />
+            <div id = "photo-card-grid" className="container pt-5">
                 <div className = "row row-cols-1 row-cols-md-3">
                     
                     {photoData.map((photo) => (
                         <div key = {photo.id}  className = "col mb-4">
-                            <ImageCard user = {photo.user} image={photo.image} description = {photo.description} likesNumber =  { photo.likesNumber } commentsNumber = { photo.commentsNumber} date = {photo.date} liked = {photo.liked} id = {photo.id}/>
+                            <ImageCard photo = {photo} loggedIn ={user.loggedIn}/>
                         </div>
                     ))}
                 </div>
