@@ -23,7 +23,6 @@ const UploadImage = forwardRef((props, ref) => {
   const [validFiles, setValidFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState(false);
   const [errorEmpty, setErrorEmpty] = useState(false);
-  const [uploadComplete, setUploadComplete] = useState(''); //should we delete
   const [previewPath, setPreviewPath] = useState('');
   const S3FileUpload = new S3(awsConfig);
 
@@ -190,7 +189,6 @@ const UploadImage = forwardRef((props, ref) => {
         ) : (
           ''
         )}
-        {uploadComplete ? <h1>Uploaded</h1> : null}
       </div>
     </div>
   );
