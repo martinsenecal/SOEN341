@@ -43,7 +43,7 @@ const PostForm = () => {
   };
 
   if (posted) {
-    //return <Redirect to="/feed" />;
+    return <Redirect to="/feed" />;
   }
   return (
     <div className="postForm">
