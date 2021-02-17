@@ -46,7 +46,7 @@ const PostForm = () => {
     //return <Redirect to="/feed" />;
   }
   return (
-    <div class="postForm">
+    <div className="postForm">
       <h5
         style={{
           textAlign: 'center',
@@ -56,16 +56,16 @@ const PostForm = () => {
       >
         Upload a New Photo
       </h5>
-      <div class="form-group">
+      <div className="form-group">
         <label
-          for="Description"
+          htmlFor="Description"
           style={{ marginLeft: '6.5%', fontSize: '15px' }}
         >
           Image Description
         </label>
         <input
           type="description"
-          class="form-control input-lg image-description"
+          className="form-control input-lg image-description"
           id="description"
           placeholder="Enter Description"
           value={imageDescription}

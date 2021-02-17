@@ -167,7 +167,11 @@ const UploadImage = forwardRef((props, ref) => {
             onMouseOver={() => setShowRemove(true)}
             onMouseLeave={() => setShowRemove(false)}
           >
-            <img className="image-preview" src={previewPath}></img>
+            <img
+              className="image-preview"
+              alt="imagePreview"
+              src={previewPath}
+            ></img>
             {showRemove ? (
               <button
                 type="button"
