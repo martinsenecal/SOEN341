@@ -1,17 +1,21 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import UploadImage from './UploadImage';
+import { AuthContext } from '../../context/AuthContext';
 
 const PostForm = () => {
+  const [auth, setAuth] = useContext(AuthContext);
   const uploadImageRef = useRef();
   const [error, setError] = useState(false);
+  const [posted, setPosted] = useState(false);
   const [imageDescription, setImageDescription] = useState('');
 
   const handleUpload = async () => {
     const uploadedPath = await uploadImageRef.current.upload();
     const post = {
-      //postedBy:req.user
+      postedBy: auth.user.username,
       description: imageDescription,
       postedPicture: uploadedPath,
     };
@@ -23,17 +27,22 @@ const PostForm = () => {
     };
 
     const body = JSON.stringify();
-    const res = await axios.post(
-      'http://localhost:5000/api/feed',
-      post,
-      config
-    );
+    const res = await axios
+      .post('http://localhost:5000/api/feed', post, config)
+      .then((response) => {
+        setPosted(true);
+      });
     if (error.response) {
       setError(true);
     }
+    console.log(auth.user.username);
     console.log(uploadedPath);
     console.log(`Image description: ${imageDescription}`);
   };
+
+  if (posted) {
+    //return <Redirect to="/feed" />;
+  }
   return (
     <div class="postForm">
       <h5
