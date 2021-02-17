@@ -80,20 +80,21 @@ const PostForm = () => {
           Image required
         </p>
       )}
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={handleUpload}
-        style={{
-          backgroundColor: '#3f51b5',
-          borderColor: '#3f51b5',
-          marginTop: '2em',
-          width: '100px',
-          marginLeft: '45%', //Needs to be fixed.
-        }}
-      >
-        Post
-      </button>
+      <div style={{ textAlign: 'center' }}>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={handleUpload}
+          style={{
+            backgroundColor: '#3f51b5',
+            borderColor: '#3f51b5',
+            marginTop: '2em',
+            width: '100px',
+          }}
+        >
+          Post
+        </button>
+      </div>
     </div>
   );
 };
