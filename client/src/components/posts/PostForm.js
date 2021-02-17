@@ -14,11 +14,6 @@ const PostForm = () => {
 
   const handleUpload = async () => {
     const uploadedPath = await uploadImageRef.current.upload();
-    const post = {
-      user: auth.user,
-      description: imageDescription,
-      postedPicture: uploadedPath,
-    };
 
     const config = {
       headers: {
@@ -26,13 +21,19 @@ const PostForm = () => {
       },
     };
 
-    const body = JSON.stringify();
-    const res = await axios
-      .post('http://localhost:5000/api/feed', post, config)
-      .then((response) => {
-        setPosted(true);
-      });
-    if (error.response) {
+    const post = {
+      user: auth.user,
+      description: imageDescription,
+      postedPicture: uploadedPath,
+    };
+
+    try {
+      const res = await axios.post(
+        'http://localhost:5000/api/feed',
+        post,
+        config
+      );
+    } catch (error) {
       setError(true);
     }
     console.log(auth.user);
