@@ -59,8 +59,8 @@ const UploadImage = forwardRef((props, ref) => {
   };
   const fileAdd = (e) => {
     setSelectedFile(e.target.files[0]);
-    if (selectedFile) {
-      handleFiles(selectedFile);
+    if (e.target.files[0]) {
+      handleFiles(e.target.files[0]);
     }
   };
   const openFile = (e) => {
