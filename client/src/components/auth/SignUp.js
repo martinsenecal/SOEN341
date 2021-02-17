@@ -7,7 +7,7 @@ import { Link, Redirect } from 'react-router-dom';
 import setAuthToken from '../../utils/setAuthToken';
 
 // Component Import
-import Copyright from '../layout/Copyright';
+import Copyright from '../building-blocks/Copyright';
 import logo from '../../static/image/logo.png';
 
 // Material UI Import

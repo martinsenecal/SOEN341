@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
-import ImageCard from './ImageCard'
+import ImageCard from '../building-blocks/ImageCard'
 
 //Hard-coded test cards 
 const photoData = [
