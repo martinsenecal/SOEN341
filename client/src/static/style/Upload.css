@@ -34,3 +34,17 @@
   margin-left: auto;
   margin-right: auto;
 }
+.preview-image-box {
+  position: relative;
+  width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.remove-upload-image {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 36px;
+  color: red;
+  cursor: pointer;
+}

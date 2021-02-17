@@ -19,12 +19,12 @@ const awsConfig = {
 };
 
 const UploadImage = forwardRef((props, ref) => {
-  const [selectedFiles, setSelectedFiles] = useState([]); //should we delete
-  const [validFiles, setValidFiles] = useState([]);
   const [errorMessage, setErrorMessage] = useState(false);
   const [errorEmpty, setErrorEmpty] = useState(false);
   const [previewPath, setPreviewPath] = useState('');
   const S3FileUpload = new S3(awsConfig);
+  const [selectedFile, setSelectedFile] = useState('');
+  const [showRemove, setShowRemove] = useState('');
 
   //input ref
   const inputImageRef = useRef();
@@ -33,7 +33,7 @@ const UploadImage = forwardRef((props, ref) => {
   useImperativeHandle(ref, () => ({
     async upload() {
       //e.target.files[0]
-      return S3FileUpload.uploadFile(validFiles[0], newFileName)
+      return S3FileUpload.uploadFile(selectedFile, newFileName)
         .then(async (data) => {
           return data.location;
         })
@@ -58,9 +58,9 @@ const UploadImage = forwardRef((props, ref) => {
     e.preventDefault();
   };
   const fileAdd = (e) => {
-    const files = [e.target.files[0]];
-    if (files.length) {
-      handleFiles(files);
+    setSelectedFile(e.target.files[0]);
+    if (selectedFile) {
+      handleFiles(selectedFile);
     }
   };
   const openFile = (e) => {
@@ -68,12 +68,12 @@ const UploadImage = forwardRef((props, ref) => {
   };
   const fileDrop = (e) => {
     e.preventDefault();
-    const files = e.dataTransfer.files;
-    if (files.length) {
-      handleFiles(files);
+    setSelectedFile(e.dataTransfer.files[0]);
+    if (e.dataTransfer.files[0]) {
+      handleFiles(e.dataTransfer.files[0]);
     }
   };
-  //validate files
+  //validate file
   const validateFile = (file) => {
     const validTypes = [
       'image/jpeg',
@@ -92,22 +92,16 @@ const UploadImage = forwardRef((props, ref) => {
   const reader = new FileReader();
 
   //handle file dropped
-  const handleFiles = (files) => {
-    for (let i = 0; i < files.length; i++) {
-      if (validateFile(files[i])) {
-        // add to an array so we can display the name of file
-        setSelectedFiles([files[i]]);
-        setValidFiles([files[i]]);
-        reader.readAsDataURL(files[i]);
-        setErrorMessage(false);
-      } else {
-        files[i]['invalid'] = true;
-        // add to the same array so we can display the name of the file
-        setSelectedFiles([]);
-        setValidFiles([]);
-        // set error message
-        setErrorMessage(true);
-      }
+  const handleFiles = (file) => {
+    if (validateFile(file)) {
+      // set preview path if valid
+      reader.readAsDataURL(file);
+      setErrorMessage(false);
+    } else {
+      //remove file and send error message
+      setSelectedFile(null);
+      setPreviewPath(null);
+      setErrorMessage(true);
     }
   };
 
@@ -118,10 +112,8 @@ const UploadImage = forwardRef((props, ref) => {
 
   //remove file
   const removeFile = () => {
-    setValidFiles([]);
-    //remove preview image
-    setPreviewPath('');
-    setSelectedFiles([]);
+    setSelectedFile(null);
+    setPreviewPath(null);
   };
 
   return (
@@ -170,25 +162,20 @@ const UploadImage = forwardRef((props, ref) => {
           </p>
         )}
         {previewPath ? (
-          <img className="image-preview" src={previewPath}></img>
-        ) : null}
-
-        {validFiles.length > 0 ? (
-          <div className="upload-button mt-2 image-preview">
-            <button
-              type="button"
-              className="ml-1 btn btn-outline-danger"
-              onClick={removeFile}
-              style={{
-                float: 'right',
-              }}
-            >
-              Remove
-            </button>
+          <div
+            className="preview-image-box"
+            onMouseOver={() => setShowRemove(true)}
+            onMouseLeave={() => setShowRemove(false)}
+          >
+            <img className="image-preview" src={previewPath}></img>
+            {showRemove ? (
+              <i
+                className="remove-upload-image fa fa-close"
+                onClick={removeFile}
+              ></i>
+            ) : null}
           </div>
-        ) : (
-          ''
-        )}
+        ) : null}
       </div>
     </div>
   );
