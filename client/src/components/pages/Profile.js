@@ -158,7 +158,7 @@ function getUser(username)
     var user;
     for (var u in users) {
         var obj = users[u]
-        if (obj.username == username)
+        if (obj.username === username)
         {
             user = obj;
             break;
@@ -172,7 +172,6 @@ function getFollowButton(user)
 {
   if(user.loggedIn)
   {
-    console.log("logged in")
     return <button className="btn btn-primary" onClick={() => console.log("edit profile clicked")}> edit profile </button>
   } else{
     return <FollowButton followed = {false}/>

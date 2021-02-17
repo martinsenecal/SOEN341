@@ -1,8 +1,8 @@
 import React from 'react';
 
-const FollowButton = (props) => {
+const FollowButton = ({followed}) => {
 
-    if(props.followed)
+    if(followed)
     {
         return (
             <button 
