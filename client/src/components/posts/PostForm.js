@@ -33,6 +33,7 @@ const PostForm = () => {
         post,
         config
       );
+      setPosted(true);
     } catch (error) {
       setError(true);
     }
