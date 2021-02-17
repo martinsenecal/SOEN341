@@ -15,7 +15,7 @@ const PostForm = () => {
   const handleUpload = async () => {
     const uploadedPath = await uploadImageRef.current.upload();
     const post = {
-      postedBy: auth.user.username,
+      user: auth.user,
       description: imageDescription,
       postedPicture: uploadedPath,
     };
@@ -35,7 +35,7 @@ const PostForm = () => {
     if (error.response) {
       setError(true);
     }
-    console.log(auth.user.username);
+    console.log(auth.user);
     console.log(uploadedPath);
     console.log(`Image description: ${imageDescription}`);
   };
