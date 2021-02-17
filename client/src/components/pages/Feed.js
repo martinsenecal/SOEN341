@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
-import ImageCard from './ImageCard'
+import ImageCard from '../building-blocks/ImageCard'
 
 //Hard-coded test cards 
 const photoData = [
@@ -136,7 +136,7 @@ const Feed = () => {
             <div id = "feed-list" className="container w-50">  
               {photoData.map((photo) => (
                     <div key = {photo.id}  className = "row">
-                      <ImageCard user = {photo.user} image={photo.image} description = {photo.description} likesNumber =  { photo.likesNumber } commentsNumber = { photo.commentsNumber} date = {photo.date} liked = {photo.liked} id = {photo.id}/>
+                      <ImageCard photo= {photo} loggedIn = {false}/>
                     </div>
               ))}
             </div>

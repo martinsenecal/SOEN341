@@ -1,23 +1,40 @@
-import React from 'react';
+import React from 'react'
+import { useParams } from 'react-router'
+import formatNumber from "../../utils/numberFormat"
+import LikeButton from "../building-blocks/LikeButton"
+import UserTag from "../building-blocks/UserTag"
 
-//Import required components
-import ImageCard from './ImageCard'
-import FollowButton from './FollowButton'
-
-//(hardcoded variables for front-end development) (does not match backend at this point)
-const user =
-{
-  username: "example01",
-  bio: " user defined bio -- max length = ?, default blank",
-  profilePicture: "https://images.unsplash.com/photo-1613140952277-1c6bd0386ff5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80",
-  followingNumber: 1257,
-  followerNumber: 12,
-}
-
-//The profile of the user = true, other user's profile = false
-var userProfile = true;
-
-//Hard-coded test cards 
+//Hard-coded test comments
+const comments = [
+    {
+      user: {
+        profilePicture: 'https://images.unsplash.com/photo-1543255006-d6395b6f1171?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80',
+        username: "example02"
+      },
+      text: "This is a comment",
+      date: new Date(),
+      id: 1
+    },
+    {
+        user: {
+          profilePicture: 'https://images.unsplash.com/photo-1591160690555-5debfba289f0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80',
+          username: "example03"
+        },
+        text: "This is another comment",
+        date: new Date(),
+        id: 2
+      },
+    {
+        user: {
+            profilePicture: 'https://images.unsplash.com/photo-1613140952277-1c6bd0386ff5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80',
+            username: "example01"
+        },
+        text: "This is yet another comment",
+        date: new Date(),
+        id: 3
+    },
+]
+//Hard-coded test photos 
 const photoData = [
     /*template
     {
@@ -131,67 +148,101 @@ const photoData = [
             followerNumber: 12,
           }
     },
+  
+  ];  
 
-];
-
-function formatNumber(number)
+function getPhoto(id)
 {
-    if(number<1000)
-        return number
-    else
-    {
-        var formattedNum = Math.round(number/100) / 10;
-        return formattedNum + "k "
+    var photo;
+    for (var p in photoData) {
+        var obj = photoData[p]
+        if (obj.id.toString() === id)
+        {
+            photo = obj;
+            break;
+        }
+        
     }
-
+    return photo
 }
 
-export const Profile = () => {
+const PhotoPage = () => {
+    let { id } = useParams()
 
-    return (
-        <div className = "container">
-            <div className = "container" id= "user-info">
-                <div className = "row">
-                    <div className = "col-4" >
-                      <div className="profile-photo-container">
-                        <img className = "rounded-circle" alt={ user.username } src= { user.profilePicture } />
-                      </div>
-                    </div>
+    var photo = getPhoto(id)
+    
+    return(
+        <div className="container mt-3">
+            <div className = "container" id="photo-box">
+                <div className="row">
                     <div className = "col-8">
-                        <div className = "container p-4" >
-                            <div className = "row"> 
-                                <h3>{ user.username }</h3>
+                        <div className ="photo-container">
+                            <img src={photo.image} alt={photo.date} />
+                        </div>
+                    </div>
+                    <div className="col">
+                        <div className="info-display pt-3">
+                            <div>
+                                <UserTag profilePicture={photo.user.profilePicture} username={photo.user.username} />
                             </div>
-                            <div className ="row"> 
-                              <h6><span id="follower-number" onClick={() => console.log("follower span clicked")}> 
-                                {formatNumber(user.followerNumber)} <span className="text-muted"> followers </span>
-                              </span>  
-                              <span id="following-number" className="ml-3" onClick={() => console.log("following span clicked")}>
-                                {formatNumber(user.followingNumber)} <span className="text-muted">  following</span> 
-                              </span></h6>
+                            <div className="description-display pt-2">
+                                {photo.description.map((line , index) => 
+                                    <p key={ index }>{line}</p>
+                                )}
                             </div>
-                            <div className = "row"> 
-                                <p>{ user.bio }</p>
-                            </div>
-                            <div className="row">
-                              <p className="text-right w-100"><button className="btn btn-primary" onClick={() => console.log("edit profile clicked")}> edit profile </button></p>
+                            <div><small className = "text-muted">Posted {photo.date} </small></div>
+                            <div>
+                                <div className="like-count-display d-inline"><LikeButton liked = {photo.liked}/> 
+                                <small>{formatNumber(photo.likesNumber)}</small> </div>
+                                <div className="comment-count-display d-inline"><button className = "comment-button" onClick = {() => console.log("comment button clicked.")}>
+                                    <i className="fa fa-comment-o"></i>
+                                </button> 
+                                <small>{formatNumber(photo.commentsNumber)}</small></div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div id = "photo-card-grid" className="container">
-                <div className = "row row-cols-1 row-cols-md-3">
-                    
-                    {photoData.map((photo) => (
-                        <div key = {photo.id}  className = "col mb-4">
-                            <ImageCard user = {photo.user} image={photo.image} description = {photo.description} likesNumber =  { photo.likesNumber } commentsNumber = { photo.commentsNumber} date = {photo.date} liked = {photo.liked} id = {photo.id}/>
+                <div className="row">
+                    <div className="col-12 p-3">
+
+                        <div className="add-comment-display">
+                        <form>
+                            <div className="form-row">
+                                <div className="col">
+                                    <input type="text" className="form-control" placeholder="Leave a comment :) " />
+                                </div>
+                                <div className="col-xs-auto">
+                                    <button type="submit" className="btn btn-primary mb-2"><i className="fa fa-send-o"></i></button>
+                                </div>
+                            </div>
+                        </form>
                         </div>
-                    ))}
+
+                        <div id="comment-list" className="card mt-2">
+                                <ul className = "list-group list-group-flush">
+                                    {comments.map((comment) => (
+                                        <li key={ comment.id } className="list-group-item p-0">
+                                            <div className="comment card-body">
+                                            <div className="row">
+                                                <div className = "col-3 comment-commenter">
+                                                    <UserTag profilePicture={comment.user.profilePicture} username={comment.user.username}  />
+                                                </div>
+                                                <div className = "col comment-text">
+                                                    <p>{comment.text}</p>
+                                                    <small className="text-muted">Posted {comment.date.toLocaleDateString()}</small>
+                                                </div> 
+                                            </div>
+                                            </div>
+                                        </li>
+                                    ))}
+                            </ul>
+                        </div>
+                        
+                    </div>
                 </div>
             </div>
         </div>
     )
 }
 
-export default Profile
+export default PhotoPage

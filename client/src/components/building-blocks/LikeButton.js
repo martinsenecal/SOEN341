@@ -1,7 +1,7 @@
 import React from 'react';
-const LikeButton = (props) => {
+const LikeButton = ({liked}) => {
 
-    if(props.liked)
+    if(liked)
     {
         return (
             <button 

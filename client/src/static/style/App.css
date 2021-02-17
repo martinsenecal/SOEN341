@@ -1,3 +1,25 @@
+/*font import for logo */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Satisfy&display=swap');
+
+/* logo styles */
+
+.logo-X {
+  font-family: 'DM Serif Display', serif;
+  color: #75d9f0;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  font-size: 1.25em;
+}
+
+.logo-photo {
+  font-family: 'Satisfy', cursive;
+  position: relative;
+  top: -0.125em;
+}
+
+.logo-photo-on-drk {
+  color: white;
+}
+
 .validationError {
   margin-left: 0.5em;
   margin-bottom: 0.1em;
@@ -97,7 +119,7 @@ input .search-query {
 
 /* styling for user info display on profile */
 #user-info {
-  margin: 50px auto;
+  margin-top: 50px;
 }
 
 /* Like and comment button styling */
@@ -117,10 +139,6 @@ input .search-query {
 }
 
 /* Styling for image card*/
-.add-comment-display {
-  background-color: white;
-}
-
 .card-profile-picture-container {
   height: 30px;
   width: 30px;
@@ -138,6 +156,10 @@ input .search-query {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.profile-picture-col {
+  height: 30px;
 }
 
 /* Styling for user info on profile page */
@@ -194,6 +216,7 @@ input .search-query {
   margin-bottom: 1.5em;
 }
 
+/* post form styling */
 .postForm {
   border-radius: 10px;
   background: #fff;
@@ -210,4 +233,28 @@ input .search-query {
   width: 87%;
   margin: 0 auto;
   margin-bottom: 2em;
+}
+
+/* photo page styling */
+#photo-box .photo-container {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+#photo-box .photo-container img {
+  max-width: 100%;
+  max-height: 45em;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* comment styline */
+.add-comment-display {
+  background-color: #fafafa;
+}
+.image-card .add-comment-display {
+  background-color: white;
 }
