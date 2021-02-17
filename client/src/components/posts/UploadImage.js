@@ -4,7 +4,6 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from 'react';
-import axios from 'axios';
 import S3 from 'react-aws-s3';
 import { v4 as uuid } from 'uuid';
 import '../../static/style/Upload.css';
@@ -36,26 +35,6 @@ const UploadImage = forwardRef((props, ref) => {
       //e.target.files[0]
       return S3FileUpload.uploadFile(validFiles[0], newFileName)
         .then(async (data) => {
-          //Call node backend here and save data.location which contains the image url on s3
-
-          const post = {
-            //postedBy:req.user
-            description: 'test',
-            postedPicture: data.location,
-          };
-
-          const config = {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          };
-
-          const body = JSON.stringify();
-          const res = await axios.post(
-            'http://localhost:5000/api/feed',
-            post,
-            config
-          );
           return data.location;
         })
 
