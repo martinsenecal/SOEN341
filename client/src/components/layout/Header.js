@@ -75,7 +75,7 @@ const Header = () => {
                 <Link className="nav-item nav-link active" to="/feed">
                   Feed
                 </Link>
-                <Link className="nav-item nav-link active" to="/">
+                <Link className="nav-item nav-link active" to="/postform">
                   New Post
                 </Link>
                 <div className="nav-item dropdown active">
@@ -87,7 +87,7 @@ const Header = () => {
                     <i className="fa fa-user-circle-o fa-lg"></i>
                   </a>
                   <div className="dropdown-menu dropdown-menu-sm-right">
-                    <Link className="dropdown-item" to="/">
+                    <Link className="dropdown-item" to="/profile">
                       Profile
                     </Link>
                     <a onClick={logout} className="dropdown-item" href="#!">

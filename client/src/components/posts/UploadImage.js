@@ -19,10 +19,11 @@ const awsConfig = {
 };
 
 const UploadImage = forwardRef((props, ref) => {
-  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedFiles, setSelectedFiles] = useState([]); //should we delete
   const [validFiles, setValidFiles] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [uploadComplete, setUploadComplete] = useState('');
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [errorEmpty, setErrorEmpty] = useState(false);
+  const [uploadComplete, setUploadComplete] = useState(''); //should we delete
   const [previewPath, setPreviewPath] = useState('');
   const S3FileUpload = new S3(awsConfig);
 
@@ -39,7 +40,8 @@ const UploadImage = forwardRef((props, ref) => {
         })
 
         .catch((err) => {
-          alert(err);
+          console.log(err);
+          setErrorEmpty(true);
         });
     },
   }));
@@ -98,13 +100,14 @@ const UploadImage = forwardRef((props, ref) => {
         setSelectedFiles([files[i]]);
         setValidFiles([files[i]]);
         reader.readAsDataURL(files[i]);
+        setErrorMessage(false);
       } else {
         files[i]['invalid'] = true;
         // add to the same array so we can display the name of the file
         setSelectedFiles([]);
         setValidFiles([]);
         // set error message
-        alert('File type not permitted');
+        setErrorMessage(true);
       }
     }
   };
@@ -142,21 +145,44 @@ const UploadImage = forwardRef((props, ref) => {
             onClick={openFile}
           >
             <div className="drop-message">
-              <i className="fa fa-cloud-upload"></i>
+              <i
+                className="fa fa-cloud-upload"
+                style={{ marginRight: '0.5em' }}
+              ></i>
               Drag & Drop files here or click to upload
             </div>
           </div>
         ) : null}
+        {errorMessage && (
+          <p
+            className="validationError"
+            style={{ marginLeft: '5.5%', marginTop: '0.5em' }}
+          >
+            Invalid File. Please upload a valid image.
+          </p>
+        )}
 
+        {errorEmpty && (
+          <p
+            className="validationError"
+            style={{ marginLeft: '5.5%', marginTop: '0.5em' }}
+          >
+            Image required
+          </p>
+        )}
         {previewPath ? (
           <img className="image-preview" src={previewPath}></img>
         ) : null}
+
         {validFiles.length > 0 ? (
-          <div className="upload-button mt-2">
+          <div className="upload-button mt-2 image-preview">
             <button
               type="button"
               className="ml-1 btn btn-outline-danger"
               onClick={removeFile}
+              style={{
+                float: 'right',
+              }}
             >
               Remove
             </button>

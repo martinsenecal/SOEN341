@@ -16,6 +16,7 @@ import Landing from './components/layout/Landing';
 import Feed from './components/layout/Feed';
 import Header from './components/layout/Header';
 import Profile from './components/layout/Profile';
+import PostForm from './components/posts/PostForm';
 
 // Context (State) Import
 import { AuthContext } from './context/AuthContext';
@@ -75,6 +76,7 @@ const ChildApp = () => {
         <Route exact path="/signup" component={SignUp} />
         <PrivateRoute exact path="/feed" component={Feed} />
         <PrivateRoute exact path="/profile" component={Profile} />
+        <PrivateRoute exact path="/postForm" component={PostForm} />
       </Switch>
     </Router>
   );
