@@ -169,10 +169,13 @@ const UploadImage = forwardRef((props, ref) => {
           >
             <img className="image-preview" src={previewPath}></img>
             {showRemove ? (
-              <i
-                className="remove-upload-image fa fa-close"
+              <button
+                type="button"
+                className="remove-upload-image btn btn-danger"
                 onClick={removeFile}
-              ></i>
+              >
+                <i className=" fa fa-close" onClick={removeFile}></i>
+              </button>
             ) : null}
           </div>
         ) : null}
