@@ -216,6 +216,25 @@ input .search-query {
   margin-bottom: 1.5em;
 }
 
+/* post form styling */
+.postForm {
+  border-radius: 10px;
+  background: #fff;
+  padding: 20px !important;
+  width: 70%;
+  position: relative;
+  padding: 0px;
+  box-shadow: 0 30px 60px 0 rgb(0 0 0 / 30%);
+  margin: 0 auto;
+  margin-top: 4em;
+}
+
+.image-description {
+  width: 87%;
+  margin: 0 auto;
+  margin-bottom: 2em;
+}
+
 /* photo page styling */
 #photo-box .photo-container {
   position: relative;

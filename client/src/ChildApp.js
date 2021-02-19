@@ -17,6 +17,7 @@ import Feed from './components/pages/Feed';
 import Header from './components/building-blocks/Header';
 import Profile from './components/pages/Profile';
 import PhotoPage from './components/pages/PhotoPage';
+import PostForm from './components/posts/PostForm';
 
 // Context (State) Import
 import { AuthContext } from './context/AuthContext';
@@ -77,6 +78,7 @@ const ChildApp = () => {
         <PrivateRoute exact path="/feed" component={Feed} />
         <PrivateRoute exact path="/profile/:username" component={Profile} />
         <PrivateRoute exact path="/photo/:id" component={PhotoPage} />
+        <PrivateRoute exact path="/postForm" component={PostForm} />
       </Switch>
     </Router>
   );
