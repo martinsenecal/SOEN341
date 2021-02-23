@@ -1,8 +1,9 @@
 import React from 'react';
+import Moment from 'react-moment';
 //Import components
 import { Link } from 'react-router-dom';
-import LikeButton from './LikeButton';
-import formatNumber from '../../utils/numberFormat';
+//import LikeButton from './LikeButton';
+//import formatNumber from '../../utils/numberFormat';
 import UserTag from './UserTag';
 
 const ImageCard = ({ photo }) => {
@@ -15,7 +16,7 @@ const ImageCard = ({ photo }) => {
         />
       </div>
       <div className="photo-container">
-        <Link to={'/photo/' + photo._id}>
+        <Link to={`/posts/${photo._id}`}>
           <img src={photo.postedPicture} alt={photo.date} />{' '}
         </Link>
       </div>
@@ -24,9 +25,12 @@ const ImageCard = ({ photo }) => {
           <p>{photo.description}</p>
         </div>
         <div className="card-text">
-          <small className="text-muted">Posted {photo.date} </small>
+          <small className="text-muted">
+            Posted <Moment format="YYYY/MM/DD">{photo.date}</Moment>{' '}
+          </small>
         </div>
         <div className="card-text">
+          <i className="fa fa-heart-o"></i>
           {/* <div className="like-count-display d-inline">
             <LikeButton liked={photo.liked} />
             <small>{formatNumber(photo.likesNumber)}</small>{' '}

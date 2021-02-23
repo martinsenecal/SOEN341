@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import Moment from 'react-moment';
+import axios from 'axios';
 import { useParams } from 'react-router';
+
 import formatNumber from '../../utils/numberFormat';
 import LikeButton from '../building-blocks/LikeButton';
 import UserTag from '../building-blocks/UserTag';
+
+import { PostContext } from '../../context/PostContext';
 
 //Hard-coded test comments
 const comments = [
@@ -38,7 +43,7 @@ const comments = [
   },
 ];
 //Hard-coded test photos
-const photoData = [
+/*const photoData = [
   /*template
     {
         image: ...,
@@ -48,7 +53,7 @@ const photoData = [
         commentsNumber:...,
         liked: ...,
     }
-    */
+    
   {
     image:
       'https://images.unsplash.com/photo-1543255006-d6395b6f1171?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80',
@@ -164,9 +169,9 @@ const photoData = [
       followerNumber: 12,
     },
   },
-];
+];*/
 
-function getPhoto(id) {
+/*function getPhoto(id) {
   var photo;
   for (var p in photoData) {
     var obj = photoData[p];
@@ -176,105 +181,145 @@ function getPhoto(id) {
     }
   }
   return photo;
-}
+}*/
 
-const PhotoPage = () => {
-  let { id } = useParams();
+const PhotoPage = ({ match }) => {
+  //let { id } = useParams();
+  //var photo = getPhoto(id);
+  const [postData, setPostData] = useContext(PostContext);
 
-  var photo = getPhoto(id);
-  // ToDo: Add Use Effect and call API to get a post with an ID + Add the picture to the state (PostContext -> post )
+  useEffect(() => {
+    const getPosts = async () => {
+      await fetchPost(match.params.id); // match is used for links
+    };
+    getPosts();
+  }, [match.params.id]);
+
+  const fetchPost = async (id) => {
+    try {
+      console.log(id);
+      const res = await axios.get(`/api/feed/posts/${id}`);
+      setPostData({
+        ...postData,
+        post: res.data,
+        loading: false,
+      });
+    } catch (err) {
+      console.log('Error while fetching Posts');
+    }
+  };
+
   return (
-    <div className="container mt-3">
-      <div className="container" id="photo-box">
-        <div className="row">
-          <div className="col-8">
-            <div className="photo-container">
-              <img src={photo.image} alt={photo.date} />
-            </div>
-          </div>
-          <div className="col">
-            <div className="info-display pt-3">
-              <div>
-                <UserTag
-                  profilePicture={photo.user.profilePicture}
-                  username={photo.user.username}
-                />
-              </div>
-              <div className="description-display pt-2">
-                {photo.description.map((line, index) => (
-                  <p key={index}>{line}</p>
-                ))}
-              </div>
-              <div>
-                <small className="text-muted">Posted {photo.date} </small>
-              </div>
-              <div>
-                <div className="like-count-display d-inline">
-                  <LikeButton liked={photo.liked} />
-                  <small>{formatNumber(photo.likesNumber)}</small>{' '}
-                </div>
-                <div className="comment-count-display d-inline">
-                  <button
-                    className="comment-button"
-                    onClick={() => console.log('comment button clicked.')}
-                  >
-                    <i className="fa fa-comment-o"></i>
-                  </button>
-                  <small>{formatNumber(photo.commentsNumber)}</small>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-12 p-3">
-            <div className="add-comment-display">
-              <form>
-                <div className="form-row">
-                  <div className="col">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Leave a comment :) "
+    <>
+      {postData.loading || postData.post === null ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          {' '}
+          <div className="container mt-5">
+            <div className="container" id="photo-box">
+              <div className="row">
+                <div className="col-8">
+                  <div className="photo-container">
+                    <img
+                      src={postData.post.postedPicture}
+                      alt={postData.post.date}
                     />
                   </div>
-                  <div className="col-xs-auto">
-                    <button type="submit" className="btn btn-primary mb-2">
-                      <i className="fa fa-send-o"></i>
-                    </button>
-                  </div>
                 </div>
-              </form>
-            </div>
-
-            <div id="comment-list" className="card mt-2">
-              <ul className="list-group list-group-flush">
-                {comments.map((comment) => (
-                  <li key={comment.id} className="list-group-item p-0">
-                    <div className="comment card-body">
-                      <div className="row">
-                        <div className="col-3 comment-commenter">
-                          <UserTag
-                            profilePicture={comment.user.profilePicture}
-                            username={comment.user.username}
-                          />
-                        </div>
-                        <div className="col comment-text">
-                          <p>{comment.text}</p>
-                          <small className="text-muted">
-                            Posted {comment.date.toLocaleDateString()}
-                          </small>
-                        </div>
+                <div className="col">
+                  <div className="info-display pt-3">
+                    <div>
+                      <UserTag
+                        profilePicture={postData.post.profilePicture}
+                        username={postData.post.username}
+                      />
+                    </div>
+                    <div className="description-display pt-2">
+                      <p>{postData.post.description}</p>
+                    </div>
+                    <div>
+                      <small className="text-muted">
+                        Posted{' '}
+                        <Moment format="YYYY/MM/DD">
+                          {postData.post.date}
+                        </Moment>{' '}
+                      </small>
+                    </div>
+                    <div>
+                      <i className="fa fa-heart-o"></i>
+                      {/*<div className="like-count-display d-inline">
+                  <LikeButton liked={photo.liked} />
+                  <small>{formatNumber(photo.likesNumber)}</small>{' '}
+                </div>*/}
+                      <div className="comment-count-display d-inline">
+                        <button
+                          className="comment-button"
+                          onClick={() => console.log('comment button clicked.')}
+                        >
+                          <i className="fa fa-comment-o"></i>
+                        </button>
+                        {/* <small>{formatNumber(photo.commentsNumber)}</small>*/}
                       </div>
                     </div>
-                  </li>
-                ))}
-              </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12 p-3">
+                  <div className="add-comment-display">
+                    <form>
+                      <div className="form-row">
+                        <div className="col">
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Leave a comment :) "
+                          />
+                        </div>
+                        <div className="col-xs-auto">
+                          <button
+                            type="submit"
+                            className="btn btn-primary mb-2"
+                          >
+                            <i className="fa fa-send-o"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+                  <div id="comment-list" className="card mt-2">
+                    <ul className="list-group list-group-flush">
+                      {comments.map((comment) => (
+                        <li key={comment.id} className="list-group-item p-0">
+                          <div className="comment card-body">
+                            <div className="row">
+                              <div className="col-3 comment-commenter">
+                                <UserTag
+                                  profilePicture={comment.user.profilePicture}
+                                  username={comment.user.username}
+                                />
+                              </div>
+                              <div className="col comment-text">
+                                <p>{comment.text}</p>
+                                <small className="text-muted">
+                                  Posted {comment.date.toLocaleDateString()}
+                                </small>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </>
+      )}
+    </>
   );
 };
 
