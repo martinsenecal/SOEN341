@@ -34,6 +34,8 @@ const PostForm = () => {
         config
       );
       setPosted(true);
+
+      // Todo: add the new post to the state.
     } catch (error) {
       setError(true);
     }

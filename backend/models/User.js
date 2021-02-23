@@ -20,6 +20,8 @@ const UserSchema = new mongoose.Schema({
   },
   profilePicture: {
     type: String,
+    default:
+      'https://cdn2.iconfinder.com/data/icons/ecommerce-tiny-line/64/profile_ecommerce_shop-512.png',
   },
   bio: {
     type: String,
