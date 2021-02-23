@@ -6,7 +6,7 @@ import UploadImage from './UploadImage';
 import { AuthContext } from '../../context/AuthContext';
 
 const PostForm = () => {
-  const [auth, setAuth] = useContext(AuthContext);
+  const [auth] = useContext(AuthContext);
   const uploadImageRef = useRef();
   const [error, setError] = useState(false);
   const [posted, setPosted] = useState(false);
@@ -35,7 +35,7 @@ const PostForm = () => {
       );
       setPosted(true);
 
-      // Todo: add the new post to the state.
+      // Todo: add the new post to the state here.
     } catch (error) {
       setError(true);
     }

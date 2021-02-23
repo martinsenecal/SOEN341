@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import Moment from 'react-moment';
 import axios from 'axios';
-import { useParams } from 'react-router';
 
 import formatNumber from '../../utils/numberFormat';
 import LikeButton from '../building-blocks/LikeButton';

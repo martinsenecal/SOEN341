@@ -8,7 +8,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { PostContext } from '../../context/PostContext';
 
 const Feed = () => {
-  const [auth, setAuth] = useContext(AuthContext);
+  const [auth] = useContext(AuthContext);
   const [postData, setPostData] = useContext(PostContext);
   //PhotoData will be in reality posts.posts
 

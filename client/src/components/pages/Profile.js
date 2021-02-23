@@ -1,7 +1,6 @@
 import React from 'react';
 
 //Import required components
-import { useParams } from 'react-router';
 import ImageCard from '../building-blocks/ImageCard';
 import FollowButton from '../building-blocks/FollowButton';
 import formatNumber from '../../utils/numberFormat';
@@ -20,16 +19,6 @@ var userProfile = true;
 
 //Hard-coded test cards
 const photoData = [
-  /*template
-    {
-        postedPicture: ...,
-        description: [...],
-        date: ...,
-        likesNumber: ...,
-        commentsNumber:...,
-        liked: ...,
-    }
-    */
   {
     postedPicture:
       'https://images.unsplash.com/photo-1543255006-d6395b6f1171?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80',
@@ -147,21 +136,6 @@ const photoData = [
   },
 ];
 
-/*function getUser(username)
-{
-    var user;
-    for (var u in users) {
-        var obj = users[u]
-        if (obj.username === username)
-        {
-            user = obj;
-            break;
-        }
-        
-    }
-    return user
-}*/
-
 function getFollowButton(user) {
   if (user.loggedIn) {
     return (
@@ -179,10 +153,6 @@ function getFollowButton(user) {
 }
 
 export const Profile = () => {
-  //let { username } = useParams()
-
-  //var user = getUser(username)
-
   return (
     <div className="container">
       <div className="container" id="user-info">
