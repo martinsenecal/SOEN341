@@ -9,6 +9,7 @@ import ChildApp from './ChildApp';
 
 // Context (State) Import
 import { AuthProvider } from './context/AuthContext';
+import { PostProvider } from './context/PostContext';
 
 const useStyles = makeStyles({});
 
@@ -22,7 +23,9 @@ export default function App() {
   return (
     <div className={classes.container}>
       <AuthProvider>
-        <ChildApp />
+        <PostProvider>
+          <ChildApp />
+        </PostProvider>
       </AuthProvider>
     </div>
   );

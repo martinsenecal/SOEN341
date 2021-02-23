@@ -20,6 +20,7 @@ const UserSchema = new mongoose.Schema({
   },
   profilePicture: {
     type: String,
+    default: 'https://i.imgur.com/ruiqShX.png',
   },
   bio: {
     type: String,

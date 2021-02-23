@@ -12,6 +12,12 @@ const PostSchema = new Schema({
   description: {
     type: String,
   },
+  username: {
+    type: String,
+  },
+  profilePicture: {
+    type: String,
+  },
   likes: [
     {
       user: {
