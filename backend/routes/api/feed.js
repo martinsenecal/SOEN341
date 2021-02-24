@@ -94,4 +94,50 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
+// @route    POST api/feed/comment/:id
+// @desc     Comment on a post
+// @access   Private
+//currently adds comments to an array but doesn't bring it to the collection/post obj 
+router.post(
+  //using description here just to test things out, didn't want to work with the post id for now
+  '/comment/:description',
+  [auth, [check('text', 'Text is required').not().isEmpty()]],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+  
+    const { user, text, name, date} = req.body;
+    
+       const newComment =({
+        user,
+        text,
+        name,
+        date,
+      });
+      let post = await Post.findOne(req.description);
+      try {
+        let post = await Post.findOneAndUpdate(
+          { description: req.description},
+          { $set: newComment },
+          { new: true, setDefaultsOnInsert: true, useFindAndModify: false }
+        );
+  
+  
+  
+  
+      post.comments.unshift(newComment);
+  
+      await post.save();
+  
+      res.json(post.comments);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+ );
+ 
+
 module.exports = router;
