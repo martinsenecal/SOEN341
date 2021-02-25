@@ -94,94 +94,33 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route    POST api/feed/comment/:id
-// @desc     Comment on a post
-// @access   Private
-//currently adds comments to an array but doesn't bring it to the collection/post obj 
-// router.post(
-//   //using description here just to test things out, didn't want to work with the post id for now
-//   '/comment/:description',
-//   [auth, [check('text', 'Text is required').not().isEmpty()]],
-//   async (req, res) => {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({ errors: errors.array() });
-//     }
-  
-//     const { user, comments.text} = req.body;
-    
-//        const postFields =({
-//         user,
-//         comments,
-//       });
-//       //let post = await Post.findOne(req.description);
-//       try {
-//         // let post = await Post.findOneAndUpdate(
-//         //   { description: req.description},
-//         //   { $set: newComment },
-//         //   { new: true, setDefaultsOnInsert: true, useFindAndModify: false }
-//         // );
-
-//         const query = { username: "Alex Rodriguez", "comments.name": "" };
-//         const updateDocument = {
-//           $set: { "comments.$.text": "This is a comment" }
-//         };
-//         const result = await Post.updateOne(query, updateDocument);
-  
-//       //post.comments.unshift(newComment);
-  
-//       //await new.save();
-  
-//       res.json(comments.text);
-//     } catch (err) {
-//       console.error(err.message);
-//       res.status(500).send('Server Error');
-//     }
-//   }
-//  );
-
-// @route   PUT api/feed/edit
-// @desc    Modify a post
-// @access  public
+// @route   PUT api/feed/edit/id
+// @desc    Add a comment to a post
+// @access  private
 router.put(
-  '/edit',
-  // [
-  //   auth,
-  //   [
-  //     check('username', 'Username is required').not().isEmpty(),
-  //   ],
-  // ],
+  '/edit/:id',
+
+  [auth, [check('text', 'Text is required').not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    //profilePicture:"https://i.imgur.com/ruiqShX.png"
-    const {
-      // comments:[
-      //   text
-      // ],
-      profilePicture
-    } = req.body;
 
-    //Build Post Object
-    const postFields = {
-      // comments:[
-      //   text
-      // ],
-      profilePicture
-    };
- 
     try {
-      let post = await Post.findOneAndUpdate(
-        { id: req.params.id },
-        { $set: postFields },
-        { new: true, setDefaultsOnInsert: true, useFindAndModify: false }
-      );
+      const user = await User.findById(req.user.id).select('-password');
+      const post = await Post.findById(req.params.id);
 
-      
+      const newComment = {
+        //Not a new collection in db
+        text: req.body.text,
+        name: user.name,
+        user: req.user.id,
+      };
 
-      res.json(post);
+      post.comments.unshift(newComment);
+      await post.save();
+      res.json(post.comments);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
