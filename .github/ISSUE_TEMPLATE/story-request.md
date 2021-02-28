@@ -1,17 +1,19 @@
 ---
 name: Story request
 about: Describe the story (smaller part of the EPIC).
-title: "[USER STORY]:[TITLE]"
+title: '[USER STORY]:[TITLE]'
 labels: User Story
 assignees: ''
-
 ---
 
-## About this story 
+## About this story
+
 **Priority**: [High/Medium/Low]
 **Story Points**: Fibonacci Sequence: (0, 1, 2, 3, 5, 8, 13, 21)
-**Description**: 
-A clear and concise description of what the problem is. 
+**Risk**: [Low/Medium/High]
+
+**Description**:
+A clear and concise description of what the problem is.
 
 **Exit Criteria**
 What should we expect once the task is complete:
@@ -19,6 +21,7 @@ What should we expect once the task is complete:
 -xxx
 
 **Sub-Tasks/Steps**
+
 - [ ] ToDo1
 - [ ] ToDo2
 
