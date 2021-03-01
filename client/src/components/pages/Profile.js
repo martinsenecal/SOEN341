@@ -209,7 +209,10 @@ export const Profile = () => {
                 {
                   //to be replace with auth.user and user who's profile it is (visiting user will not need to be passed)
                   visitingUser !== user.username ? (
-                    <FollowButton user={user} visiting={visitingUser} />
+                    <FollowButton
+                      username={user.username}
+                      visiting={visitingUser}
+                    />
                   ) : (
                     ''
                   )
@@ -220,28 +223,28 @@ export const Profile = () => {
         </div>
       </div>
       <div
-        class="modal fade"
+        className="modal fade"
         id="followerModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="followerModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="followerModalLabel">
+        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="followerModalLabel">
                 Followers
               </h5>
               <button
                 type="button"
-                class="close"
+                className="close"
                 data-dismiss="modal"
                 aria-label="Close"
               >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
+            <div className="modal-body">
               <ul className="user-list">
                 {users.map((u) => (
                   <li key={u.username} className="user-list-item">
@@ -257,28 +260,28 @@ export const Profile = () => {
         </div>
       </div>
       <div
-        class="modal fade"
+        className="modal fade"
         id="followingModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="followingModalLabel"
         aria-hidden="true"
       >
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="followingModalLabel">
+        <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="followingModalLabel">
                 Following
               </h5>
               <button
                 type="button"
-                class="close"
+                className="close"
                 data-dismiss="modal"
                 aria-label="Close"
               >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div class="modal-body">
+            <div className="modal-body">
               <ul className="user-list">
                 {users.map((u) => (
                   <li key={u.username} className="user-list-item">
