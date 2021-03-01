@@ -269,10 +269,14 @@ input .search-query {
   transform: translateX(-50%);
 }
 
-/* comment styline */
+/* comment styling */
 .add-comment-display {
   background-color: #fafafa;
 }
 .image-card .add-comment-display {
   background-color: white;
+}
+
+#comment-list .follow-button {
+  display: none;
 }
