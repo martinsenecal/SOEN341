@@ -214,6 +214,17 @@ input .search-query {
   width: 100%;
 }
 
+/* Styling for following/follwer list on profile*/
+.user-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.user-list-item {
+  padding: 0.5em 0;
+}
+
 /* feed styling */
 #feed-list {
   margin: 2em auto auto auto;

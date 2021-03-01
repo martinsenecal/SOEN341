@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
-const UserTag = ({ username, profilePicture }) => {
+const UserTag = ({username, profilePicture}) => {
   return (
-    <Link to={'/profile/' + username}>
+    <Link to={'/profile/' + username} target="_parent">
       <div className="row align-items-center">
         <div className="col-xs-auto profile-picture-col">
           <div className="card-profile-picture-container ml-3">

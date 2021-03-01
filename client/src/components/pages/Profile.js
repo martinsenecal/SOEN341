@@ -4,6 +4,7 @@ import React from 'react';
 import ImageCard from '../building-blocks/ImageCard';
 import FollowButton from '../building-blocks/FollowButton';
 import formatNumber from '../../utils/numberFormat';
+import UserTag from '../building-blocks/UserTag';
 
 //hard-coded example of the user who's profile is being viewed
 const user = {
@@ -20,6 +21,25 @@ const visitingUser = {
   username: 'example02',
   isFollowingUser: false,
 };
+
+//Hard-coded list of users to test follower/following lists
+const users = [
+  {
+    profilePicture:
+      'https://images.unsplash.com/photo-1613140952277-1c6bd0386ff5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80',
+    username: 'example02',
+  },
+  {
+    profilePicture:
+      'https://images.unsplash.com/photo-1543255006-d6395b6f1171?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80',
+    username: 'example03',
+  },
+  {
+    profilePicture:
+      'https://images.unsplash.com/photo-1591160690555-5debfba289f0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80',
+    username: 'example04',
+  },
+];
 
 //Hard-coded test cards
 const photoData = [
@@ -163,7 +183,9 @@ export const Profile = () => {
                 <h6>
                   <span
                     id="follower-number"
-                    onClick={() => console.log('follower span clicked')}
+                    data-toggle="modal"
+                    data-target="#followerModal"
+                    role="button"
                   >
                     {formatNumber(user.followerNumber)}
                     <span className="text-muted"> followers </span>
@@ -171,7 +193,9 @@ export const Profile = () => {
                   <span
                     id="following-number"
                     className="ml-3"
-                    onClick={() => console.log('following span clicked')}
+                    data-toggle="modal"
+                    data-target="#followingModal"
+                    role="button"
                   >
                     {formatNumber(user.followingNumber)}
                     <span className="text-muted"> following</span>
@@ -183,7 +207,7 @@ export const Profile = () => {
               </div>
               <div>
                 {
-                  //to be replace with auth.user and user who's profile it is (visiting user will not neeed to be passed)
+                  //to be replace with auth.user and user who's profile it is (visiting user will not need to be passed)
                   visitingUser !== user.username ? (
                     <FollowButton user={user} visiting={visitingUser} />
                   ) : (
@@ -191,6 +215,80 @@ export const Profile = () => {
                   )
                 }
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        id="followerModal"
+        tabindex="-1"
+        aria-labelledby="followerModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="followerModalLabel">
+                Followers
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <ul className="user-list">
+                {users.map((u) => (
+                  <li key={u.username} className="user-list-item">
+                    <UserTag
+                      profilePicture={u.profilePicture}
+                      username={u.username}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        id="followingModal"
+        tabindex="-1"
+        aria-labelledby="followingModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="followingModalLabel">
+                Following
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <ul className="user-list">
+                {users.map((u) => (
+                  <li key={u.username} className="user-list-item">
+                    <UserTag
+                      profilePicture={u.profilePicture}
+                      username={u.username}
+                    />
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
