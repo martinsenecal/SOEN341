@@ -5,6 +5,7 @@ import ImageCard from '../building-blocks/ImageCard';
 import FollowButton from '../building-blocks/FollowButton';
 import formatNumber from '../../utils/numberFormat';
 
+//hard-coded example of the user who's profile is being viewed
 const user = {
   username: 'example01',
   bio: ' user defined bio',
@@ -14,8 +15,11 @@ const user = {
   followerNumber: 12,
 };
 
-//The profile of the user = true, other user's profile = false
-var userProfile = true;
+//hard-coded example of the user who is viewing the profile. (eventually auth.user)
+const visitingUser = {
+  username: 'example02',
+  isFollowingUser: false,
+};
 
 //Hard-coded test cards
 const photoData = [
@@ -136,22 +140,6 @@ const photoData = [
   },
 ];
 
-function getFollowButton(user) {
-  if (user.loggedIn) {
-    return (
-      <button
-        className="btn btn-primary"
-        onClick={() => console.log('edit profile clicked')}
-      >
-        {' '}
-        edit profile{' '}
-      </button>
-    );
-  } else {
-    return <FollowButton followed={false} />;
-  }
-}
-
 export const Profile = () => {
   return (
     <div className="container">
@@ -177,7 +165,7 @@ export const Profile = () => {
                     id="follower-number"
                     onClick={() => console.log('follower span clicked')}
                   >
-                    {formatNumber(user.followerNumber)}{' '}
+                    {formatNumber(user.followerNumber)}
                     <span className="text-muted"> followers </span>
                   </span>
                   <span
@@ -185,7 +173,7 @@ export const Profile = () => {
                     className="ml-3"
                     onClick={() => console.log('following span clicked')}
                   >
-                    {formatNumber(user.followingNumber)}{' '}
+                    {formatNumber(user.followingNumber)}
                     <span className="text-muted"> following</span>
                   </span>
                 </h6>
@@ -193,7 +181,16 @@ export const Profile = () => {
               <div>
                 <p>{user.bio}</p>
               </div>
-              <div>{getFollowButton(user)}</div>
+              <div>
+                {
+                  //to be replace with auth.user and user who's profile it is (visiting user will not neeed to be passed)
+                  visitingUser !== user.username ? (
+                    <FollowButton user={user} visiting={visitingUser} />
+                  ) : (
+                    ''
+                  )
+                }
+              </div>
             </div>
           </div>
         </div>
