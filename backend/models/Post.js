@@ -36,7 +36,10 @@ const PostSchema = new Schema({
         type: String,
         required: true,
       },
-      name: {
+      username: {
+        type: String,
+      },
+      profilePicture: {
         type: String,
       },
       date: {
