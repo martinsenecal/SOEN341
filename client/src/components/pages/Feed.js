@@ -15,7 +15,6 @@ const Feed = () => {
   useEffect(() => {
     const getPosts = async () => {
       await fetchPosts();
-      // setPosts(postsFromServer);
     };
     getPosts();
   }, []);
@@ -43,9 +42,9 @@ const Feed = () => {
       ) : (
         <>
           {' '}
-          <h1>Welcome to the Feed {auth.user.username}!</h1>
           <div className="container">
             <div id="feed-list" className="container w-50">
+              <h1>Welcome to the Feed {auth.user.username}!</h1>
               <div className="row">
                 {postData.posts.map((photo) => (
                   <ImageCard key={photo._id} photo={photo} />

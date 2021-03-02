@@ -8,40 +8,6 @@ import UserTag from '../building-blocks/UserTag';
 
 import { PostContext } from '../../context/PostContext';
 
-//Hard-coded test comments
-const comments = [
-  {
-    user: {
-      profilePicture:
-        'https://images.unsplash.com/photo-1543255006-d6395b6f1171?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80',
-      username: 'example02',
-    },
-    text: 'This is a comment',
-    date: new Date(),
-    id: 1,
-  },
-  {
-    user: {
-      profilePicture:
-        'https://images.unsplash.com/photo-1591160690555-5debfba289f0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80',
-      username: 'example03',
-    },
-    text: 'This is another comment',
-    date: new Date(),
-    id: 2,
-  },
-  {
-    user: {
-      profilePicture:
-        'https://images.unsplash.com/photo-1613140952277-1c6bd0386ff5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80',
-      username: 'example01',
-    },
-    text: 'This is yet another comment',
-    date: new Date(),
-    id: 3,
-  },
-];
-
 const PhotoPage = ({ match }) => {
   const [postData, setPostData] = useContext(PostContext);
 
@@ -148,20 +114,21 @@ const PhotoPage = ({ match }) => {
 
                   <div id="comment-list" className="card mt-2">
                     <ul className="list-group list-group-flush">
-                      {comments.map((comment) => (
-                        <li key={comment.id} className="list-group-item p-0">
+                      {postData.post.comments.map((comment) => (
+                        <li key={comment._id} className="list-group-item p-0">
                           <div className="comment card-body">
                             <div className="row">
                               <div className="col-3 comment-commenter">
                                 <UserTag
-                                  profilePicture={comment.user.profilePicture}
-                                  username={comment.user.username}
+                                  key={comment._id}
+                                  profilePicture={comment.profilePicture}
+                                  username={comment.username}
                                 />
                               </div>
                               <div className="col comment-text">
                                 <p>{comment.text}</p>
                                 <small className="text-muted">
-                                  Posted {comment.date.toLocaleDateString()}
+                                  Posted {comment.date}
                                 </small>
                               </div>
                             </div>
