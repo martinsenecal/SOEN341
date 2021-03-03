@@ -255,16 +255,34 @@ input .search-query {
 
 #photo-box .photo-container img {
   max-width: 100%;
-  max-height: 45em;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
 }
 
-/* comment styline */
-.add-comment-display {
-  background-color: #fafafa;
+.info-display {
 }
+
+#comment-list {
+  margin: 15px 0;
+  max-height: 30em;
+  padding-top: 15px;
+}
+
+#comment-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+#comment-list li {
+  padding-bottom: 15px;
+}
+
+.comment-text {
+  padding-left: 5px;
+}
+
+/* comment styline */
 .image-card .add-comment-display {
   background-color: white;
 }
