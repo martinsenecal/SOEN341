@@ -123,7 +123,6 @@ input .search-query {
 }
 
 /* Like and comment button styling */
-.comment-button,
 .like-button {
   border: none;
   background-color: transparent;
@@ -136,7 +135,17 @@ input .search-query {
 }
 
 .like-count-display {
-  margin-right: 15px;
+  margin-right: 10px;
+}
+.like-count-display,
+.comment-count-display {
+  font-size: 1.15em;
+}
+
+.comment-count-display a,
+.like-count-display a {
+  color: rgba(0, 0, 0, 0.87);
+  text-decoration: none;
 }
 
 /* Styling for image card*/

@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Moment from 'react-moment';
 import axios from 'axios';
 
 import UserTag from '../building-blocks/UserTag';
 import Spinner from '../building-blocks/Spinner';
 
-import { PostContext } from '../../context/PostContext';
+import {PostContext} from '../../context/PostContext';
 
-const PhotoPage = ({ match }) => {
+const PhotoPage = ({match}) => {
   const [postData, setPostData] = useContext(PostContext);
   const [text, setText] = useState(''); // Local State for Comment
 
@@ -101,21 +101,20 @@ const PhotoPage = ({ match }) => {
                       </small>
                     </div>
                     <div>
-                      <i className="fa fa-heart-o"></i>
-                      <span className="like-count-display d-inline">
-                        {/* <LikeButton liked={photo.liked} />
-                  <small>{formatNumber(photo.likesNumber)}</small>{' '} */}
-                      </span>
+                      <div className="like-count-display d-inline">
+                        <i className="fa fa-heart-o like-button"></i>
+                        {/*<LikeButton liked={photo.liked} />
+                        <small>{formatNumber(photo.likesNumber)}</small>{' '}*/}
+                      </div>
 
-                      <span className="comment-count-display d-inline">
-                        <i className="fa fa-comment-o comment-button"></i>
-
+                      <div className="comment-count-display d-inline">
+                        <i className="fa fa-comment-o"></i>{' '}
                         <small>
                           {postData.post.comments.length
                             ? postData.post.comments.length
                             : '0'}
                         </small>
-                      </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -127,7 +126,7 @@ const PhotoPage = ({ match }) => {
                       className="form-row"
                       onSubmit={(e) => {
                         e.preventDefault();
-                        addComment(postData.post._id, { text });
+                        addComment(postData.post._id, {text});
                         setText('');
                       }}
                     >
