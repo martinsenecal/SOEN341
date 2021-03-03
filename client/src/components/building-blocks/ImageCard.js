@@ -22,10 +22,18 @@ const ImageCard = ({ photo }) => {
         <div className="card-text description-display">
           <p>{photo.description}</p>
         </div>
+        <div className="card-footer add-comment-display"></div>
         <div className="card-text">
           <small className="text-muted">
             Posted <Moment format="YYYY/MM/DD">{photo.date}</Moment>{' '}
           </small>
+          <Link
+            to={`/posts/${photo._id}`}
+            className="btn btn-primary"
+            style={{ float: 'right', fontSize: '14px' }}
+          >
+            Leave a comment!
+          </Link>
         </div>
         <div className="card-text">
           <i className="fa fa-heart-o"></i>
@@ -43,11 +51,6 @@ const ImageCard = ({ photo }) => {
             <small>{photo.comments.length ? photo.comments.length : '0'}</small>
           </div>
         </div>
-      </div>
-      <div className="card-footer add-comment-display">
-        <Link to={`/posts/${photo._id}`} className="btn btn-primary">
-          Leave a comment!
-        </Link>
       </div>
     </div>
   );

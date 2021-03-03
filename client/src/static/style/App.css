@@ -128,6 +128,7 @@ input .search-query {
   border: none;
   background-color: transparent;
   margin-left: none;
+  padding-right: 6px;
 }
 
 .fa-heart {
@@ -254,7 +255,15 @@ input .search-query {
 /* comment styline */
 .add-comment-display {
   background-color: #fafafa;
+  padding-top: 0;
+  padding-bottom: 0.9rem;
 }
 .image-card .add-comment-display {
   background-color: white;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #3f51b5;
+  border-color: #3f51b5;
 }
