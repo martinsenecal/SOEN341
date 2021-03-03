@@ -316,8 +316,18 @@ input .search-query {
   border-color: #3f51b5;
 }
 
+.btn-primary:hover {
+  background-color: #455bd4;
+  border-color: #455bd4;
+}
+
 .btn-outline-primary {
   color: #3f51b5;
+  border-color: #3f51b5;
+}
+
+.btn-outline-primary:hover {
+  background-color: #3f51b5;
   border-color: #3f51b5;
 }
 
