@@ -3,6 +3,7 @@ import Moment from 'react-moment';
 import axios from 'axios';
 
 import UserTag from '../building-blocks/UserTag';
+import Spinner from '../building-blocks/Spinner';
 
 import { PostContext } from '../../context/PostContext';
 
@@ -65,7 +66,7 @@ const PhotoPage = ({ match }) => {
   return (
     <>
       {postData.loading || postData.post === null ? (
-        <div>Loading...</div>
+        <Spinner />
       ) : (
         <>
           {' '}

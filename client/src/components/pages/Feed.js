@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
 
 import ImageCard from '../building-blocks/ImageCard';
+import Spinner from '../building-blocks/Spinner';
 
 // Import State
 import { AuthContext } from '../../context/AuthContext';
@@ -37,7 +38,7 @@ const Feed = () => {
       auth.user === null ||
       postData.loading ||
       postData.posts === null ? (
-        <div>Loading...</div>
+        <Spinner />
       ) : (
         <>
           {' '}
