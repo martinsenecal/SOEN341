@@ -46,7 +46,10 @@ const ImageCard = ({photo}) => {
         </div>
       </div>
       <div className="card-footer add-comment-display">
-        <Link to={`/posts/${photo._id}`} className="btn btn-link btn-sm">
+        <Link
+          to={`/posts/${photo._id}`}
+          className="btn btn-link btn-sm text-muted"
+        >
           Leave a comment!
         </Link>
       </div>
