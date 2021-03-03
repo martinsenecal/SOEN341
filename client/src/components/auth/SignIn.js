@@ -70,19 +70,14 @@ const SignIn = () => {
         'Content-Type': 'application/json',
       },
     };
-    console.log(data);
     try {
       const res = await axios.post('/api/auth', data, config);
       let token = res.data.token;
-      console.log(token);
-      // console.log(res.json());
       localStorage.setItem('token', token);
       setAuth({
         ...auth,
-        // token: localStorage.getItem('token'),
         isAuthenticated: true,
         loading: false,
-        // user: null,
       });
       await loadUser();
     } catch (error) {

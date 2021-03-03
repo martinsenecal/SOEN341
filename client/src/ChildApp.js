@@ -66,7 +66,7 @@ const ChildApp = () => {
       }
     };
     getLoadUser();
-  }, []); //[] is similar to component did mount. updated once
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Router>

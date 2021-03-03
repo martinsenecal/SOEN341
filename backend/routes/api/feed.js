@@ -7,8 +7,6 @@ const auth = require('../../middleware/auth');
 const Post = require('../../models/Post');
 const User = require('../../models/User');
 
-// APIs regarding: like / comment photo, post photo, get feed (photos of the users we are following)
-
 // @route   Post api/feed
 // @desc    Create a post
 // @access  Private
@@ -45,7 +43,7 @@ router.get('/posts/:id', auth, async (req, res) => {
     if (!post) {
       return res.status(404).json({ msg: 'Post not found' });
     }
-    console.log(post);
+
     res.json(post);
   } catch (err) {
     console.error(err.message);
@@ -53,31 +51,6 @@ router.get('/posts/:id', auth, async (req, res) => {
       return res.status(404).json({ msg: 'Post not found' });
     }
     res.status(500).send('Server Error');
-  }
-});
-
-// @route   Get api/users/:id/posts
-// @desc    Get posts in the feed
-// @access  Private
-router.get('/:username/posts', (req, res) => {
-  try {
-    // ToDo: wrong here.. we need private routes
-    res.json(post);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
-  }
-});
-
-// @route   Get api/feed
-// @desc    Get posts in the feed (Custom)
-// @access  Private
-router.get('/feed/:username', async (req, res) => {
-  try {
-    res.json(post);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
   }
 });
 
@@ -94,12 +67,11 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route   PUT api/feed/edit/id
+// @route   POST api/feed/comment/:id
 // @desc    Add a comment to a post
-// @access  private
-router.put(
-  '/edit/:id',
-
+// @access  Private
+router.post(
+  '/comment/:id',
   [auth, [check('text', 'Text is required').not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
@@ -114,12 +86,15 @@ router.put(
       const newComment = {
         //Not a new collection in db
         text: req.body.text,
-        name: user.name,
+        username: user.username,
+        profilePicture: user.profilePicture,
         user: req.user.id,
       };
 
       post.comments.unshift(newComment);
+
       await post.save();
+
       res.json(post.comments);
     } catch (err) {
       console.error(err.message);
@@ -165,6 +140,5 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
- 
 
 module.exports = router;

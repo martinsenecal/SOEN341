@@ -49,7 +49,7 @@ const photoData = [
     description: ['Delicious! #delicious -- are we implementing hashtags?'],
     date: '2021-02-22T06:45:34.671+00:00',
     likesNumber: 3456,
-    commentsNumber: 125,
+    comments: [1, 2, 3, 4],
     liked: true,
     id: 1,
     user: {
@@ -67,7 +67,7 @@ const photoData = [
     description: ['woof.'],
     date: '2021-02-13T06:45:34.671+00:00',
     likesNumber: 10756,
-    commentsNumber: 1234,
+    comments: [1, 2, 3, 4],
     liked: true,
     id: 2,
     user: {
@@ -87,7 +87,7 @@ const photoData = [
     ],
     date: '2021-01-05T06:45:34.671+00:00',
     likesNumber: 200,
-    commentsNumber: 5,
+    comments: [1, 2, 3, 4],
     liked: false,
     id: 3,
     user: {
@@ -108,7 +108,7 @@ const photoData = [
     ],
     date: '2020-08-28T06:45:34.671+00:00',
     likesNumber: 100,
-    commentsNumber: 100,
+    comments: [1, 2, 3, 4],
     liked: false,
     id: 4,
     user: {
@@ -128,7 +128,7 @@ const photoData = [
     ],
     date: '2020-05-11T06:45:34.671+00:00',
     likesNumber: 100,
-    commentsNumber: 100,
+    comments: [1, 2, 3, 4],
     liked: false,
     id: 5,
     user: {
@@ -146,7 +146,7 @@ const photoData = [
     description: ['Haunted? Hedge your bets.'],
     date: '2020-03-02T06:45:34.671+00:00',
     likesNumber: 100,
-    commentsNumber: 100,
+    comments: [1, 2, 3, 4],
     liked: false,
     id: 6,
     user: {

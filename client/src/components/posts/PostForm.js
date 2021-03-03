@@ -15,33 +15,28 @@ const PostForm = () => {
   const handleUpload = async () => {
     const uploadedPath = await uploadImageRef.current.upload();
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+    if (uploadedPath != null) {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      };
 
-    const post = {
-      user: auth.user,
-      description: imageDescription,
-      postedPicture: uploadedPath,
-    };
+      const post = {
+        user: auth.user,
+        description: imageDescription,
+        postedPicture: uploadedPath,
+      };
 
-    try {
-      const res = await axios.post(
-        'http://localhost:5000/api/feed',
-        post,
-        config
-      );
-      setPosted(true);
-
-      // Todo: add the new post to the state here.
-    } catch (error) {
+      try {
+        await axios.post('http://localhost:5000/api/feed', post, config);
+        setPosted(true);
+      } catch (error) {
+        setError(true);
+      }
+    } else {
       setError(true);
     }
-    console.log(auth.user);
-    console.log(uploadedPath);
-    console.log(`Image description: ${imageDescription}`);
   };
 
   if (posted) {
@@ -79,7 +74,7 @@ const PostForm = () => {
       {error && (
         <p
           className="validationError"
-          style={{ marginLeft: '5.5%', marginTop: '0.5em' }}
+          style={{ marginLeft: '6.95%', marginTop: '0.5em' }}
         >
           Image required
         </p>

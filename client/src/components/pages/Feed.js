@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+
 import ImageCard from '../building-blocks/ImageCard';
+import Spinner from '../building-blocks/Spinner';
 
 // Import State
 import { AuthContext } from '../../context/AuthContext';
@@ -10,15 +11,13 @@ import { PostContext } from '../../context/PostContext';
 const Feed = () => {
   const [auth] = useContext(AuthContext);
   const [postData, setPostData] = useContext(PostContext);
-  //PhotoData will be in reality posts.posts
 
   useEffect(() => {
     const getPosts = async () => {
       await fetchPosts();
-      // setPosts(postsFromServer);
     };
     getPosts();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchPosts = async () => {
     try {
@@ -39,11 +38,10 @@ const Feed = () => {
       auth.user === null ||
       postData.loading ||
       postData.posts === null ? (
-        <div>Loading...</div>
+        <Spinner />
       ) : (
         <>
           {' '}
-          <h1>Welcome to the Feed {auth.user.username}!</h1>
           <div className="container">
             <div id="feed-list" className="container w-50">
               <div className="row">

@@ -16,7 +16,3 @@ export const AuthProvider = (props) => {
     </AuthContext.Provider>
   );
 };
-
-// How to Use it inside a component:
-// import { AuthContext } from './AuthContext';
-// const [auth, setAuth] = useContext(AuthContext);
