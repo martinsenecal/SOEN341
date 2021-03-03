@@ -305,7 +305,8 @@ input .search-query {
   background-color: white;
 }
 
-#comment-list .follow-button {
+#comment-list .follow-button,
+#feed-list .follow-button {
   display: none;
 }
 /*bootstrap style overrides */
