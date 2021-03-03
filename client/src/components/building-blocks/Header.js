@@ -1,10 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import logo from '../../static/image/logo.png';
+import axios from 'axios';
 
 const Header = () => {
   const [auth, setAuth] = useContext(AuthContext);
+  const [searchData, setSearchData] = useState([]);
+
+  const editSearchTerm = async (e) => {
+    console.log(e.target.value);
+    if (e.target.value.length > 0) {
+      try {
+        const res = await axios.get('/api/users/search/' + e.target.value);
+        setSearchData(res);
+        console.log(res);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
 
   const logout = async () => {
     console.log('ByeBye!');
@@ -63,6 +78,7 @@ const Header = () => {
                 <form className="form-inline">
                   <div className="input-group">
                     <input
+                      onChange={editSearchTerm}
                       type="text"
                       className="form-control"
                       placeholder="Search..."
