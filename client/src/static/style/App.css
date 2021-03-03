@@ -255,8 +255,6 @@ input .search-query {
 /* comment styline */
 .add-comment-display {
   background-color: #fafafa;
-  padding-top: 0;
-  padding-bottom: 0.9rem;
 }
 .image-card .add-comment-display {
   background-color: white;
