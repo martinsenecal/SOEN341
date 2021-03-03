@@ -1,9 +1,7 @@
 import React from 'react';
 import Moment from 'react-moment';
-//Import components
 import { Link } from 'react-router-dom';
-//import LikeButton from './LikeButton';
-//import formatNumber from '../../utils/numberFormat';
+
 import UserTag from './UserTag';
 
 const ImageCard = ({ photo }) => {
@@ -42,27 +40,14 @@ const ImageCard = ({ photo }) => {
             >
               <i className="fa fa-comment-o"></i>
             </button>
-            {/* <small>{formatNumber(photo.commentsNumber)}</small> */}
+            <small>{photo.comments.length ? photo.comments.length : '0'}</small>
           </div>
         </div>
       </div>
       <div className="card-footer add-comment-display">
-        <form>
-          <div className="form-row">
-            <div className="col">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Leave a comment :) "
-              />
-            </div>
-            <div className="col-xs-auto">
-              <button type="submit" className="btn btn-primary mb-2">
-                <i className="fa fa-send-o"></i>
-              </button>
-            </div>
-          </div>
-        </form>
+        <Link to={`/posts/${photo._id}`} className="btn btn-primary">
+          Leave a comment!
+        </Link>
       </div>
     </div>
   );
