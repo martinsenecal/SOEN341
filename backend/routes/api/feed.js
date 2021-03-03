@@ -67,7 +67,7 @@ router.get('/', auth, async (req, res) => {
   }
 });
 
-// @route   PUT api/feed/comment/:id
+// @route   POST api/feed/comment/:id
 // @desc    Add a comment to a post
 // @access  Private
 router.post(
