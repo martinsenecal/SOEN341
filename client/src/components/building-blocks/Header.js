@@ -25,21 +25,15 @@ const Header = () => {
           padding: '5px 26px 5px 30px',
         }}
       >
+        <Link
+          to="/feed"
+          style={{
+            marginRight: '12px',
+          }}
+        >
+          <img src={logo} width="40" height="40" alt="logo"></img>
+        </Link>
         <Link to="/feed">
-          <div
-            className="navbar-brand"
-            style={{
-              marginRight: '12px',
-            }}
-          >
-            <img
-              className="navbar-brand"
-              src={logo}
-              width="40"
-              height="40"
-              alt="logo"
-            ></img>
-          </div>
           <div
             className="navbar-brand p-0"
             href="#!"

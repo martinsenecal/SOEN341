@@ -39,7 +39,6 @@ const UploadImage = forwardRef((props, ref) => {
         })
 
         .catch((err) => {
-          console.log(err);
           setErrorEmpty(true);
         });
     },
@@ -150,15 +149,6 @@ const UploadImage = forwardRef((props, ref) => {
             style={{ marginLeft: '5.5%', marginTop: '0.5em' }}
           >
             Invalid File. Please upload a valid image.
-          </p>
-        )}
-
-        {errorEmpty && (
-          <p
-            className="validationError"
-            style={{ marginLeft: '5.5%', marginTop: '0.5em' }}
-          >
-            Image required
           </p>
         )}
         {previewPath ? (
