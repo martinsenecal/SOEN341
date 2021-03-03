@@ -1,34 +1,64 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import axios from 'axios';
 
-import formatNumber from '../../utils/numberFormat';
-import LikeButton from '../building-blocks/LikeButton';
 import UserTag from '../building-blocks/UserTag';
 
 import { PostContext } from '../../context/PostContext';
 
 const PhotoPage = ({ match }) => {
   const [postData, setPostData] = useContext(PostContext);
+  const [text, setText] = useState(''); // Local State for Comment
 
   useEffect(() => {
-    const getPosts = async () => {
-      await fetchPost(match.params.id); // match is used for links
+    const getPost = async () => {
+      const postFromServer = await fetchPost(match.params.id); // match is used for links
+      setPostData({
+        ...postData,
+        post: postFromServer.data,
+        loading: false,
+      });
     };
-    getPosts();
-  }, [match.params.id]);
+    getPost();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchPost = async (id) => {
     try {
       console.log(id);
       const res = await axios.get(`/api/feed/posts/${id}`);
+      return res;
+    } catch (err) {
+      console.log('Error while fetching Posts');
+    }
+  };
+
+  const addComment = async (postId, formData) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const res = await axios.post(
+        `/api/feed/comment/${postId}`,
+        formData,
+        config
+      );
+
       setPostData({
         ...postData,
-        post: res.data,
+        post: {
+          ...postData.post,
+          comments: res.data,
+        },
         loading: false,
       });
     } catch (err) {
-      console.log('Error while fetching Posts');
+      setPostData({
+        ...postData,
+        loading: false,
+      });
     }
   };
 
@@ -71,19 +101,20 @@ const PhotoPage = ({ match }) => {
                     </div>
                     <div>
                       <i className="fa fa-heart-o"></i>
-                      {/*<div className="like-count-display d-inline">
-                  <LikeButton liked={photo.liked} />
-                  <small>{formatNumber(photo.likesNumber)}</small>{' '}
-                </div>*/}
-                      <div className="comment-count-display d-inline">
-                        <button
-                          className="comment-button"
-                          onClick={() => console.log('comment button clicked.')}
-                        >
-                          <i className="fa fa-comment-o"></i>
-                        </button>
-                        {/* <small>{formatNumber(photo.commentsNumber)}</small>*/}
-                      </div>
+                      <span className="like-count-display d-inline">
+                        {/* <LikeButton liked={photo.liked} />
+                  <small>{formatNumber(photo.likesNumber)}</small>{' '} */}
+                      </span>
+
+                      <span className="comment-count-display d-inline">
+                        <i className="fa fa-comment-o comment-button"></i>
+
+                        <small>
+                          {postData.post.comments.length
+                            ? postData.post.comments.length
+                            : '0'}
+                        </small>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -91,31 +122,36 @@ const PhotoPage = ({ match }) => {
               <div className="row">
                 <div className="col-12 p-3">
                   <div className="add-comment-display">
-                    <form>
-                      <div className="form-row">
-                        <div className="col">
-                          <input
-                            type="text"
-                            className="form-control"
-                            placeholder="Leave a comment :) "
-                          />
-                        </div>
-                        <div className="col-xs-auto">
-                          <button
-                            type="submit"
-                            className="btn btn-primary mb-2"
-                          >
-                            <i className="fa fa-send-o"></i>
-                          </button>
-                        </div>
+                    <form
+                      className="form-row"
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        addComment(postData.post._id, { text });
+                        setText('');
+                      }}
+                    >
+                      <div className="col">
+                        <textarea
+                          name="text"
+                          className="form-control"
+                          placeholder="Leave a comment :)"
+                          value={text}
+                          onChange={(e) => setText(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="col-xs-auto">
+                        <button type="submit" className="btn btn-primary mb-2">
+                          <i className="fa fa-send-o"></i>
+                        </button>
                       </div>
                     </form>
                   </div>
 
                   <div id="comment-list" className="card mt-2">
                     <ul className="list-group list-group-flush">
-                      {postData.post.comments.map((comment) => (
-                        <li key={comment._id} className="list-group-item p-0">
+                      {postData.post.comments.map((comment, index) => (
+                        <li key={index} className="list-group-item p-0">
                           <div className="comment card-body">
                             <div className="row">
                               <div className="col-3 comment-commenter">
@@ -128,7 +164,10 @@ const PhotoPage = ({ match }) => {
                               <div className="col comment-text">
                                 <p>{comment.text}</p>
                                 <small className="text-muted">
-                                  Posted {comment.date}
+                                  Posted{' '}
+                                  <Moment format="YYYY/MM/DD">
+                                    {comment.date}
+                                  </Moment>
                                 </small>
                               </div>
                             </div>

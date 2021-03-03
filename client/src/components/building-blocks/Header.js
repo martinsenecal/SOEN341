@@ -25,28 +25,32 @@ const Header = () => {
           padding: '5px 26px 5px 30px',
         }}
       >
-        <a className="navbar-brand" href="#!"
-          style={{
-            marginRight: '12px',
-          }}
-        >
-          <img
-            src={logo}
-            width="40"
-            height="40"
-            alt="logo"
-          ></img>
-        </a>
-        <a
-          className="navbar-brand p-0"
-          href="#!"
-          style={{
-            fontSize: '30px',
-          }}
-        >
-          <span className="logo logo-photo logo-photo-on-drk">photo</span>
-          <span className="logo logo-X">X</span>
-        </a>
+        <Link to="/feed">
+          <div
+            className="navbar-brand"
+            style={{
+              marginRight: '12px',
+            }}
+          >
+            <img
+              className="navbar-brand"
+              src={logo}
+              width="40"
+              height="40"
+              alt="logo"
+            ></img>
+          </div>
+          <div
+            className="navbar-brand p-0"
+            href="#!"
+            style={{
+              fontSize: '30px',
+            }}
+          >
+            <span className="logo logo-photo logo-photo-on-drk">photo</span>
+            <span className="logo logo-X">X</span>
+          </div>
+        </Link>
         {auth.isAuthenticated && (
           <>
             <button

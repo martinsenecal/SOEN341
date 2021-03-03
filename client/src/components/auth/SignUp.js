@@ -58,12 +58,9 @@ const SignUp = () => {
         'Content-Type': 'application/json',
       },
     };
-    console.log(data);
     try {
       const res = await axios.post('/api/users', data, config);
       let token = res.data.token;
-      console.log(token);
-      // console.log(res.json());
       localStorage.setItem('token', token);
       setAuth({
         ...auth,
