@@ -272,6 +272,7 @@ input .search-query {
 #comment-list ul {
   list-style: none;
   padding: 0;
+  max-width: 96%;
 }
 
 #comment-list li {
