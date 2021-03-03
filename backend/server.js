@@ -1,7 +1,6 @@
 const express = require('express');
 const connectDB = require('../config/db');
 const config = require('../config/config');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 require('express-async-errors');
 

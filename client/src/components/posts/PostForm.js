@@ -28,20 +28,11 @@ const PostForm = () => {
     };
 
     try {
-      const res = await axios.post(
-        'http://localhost:5000/api/feed',
-        post,
-        config
-      );
+      await axios.post('http://localhost:5000/api/feed', post, config);
       setPosted(true);
-
-      // Todo: add the new post to the state here.
     } catch (error) {
       setError(true);
     }
-    console.log(auth.user);
-    console.log(uploadedPath);
-    console.log(`Image description: ${imageDescription}`);
   };
 
   if (posted) {
