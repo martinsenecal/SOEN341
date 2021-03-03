@@ -265,3 +265,7 @@ input .search-query {
   background-color: #3f51b5;
   border-color: #3f51b5;
 }
+
+.comment-text {
+  white-space: pre-line;
+}
