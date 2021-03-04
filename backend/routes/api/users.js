@@ -183,12 +183,6 @@ router.get('/search/:search_term', auth, async (req, res) => {
         { name: { $regex: req.params.search_term, $options: 'i' } },
       ],
     }).select('-password');
-    //error message if no users found
-    if (users.length === 0) {
-      return res
-        .status(400)
-        .json({ msg: 'There are no users matching that search' });
-    }
 
     res.json(users);
   } catch (err) {

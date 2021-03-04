@@ -265,3 +265,11 @@ input .search-query {
   background-color: #3f51b5;
   border-color: #3f51b5;
 }
+
+.hidden {
+  display: none !important;
+}
+.smallProfilePicture {
+  width: 25px;
+  margin-right: 5px;
+}

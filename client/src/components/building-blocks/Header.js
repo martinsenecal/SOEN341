@@ -13,11 +13,13 @@ const Header = () => {
     if (e.target.value.length > 0) {
       try {
         const res = await axios.get('/api/users/search/' + e.target.value);
-        setSearchData(res);
+        setSearchData(res.data);
         console.log(res);
       } catch (err) {
-        console.log(err);
+        console.log('Error while fetching Users');
       }
+    } else {
+      setSearchData([]);
     }
   };
 
@@ -78,6 +80,7 @@ const Header = () => {
                 <form className="form-inline">
                   <div className="input-group">
                     <input
+                      data-toggle="dropdown"
                       onChange={editSearchTerm}
                       type="text"
                       className="form-control"
@@ -87,6 +90,25 @@ const Header = () => {
                       <button type="button" className="btn btn-secondary">
                         <i className="fa fa-search"></i>
                       </button>
+                    </div>
+                    <div
+                      className={`${searchData.length === 0 ? 'hidden' : ''}`}
+                    >
+                      <div className="dropdown-menu">
+                        {searchData.map((user) => (
+                          <a
+                            class="dropdown-item"
+                            href={'/profile/' + user.username}
+                            key={user.id}
+                          >
+                            <img
+                              className="smallProfilePicture"
+                              src={user.profilePicture}
+                            ></img>
+                            {user.username}
+                          </a>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </form>
