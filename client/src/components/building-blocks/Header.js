@@ -97,7 +97,7 @@ const Header = () => {
                       <div className="dropdown-menu">
                         {searchData.map((user) => (
                           <a
-                            class="dropdown-item"
+                            className="dropdown-item"
                             href={'/profile/' + user.username}
                             key={user.id}
                           >
