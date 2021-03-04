@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import logo from '../../static/image/logo.png';
@@ -7,12 +7,17 @@ import axios from 'axios';
 const Header = () => {
   const [auth, setAuth] = useContext(AuthContext);
   const [searchData, setSearchData] = useState([]);
+  const [query, setQuery] = useState('');
 
-  const editSearchTerm = async (e) => {
-    console.log(e.target.value);
-    if (e.target.value.length > 0) {
+  useEffect(() => {
+    const timeOutId = setTimeout(() => editSearchTerm(), 500);
+    return () => clearTimeout(timeOutId);
+  }, [query]);
+
+  const editSearchTerm = async () => {
+    if (query.length > 0) {
       try {
-        const res = await axios.get('/api/users/search/' + e.target.value);
+        const res = await axios.get('/api/users/search/' + query);
         setSearchData(res.data);
         console.log(res);
       } catch (err) {
@@ -81,15 +86,13 @@ const Header = () => {
                   <div className="input-group">
                     <input
                       data-toggle="dropdown"
-                      onChange={editSearchTerm}
+                      onChange={(e) => setQuery(e.target.value)}
                       type="text"
-                      className="form-control"
+                      className="form-control user-search-field"
                       placeholder="Search..."
                     />
-                    <div className="input-group-append">
-                      <button type="button" className="btn btn-secondary">
-                        <i className="fa fa-search"></i>
-                      </button>
+                    <div className="input-group-append adjust-search-icon">
+                      <i className="fa fa-search user-search-icon"></i>
                     </div>
                     <div
                       className={`${searchData.length === 0 ? 'hidden' : ''}`}
@@ -99,7 +102,7 @@ const Header = () => {
                           <a
                             className="dropdown-item"
                             href={'/profile/' + user.username}
-                            key={user.id}
+                            key={user._id}
                           >
                             <img
                               className="smallProfilePicture"

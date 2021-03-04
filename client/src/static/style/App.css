@@ -273,3 +273,17 @@ input .search-query {
   width: 25px;
   margin-right: 5px;
 }
+.user-search-icon {
+  width: 25px;
+  background-color: #6f7dc8;
+  border: 1px solid#6f7dc8 !important;
+  color: white !important;
+  line-height: 35px;
+  font-size: 15px;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.adjust-search-icon {
+  margin-left: -23px;
+  z-index: 9999;
+}
