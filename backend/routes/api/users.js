@@ -170,5 +170,25 @@ router.put(
     }
   }
 );
+// @route   GET api/users/search/:search_term
+// @desc    Get user objects matching search term
+// @access  Private
+router.get('/search/:search_term', auth, async (req, res) => {
+  try {
+    //return array of users
+    const users = await User.find({
+      //match either username or name to search term
+      $or: [
+        { username: { $regex: req.params.search_term, $options: 'i' } },
+        { name: { $regex: req.params.search_term, $options: 'i' } },
+      ],
+    }).select('-password');
+
+    res.json(users);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
