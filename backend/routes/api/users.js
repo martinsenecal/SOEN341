@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../../../config/config');
 const auth = require('../../middleware/auth');
-
+const Post = require('../../models/Post');
 const User = require('../../models/User');
 const Follow = require('../../models/Follow');
 
@@ -98,6 +98,26 @@ router.get('/:username', auth, async (req, res) => {
     }
 
     res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/users/posts/:username
+// @desc    Get all posts by user
+// @access  Private
+router.get('/posts/:username', auth, async (req, res) => {
+  try {
+    const posts = await Post.find({
+      username: req.params.username,
+    }).select();
+
+    if (posts.length === 0) {
+      return res.status(400).json({ msg: 'No posts found for user' });
+    }
+
+    res.json(posts);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
