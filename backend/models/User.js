@@ -41,7 +41,25 @@ const UserSchema = new Schema({
       following_id: {
         type: Schema.Types.ObjectId,
         ref: 'users',
-        //required: true,
+      },
+      username: {
+        type: String,
+      },
+      profilePicture: {
+        type: String,
+      },
+    },
+  ],
+  followers: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+      },
+      //user following
+      follower_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
       },
       username: {
         type: String,
