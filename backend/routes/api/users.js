@@ -7,7 +7,6 @@ const config = require('../../../config/config');
 const auth = require('../../middleware/auth');
 
 const User = require('../../models/User');
-const Follow = require('../../models/Follow');
 const mongoose = require('mongoose');
 
 // @route   Post api/users
@@ -90,10 +89,6 @@ router.get('/:username', auth, async (req, res) => {
     const profile = await User.findOne({
       username: req.params.username,
     }).select('-password');
-    // Find Follow (followers and following) of this user.
-    // const follow = await Follow.find({ follower: profile }); // might break something
-    // Find all the posts of this user.
-
 
     if (!profile) {
       return res.status(400).json({ msg: 'There is no profile for this user' });
@@ -136,6 +131,39 @@ router.put(
     }
   }
 );
+
+// @route   DELETE api/users/follow/:id/:followee_id
+// @desc    Remove a user following
+// @access  Private
+router.delete('/follow/:id/:followee_id', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    //Pull out a user being followed (followee)
+    const followee = user.following.find(
+      (followee) => followee.id === req.params.followee_id
+    );
+
+    //Make sure user exists
+    if (!followee) {
+      return res.status(404).json({ msg: 'User does not exist' });
+    }
+
+    //Get remove index
+    const removeIndex = user.following
+      //.map((followee) => followee.user.toString())
+      .indexOf(req.user.id);
+
+    user.following.splice(removeIndex, 1);
+
+    await user.save();
+
+    return res.json(user.following);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 // @route   PUT api/users/follower
 // @desc    Another user following the logged in user
