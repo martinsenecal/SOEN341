@@ -196,6 +196,38 @@ router.put(
   }
 );
 
+// @route   DELETE api/users/follower/:id/:follower_id
+// @desc    Remove a user follower
+// @access  Private
+router.delete('/follower/:id/:follower_id', auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    //Pull out a follower
+    const follower = user.followers.find(
+      (follower) => follower.id === req.params.follower_id
+    );
+
+    //Make sure user exists
+    if (!follower) {
+      return res.status(404).json({ msg: 'User does not exist' });
+    }
+
+    //Get remove index
+    const removeIndex = user.followers
+      //.map((follower) => follower.user.toString())
+      .indexOf(req.user.id);
+
+    user.followers.splice(removeIndex, 1);
+
+    await user.save();
+
+    return res.json(user.followers);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 // @route   GET api/users/settings/:username
 // @desc    Get user settings
