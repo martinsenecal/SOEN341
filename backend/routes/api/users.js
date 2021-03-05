@@ -121,15 +121,46 @@ router.put(
     try {
       const user = await User.findById(req.user.id).select('-password');
 
-      const newFollower = {
+      const newFollowing = {
         following_id: mongoose.Types.ObjectId(req.body.following_id),
       };
 
-      user.following.unshift(newFollower);
+      user.following.unshift(newFollowing);
 
       await user.save();
 
       res.json(user.following);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route   PUT api/users/follower
+// @desc    Another user following the logged in user
+// @access  Private
+router.put(
+  '/follower',
+  [auth, [check('follower_id', 'User ID is required').not().isEmpty()]],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const user = await User.findById(req.user.id).select('-password');
+
+      const newFollower = {
+        follower_id: mongoose.Types.ObjectId(req.body.follower_id),
+      };
+
+      user.followers.unshift(newFollower);
+
+      await user.save();
+
+      res.json(user.followers);
     } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
