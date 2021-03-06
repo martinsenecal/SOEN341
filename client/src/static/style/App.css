@@ -339,3 +339,8 @@ input .search-query {
 .comment-text {
   white-space: pre-line;
 }
+
+.no-post-message {
+  text-align: center;
+  font-size: large;
+}

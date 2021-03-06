@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
 import ImageCard from '../building-blocks/ImageCard';
@@ -12,6 +12,7 @@ import { ProfileContext } from '../../context/ProfileContext';
 const Profile = ({ match }) => {
   const [auth] = useContext(AuthContext);
   const [profileData, setProfileData] = useContext(ProfileContext);
+  const [noPosts, setNoPosts] = useState(false);
 
   useEffect(() => {
     const getProfile = async () => {
@@ -20,7 +21,7 @@ const Profile = ({ match }) => {
 
     getProfile();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
+  console.log(match.params.username);
   const fetchProfile = async (username) => {
     try {
       const resProfile = await axios.get(`/api/users/${username}`);
@@ -31,6 +32,10 @@ const Profile = ({ match }) => {
         posts: resPosts.data,
         loading: false,
       });
+
+      if (resPosts.data.length === 0) {
+        setNoPosts(true);
+      }
     } catch (err) {
       console.log('Error while fetching Profile');
     }
@@ -105,15 +110,26 @@ const Profile = ({ match }) => {
               </div>
             </div>
             <hr />
-            <div id="photo-card-grid" className="container pt-5">
-              <div className="row row-cols-1 row-cols-md-3">
-                {profileData.posts.map((photo) => (
-                  <div key={photo.id} className="col mb-4">
-                    <ImageCard photo={photo} />
-                  </div>
-                ))}
+            {noPosts && (
+              <div>
+                {
+                  <p className="no-post-message">
+                    {profileData.profile.username} has no posts
+                  </p>
+                }
               </div>
-            </div>
+            )}
+            {noPosts === false && (
+              <div id="photo-card-grid" className="container pt-5">
+                <div className="row row-cols-1 row-cols-md-3">
+                  {profileData.posts.map((photo) => (
+                    <div key={photo.id} className="col mb-4">
+                      <ImageCard photo={photo} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </>
       )}

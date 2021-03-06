@@ -110,10 +110,6 @@ router.get('/posts/:username', auth, async (req, res) => {
       username: req.params.username,
     }).select();
 
-    if (posts.length === 0) {
-      return res.status(400).json({ msg: 'No posts found for user' });
-    }
-
     res.json(posts);
   } catch (err) {
     console.error(err.message);
