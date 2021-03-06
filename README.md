@@ -21,7 +21,6 @@ The objective of the project is to create an interactive, photo-sharing platform
 ## Tools and Technologies
 - Languages:
   - Javascript (React, Node)
-  - Typescript
   - CSS
   - HTML
   
