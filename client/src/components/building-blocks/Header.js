@@ -99,13 +99,17 @@ const Header = () => {
                     >
                       <div className="dropdown-menu">
                         {searchData.map((user) => (
-                          <a className="dropdown-item" href="#" key={user._id}>
+                          <Link
+                            className="dropdown-item"
+                            key={user._id}
+                            to={`/profile/${user.username}`}
+                          >
                             <img
                               className="smallProfilePicture"
                               src={user.profilePicture}
                             ></img>
                             {user.username}
-                          </a>
+                          </Link>
                         ))}
                       </div>
                     </div>
