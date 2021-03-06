@@ -89,9 +89,6 @@ router.get('/:username', auth, async (req, res) => {
     const profile = await User.findOne({
       username: req.params.username,
     }).select('-password');
-    // Find Follow (followers and following) of this user.
-    // const follow = await Follow.find({ follower: profile }); // might break something
-    // Find all the posts of this user.
 
     if (!profile) {
       return res.status(400).json({ msg: 'There is no profile for this user' });

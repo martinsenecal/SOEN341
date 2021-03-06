@@ -67,7 +67,7 @@ const Header = () => {
             <span className="logo logo-X">X</span>
           </div>
         </Link>
-        {auth.isAuthenticated && (
+        {auth.isAuthenticated && auth.user !== null && (
           <>
             <button
               type="button"
@@ -99,11 +99,7 @@ const Header = () => {
                     >
                       <div className="dropdown-menu">
                         {searchData.map((user) => (
-                          <a
-                            className="dropdown-item"
-                            href={'/profile/' + user.username}
-                            key={user._id}
-                          >
+                          <a className="dropdown-item" href="#" key={user._id}>
                             <img
                               className="smallProfilePicture"
                               src={user.profilePicture}
@@ -130,7 +126,10 @@ const Header = () => {
                     <i className="fa fa-user-circle-o fa-lg"></i>
                   </a>
                   <div className="dropdown-menu dropdown-menu-sm-right">
-                    <Link className="dropdown-item" to="/profile">
+                    <Link
+                      className="dropdown-item"
+                      to={`/profile/${auth.user.username}`}
+                    >
                       Profile
                     </Link>
                     <a onClick={logout} className="dropdown-item" href="#!">
