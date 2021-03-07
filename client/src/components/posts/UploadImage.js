@@ -20,7 +20,6 @@ const awsConfig = {
 
 const UploadImage = forwardRef((props, ref) => {
   const [errorMessage, setErrorMessage] = useState(false);
-  const [errorEmpty, setErrorEmpty] = useState(false);
   const [previewPath, setPreviewPath] = useState('');
   const S3FileUpload = new S3(awsConfig);
   const [selectedFile, setSelectedFile] = useState('');
@@ -39,7 +38,7 @@ const UploadImage = forwardRef((props, ref) => {
         })
 
         .catch((err) => {
-          setErrorEmpty(true);
+          //Empty image folder
         });
     },
   }));

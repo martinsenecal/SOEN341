@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../../../config/config');
 const auth = require('../../middleware/auth');
-
+const Post = require('../../models/Post');
 const User = require('../../models/User');
 const Follow = require('../../models/Follow');
 
@@ -89,15 +89,28 @@ router.get('/:username', auth, async (req, res) => {
     const profile = await User.findOne({
       username: req.params.username,
     }).select('-password');
-    // Find Follow (followers and following) of this user.
-    // const follow = await Follow.find({ follower: profile }); // might break something
-    // Find all the posts of this user.
 
     if (!profile) {
       return res.status(400).json({ msg: 'There is no profile for this user' });
     }
 
     res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/users/posts/:username
+// @desc    Get all posts by user
+// @access  Private
+router.get('/posts/:username', auth, async (req, res) => {
+  try {
+    const posts = await Post.find({
+      username: req.params.username,
+    }).select();
+
+    res.json(posts);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
