@@ -32,13 +32,7 @@ const UserSchema = new Schema({
   },
   following: [
     {
-      //user following
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: 'users',
-      },
-      //user to be followed
-      following_id: {
+      user_id: {
         type: Schema.Types.ObjectId,
         ref: 'users',
       },
@@ -52,12 +46,7 @@ const UserSchema = new Schema({
   ],
   followers: [
     {
-      user: {
-        type: Schema.Types.ObjectId,
-        ref: 'users',
-      },
-      //user following
-      follower_id: {
+      user_id: {
         type: Schema.Types.ObjectId,
         ref: 'users',
       },

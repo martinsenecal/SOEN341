@@ -101,128 +101,73 @@ router.get('/:username', auth, async (req, res) => {
   }
 });
 
-// @route   PUT api/users/follow
+// @route   PUT api/users/follow/:user_id
 // @desc    Follow a user
 // @access  Private
-router.put(
-  '/follow',
-  [auth, [check('following_id', 'User ID is required').not().isEmpty()]],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    try {
-      const user = await User.findById(req.user.id).select('-password');
-
-      const newFollowing = {
-        following_id: mongoose.Types.ObjectId(req.body.following_id),
-      };
-
-      user.following.unshift(newFollowing);
-
-      await user.save();
-
-      res.json(user.following);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
-  }
-);
-
-// @route   DELETE api/users/follow/:id/:followee_id
-// @desc    Remove a user following
-// @access  Private
-router.delete('/follow/:id/:followee_id', auth, async (req, res) => {
+router.put('/follow/:user_id', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
-
-    //Pull out a user being followed (followee)
-    const followee = user.following.find(
-      (followee) => followee.id === req.params.followee_id
+    const currentUser = await User.findById(req.user.id).select('-password');
+    const followedUser = await User.findById(req.params.user_id).select(
+      '-password'
     );
-
-    //Make sure user exists
-    if (!followee) {
-      return res.status(404).json({ msg: 'User does not exist' });
+    //add followed user inside the current user following
+    //check if already following
+    if (
+      currentUser.following.find((o) => o.user_id == followedUser.id) ===
+      undefined
+    ) {
+      currentUser.following.push({
+        user_id: followedUser.id,
+        username: followedUser.username,
+        profilePicture: followedUser.profilePicture,
+      });
+    } else {
+      return res.status(400).json({ msg: 'Already following this user' });
     }
 
-    //Get remove index
-    const removeIndex = user.following
-      //.map((followee) => followee.user.toString())
-      .indexOf(req.user.id);
+    //add current user to the followed user's followers
+    if (
+      followedUser.followers.find((o) => o.user_id == currentUser.id) ===
+      undefined
+    ) {
+      followedUser.followers.push({
+        user_id: currentUser.id,
+        username: currentUser.username,
+        profilePicture: currentUser.profilePicture,
+      });
+    }
+    await currentUser.save();
+    await followedUser.save();
 
-    user.following.splice(removeIndex, 1);
-
-    await user.save();
-
-    return res.json(user.following);
+    res.json(currentUser.following);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
 
-// @route   PUT api/users/follower
-// @desc    Another user following the logged in user
+// @route   DELETE api/users/follow/:user_id
+// @desc    Remove a user following
 // @access  Private
-router.put(
-  '/follower',
-  [auth, [check('follower_id', 'User ID is required').not().isEmpty()]],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    try {
-      const user = await User.findById(req.user.id).select('-password');
-
-      const newFollower = {
-        follower_id: mongoose.Types.ObjectId(req.body.follower_id),
-      };
-
-      user.followers.unshift(newFollower);
-
-      await user.save();
-
-      res.json(user.followers);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
-  }
-);
-
-// @route   DELETE api/users/follower/:id/:follower_id
-// @desc    Remove a user follower
-// @access  Private
-router.delete('/follower/:id/:follower_id', auth, async (req, res) => {
+router.delete('/follow/:user_id', auth, async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
-
-    //Pull out a follower
-    const follower = user.followers.find(
-      (follower) => follower.id === req.params.follower_id
+    const currentUser = await User.findById(req.user.id).select('-password');
+    const followedUser = await User.findById(req.params.user_id).select(
+      '-password'
     );
+    //remove followed user inside the current user following
+    currentUser.following = currentUser.following.filter((obj) => {
+      return obj.user_id != followedUser.id;
+    });
 
-    //Make sure user exists
-    if (!follower) {
-      return res.status(404).json({ msg: 'User does not exist' });
-    }
+    //remove current user to the followed user's followers
+    followedUser.followers = followedUser.followers.filter((obj) => {
+      return obj.user_id != currentUser.id;
+    });
+    await currentUser.save();
+    await followedUser.save();
 
-    //Get remove index
-    const removeIndex = user.followers
-      //.map((follower) => follower.user.toString())
-      .indexOf(req.user.id);
-
-    user.followers.splice(removeIndex, 1);
-
-    await user.save();
-
-    return res.json(user.followers);
+    res.json(currentUser.following);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
