@@ -139,7 +139,7 @@ router.put('/follow/:user_id', auth, async (req, res) => {
     await currentUser.save();
     await followedUser.save();
 
-    res.json(currentUser.following);
+    res.json({msg: 'Uer have been followed successfully!'});
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -167,7 +167,7 @@ router.delete('/follow/:user_id', auth, async (req, res) => {
     await currentUser.save();
     await followedUser.save();
 
-    res.json(currentUser.following);
+     res.json({msg: 'Uer have been followed successfully!'});
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
