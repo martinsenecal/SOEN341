@@ -7,7 +7,7 @@ const config = require('../../../config/config');
 const auth = require('../../middleware/auth');
 const Post = require('../../models/Post');
 const User = require('../../models/User');
-const Follow = require('../../models/Follow');
+const mongoose = require('mongoose');
 
 // @route   Post api/users
 // @desc    Register user
@@ -100,6 +100,74 @@ router.get('/:username', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+
+// @route   PUT api/users/follow/:user_id
+// @desc    Follow a user
+// @access  Private
+router.put('/follow/:user_id', auth, async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.user.id).select('-password');
+    const followedUser = await User.findById(req.params.user_id).select(
+      '-password'
+    );
+    //add followed user inside the current user following
+    //check if already following
+    if (
+      currentUser.following.find((o) => o.user_id == followedUser.id) ===
+      undefined
+    ) {
+      currentUser.following.push({
+        user_id: followedUser.id,
+        username: followedUser.username,
+        profilePicture: followedUser.profilePicture,
+      });
+    } else {
+      return res.status(400).json({ msg: 'Already following this user' });
+    }
+
+    //add current user to the followed user's followers
+    if (
+      followedUser.followers.find((o) => o.user_id == currentUser.id) ===
+      undefined
+    ) {
+      followedUser.followers.push({
+        user_id: currentUser.id,
+        username: currentUser.username,
+        profilePicture: currentUser.profilePicture,
+      });
+    }
+    await currentUser.save();
+    await followedUser.save();
+
+    res.json({msg: 'Uer have been followed successfully!'});
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   DELETE api/users/follow/:user_id
+// @desc    Remove a user following
+// @access  Private
+router.delete('/follow/:user_id', auth, async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.user.id).select('-password');
+    const followedUser = await User.findById(req.params.user_id).select(
+      '-password'
+    );
+    //remove followed user inside the current user following
+    currentUser.following = currentUser.following.filter((obj) => {
+      return obj.user_id != followedUser.id;
+    });
+
+    //remove current user to the followed user's followers
+    followedUser.followers = followedUser.followers.filter((obj) => {
+      return obj.user_id != currentUser.id;
+    });
+    await currentUser.save();
+    await followedUser.save();
+
+     res.json({msg: 'Uer have been followed successfully!'});
 
 // @route   GET api/users/posts/:username
 // @desc    Get all posts by user
