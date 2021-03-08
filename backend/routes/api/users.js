@@ -139,7 +139,7 @@ router.put('/follow/:user_id', auth, async (req, res) => {
     await currentUser.save();
     await followedUser.save();
 
-    res.json({msg: 'Uer have been followed successfully!'});
+    res.json({ msg: 'User have been followed successfully!' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -167,7 +167,12 @@ router.delete('/follow/:user_id', auth, async (req, res) => {
     await currentUser.save();
     await followedUser.save();
 
-     res.json({msg: 'Uer have been followed successfully!'});
+    res.json({ msg: 'User have been un-followed successfully!' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 // @route   GET api/users/posts/:username
 // @desc    Get all posts by user
@@ -251,6 +256,7 @@ router.put(
     }
   }
 );
+
 // @route   GET api/users/search/:search_term
 // @desc    Get user objects matching search term
 // @access  Private
