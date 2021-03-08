@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../../../config/config');
 const auth = require('../../middleware/auth');
-
+const Post = require('../../models/Post');
 const User = require('../../models/User');
 const mongoose = require('mongoose');
 
@@ -168,6 +168,17 @@ router.delete('/follow/:user_id', auth, async (req, res) => {
     await followedUser.save();
 
      res.json({msg: 'Uer have been followed successfully!'});
+
+// @route   GET api/users/posts/:username
+// @desc    Get all posts by user
+// @access  Private
+router.get('/posts/:username', auth, async (req, res) => {
+  try {
+    const posts = await Post.find({
+      username: req.params.username,
+    }).select();
+
+    res.json(posts);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
