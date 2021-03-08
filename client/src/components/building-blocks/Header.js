@@ -107,6 +107,7 @@ const Header = () => {
                             <img
                               className="smallProfilePicture"
                               src={user.profilePicture}
+                              alt="Profile"
                             ></img>
                             {user.username}
                           </Link>
