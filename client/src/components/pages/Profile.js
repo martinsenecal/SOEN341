@@ -10,25 +10,6 @@ import Spinner from '../building-blocks/Spinner';
 import {AuthContext} from '../../context/AuthContext';
 import {ProfileContext} from '../../context/ProfileContext';
 
-//Hard-coded list of users to test follower/following lists
-const users = [
-  {
-    profilePicture:
-      'https://images.unsplash.com/photo-1613140952277-1c6bd0386ff5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80',
-    username: 'example02',
-  },
-  {
-    profilePicture:
-      'https://images.unsplash.com/photo-1543255006-d6395b6f1171?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80',
-    username: 'example03',
-  },
-  {
-    profilePicture:
-      'https://images.unsplash.com/photo-1591160690555-5debfba289f0?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80',
-    username: 'example04',
-  },
-];
-
 const Profile = ({match}) => {
   const [auth] = useContext(AuthContext);
   const [profileData, setProfileData] = useContext(ProfileContext);
@@ -94,7 +75,7 @@ const Profile = ({match}) => {
                         data-target="#followerModal"
                         role="button"
                       >
-                        {formatNumber(profileData.profile.followerNumber)}
+                        {formatNumber(profileData.profile.followers.length)}
                         <span className="text-muted"> followers </span>
                       </span>
                       <span
@@ -104,7 +85,7 @@ const Profile = ({match}) => {
                         data-target="#followingModal"
                         role="button"
                       >
-                        {formatNumber(profileData.profile.followingNumber)}
+                        {formatNumber(profileData.profile.following.length)}
                         <span className="text-muted"> following</span>
                       </span>
                     </h6>
@@ -172,7 +153,7 @@ const Profile = ({match}) => {
                 </div>
                 <div className="modal-body">
                   <ul className="user-list">
-                    {users.map((u) => (
+                    {profileData.profile.followers.map((u) => (
                       <li key={u.username} className="user-list-item">
                         <UserTag
                           profilePicture={u.profilePicture}
@@ -209,7 +190,7 @@ const Profile = ({match}) => {
                 </div>
                 <div className="modal-body">
                   <ul className="user-list">
-                    {users.map((u) => (
+                    {profileData.profile.following.map((u) => (
                       <li key={u.username} className="user-list-item">
                         <UserTag
                           profilePicture={u.profilePicture}
