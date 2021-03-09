@@ -1,10 +1,32 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import { Link } from 'react-router-dom';
 import logo from '../../static/image/logo.png';
+import axios from 'axios';
 
 const Header = () => {
   const [auth, setAuth] = useContext(AuthContext);
+  const [searchData, setSearchData] = useState([]);
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    const timeOutId = setTimeout(() => editSearchTerm(), 500);
+    return () => clearTimeout(timeOutId);
+  }, [query]);
+
+  const editSearchTerm = async () => {
+    if (query.length > 0) {
+      try {
+        const res = await axios.get('/api/users/search/' + query);
+        setSearchData(res.data);
+        console.log(res);
+      } catch (err) {
+        console.log('Error while fetching Users');
+      }
+    } else {
+      setSearchData([]);
+    }
+  };
 
   const logout = async () => {
     console.log('ByeBye!');
@@ -45,7 +67,7 @@ const Header = () => {
             <span className="logo logo-X">X</span>
           </div>
         </Link>
-        {auth.isAuthenticated && (
+        {auth.isAuthenticated && auth.user !== null && (
           <>
             <button
               type="button"
@@ -63,14 +85,34 @@ const Header = () => {
                 <form className="form-inline">
                   <div className="input-group">
                     <input
+                      data-toggle="dropdown"
+                      onChange={(e) => setQuery(e.target.value)}
                       type="text"
-                      className="form-control"
+                      className="form-control user-search-field"
                       placeholder="Search..."
                     />
-                    <div className="input-group-append">
-                      <button type="button" className="btn btn-secondary">
-                        <i className="fa fa-search"></i>
-                      </button>
+                    <div className="input-group-append adjust-search-icon">
+                      <i className="fa fa-search user-search-icon"></i>
+                    </div>
+                    <div
+                      className={`${searchData.length === 0 ? 'hidden' : ''}`}
+                    >
+                      <div className="dropdown-menu">
+                        {searchData.map((user) => (
+                          <Link
+                            className="dropdown-item"
+                            key={user._id}
+                            to={`/profile/${user.username}`}
+                          >
+                            <img
+                              className="smallProfilePicture"
+                              src={user.profilePicture}
+                              alt="Profile"
+                            ></img>
+                            {user.username}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </form>
@@ -89,7 +131,10 @@ const Header = () => {
                     <i className="fa fa-user-circle-o fa-lg"></i>
                   </a>
                   <div className="dropdown-menu dropdown-menu-sm-right">
-                    <Link className="dropdown-item" to="/profile">
+                    <Link
+                      className="dropdown-item"
+                      to={`/profile/${auth.user.username}`}
+                    >
                       Profile
                     </Link>
                     <a onClick={logout} className="dropdown-item" href="#!">

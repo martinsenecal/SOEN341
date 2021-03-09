@@ -291,6 +291,7 @@ input .search-query {
 #comment-list ul {
   list-style: none;
   padding: 0;
+  max-width: 96%;
 }
 
 #comment-list li {
@@ -322,6 +323,31 @@ input .search-query {
   border-color: #455bd4;
 }
 
+.hidden {
+  display: none !important;
+}
+
+.smallProfilePicture {
+  width: 25px;
+  margin-right: 5px;
+}
+
+.user-search-icon {
+  width: 25px;
+  background-color: #6f7dc8;
+  border: 1px solid#6f7dc8 !important;
+  color: white !important;
+  line-height: 35px;
+  font-size: 15px;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.adjust-search-icon {
+  margin-left: -23px;
+  z-index: 9999;
+}
+
 .btn-outline-primary {
   color: #3f51b5;
   border-color: #3f51b5;
@@ -340,4 +366,13 @@ input .search-query {
 .btn-link:hover {
   text-decoration: none;
   font-weight: bold;
+}
+
+.comment-text {
+  white-space: pre-line;
+}
+
+.no-post-message {
+  text-align: center;
+  font-size: large;
 }

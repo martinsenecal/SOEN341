@@ -5,9 +5,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../../../config/config');
 const auth = require('../../middleware/auth');
-
+const Post = require('../../models/Post');
 const User = require('../../models/User');
-const Follow = require('../../models/Follow');
+const mongoose = require('mongoose');
 
 // @route   Post api/users
 // @desc    Register user
@@ -89,15 +89,101 @@ router.get('/:username', auth, async (req, res) => {
     const profile = await User.findOne({
       username: req.params.username,
     }).select('-password');
-    // Find Follow (followers and following) of this user.
-    // const follow = await Follow.find({ follower: profile }); // might break something
-    // Find all the posts of this user.
 
     if (!profile) {
       return res.status(400).json({ msg: 'There is no profile for this user' });
     }
 
     res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   PUT api/users/follow/:user_id
+// @desc    Follow a user
+// @access  Private
+router.put('/follow/:user_id', auth, async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.user.id).select('-password');
+    const followedUser = await User.findById(req.params.user_id).select(
+      '-password'
+    );
+    //add followed user inside the current user following
+    //check if already following
+    if (
+      currentUser.following.find((o) => o.user_id == followedUser.id) ===
+      undefined
+    ) {
+      currentUser.following.push({
+        user_id: followedUser.id,
+        username: followedUser.username,
+        profilePicture: followedUser.profilePicture,
+      });
+    } else {
+      return res.status(400).json({ msg: 'Already following this user' });
+    }
+
+    //add current user to the followed user's followers
+    if (
+      followedUser.followers.find((o) => o.user_id == currentUser.id) ===
+      undefined
+    ) {
+      followedUser.followers.push({
+        user_id: currentUser.id,
+        username: currentUser.username,
+        profilePicture: currentUser.profilePicture,
+      });
+    }
+    await currentUser.save();
+    await followedUser.save();
+
+    res.json({ msg: 'User have been followed successfully!' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   DELETE api/users/follow/:user_id
+// @desc    Remove a user following
+// @access  Private
+router.delete('/follow/:user_id', auth, async (req, res) => {
+  try {
+    const currentUser = await User.findById(req.user.id).select('-password');
+    const followedUser = await User.findById(req.params.user_id).select(
+      '-password'
+    );
+    //remove followed user inside the current user following
+    currentUser.following = currentUser.following.filter((obj) => {
+      return obj.user_id != followedUser.id;
+    });
+
+    //remove current user to the followed user's followers
+    followedUser.followers = followedUser.followers.filter((obj) => {
+      return obj.user_id != currentUser.id;
+    });
+    await currentUser.save();
+    await followedUser.save();
+
+    res.json({ msg: 'User have been un-followed successfully!' });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+// @route   GET api/users/posts/:username
+// @desc    Get all posts by user
+// @access  Private
+router.get('/posts/:username', auth, async (req, res) => {
+  try {
+    const posts = await Post.find({
+      username: req.params.username,
+    }).select();
+
+    res.json(posts);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -170,5 +256,26 @@ router.put(
     }
   }
 );
+
+// @route   GET api/users/search/:search_term
+// @desc    Get user objects matching search term
+// @access  Private
+router.get('/search/:search_term', auth, async (req, res) => {
+  try {
+    //return array of users
+    const users = await User.find({
+      //match either username or name to search term
+      $or: [
+        { username: { $regex: req.params.search_term, $options: 'i' } },
+        { name: { $regex: req.params.search_term, $options: 'i' } },
+      ],
+    }).select('-password');
+
+    res.json(users);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
