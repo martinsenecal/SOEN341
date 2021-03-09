@@ -1,8 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Link} from 'react-router-dom';
 import FollowButton from './FollowButton';
 
+import {AuthContext} from '../../context/AuthContext';
+
 const UserTag = ({username, profilePicture}) => {
+  const [auth] = useContext(AuthContext);
   return (
     <div className="row align-items-center">
       <div className="col-auto">
@@ -26,7 +29,7 @@ const UserTag = ({username, profilePicture}) => {
       <div className="col">
         {
           //visiting user to be switched to auth.user in condition, removed from follow button
-          username === visitingUser.username ? (
+          username === auth.user.username ? (
             ''
           ) : (
             <FollowButton extraClass="btn-sm py-0" username={username} />
