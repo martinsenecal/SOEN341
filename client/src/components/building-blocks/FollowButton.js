@@ -1,23 +1,35 @@
-import React from 'react';
+import {set} from 'mongoose';
+import React, {useContext} from 'react';
 import {useState} from 'react';
 
-const FollowButton = ({username, extraClass, visiting}) => {
-  //default state depends on whether profile's user is in logged-in user's "following" list (variable 'visiting' to be replaced)
-  const [authUser, setAuthUser] = useState(visiting);
+import {AuthContext} from '../../context/AuthContext';
+
+//default state depends on whether user is viewing the usertag of someone in their following list
+//variable temporary. To be replaced when back end for adding/removing followers is connected
+var followed = false;
+
+const FollowButton = ({username, extraClass}) => {
+  const [auth] = useContext(AuthContext);
+
+  for (var i = 0; i < auth.user.following.length; i++)
+    followed = auth.user.following[i].username === username ? true : false;
+
+  const [isFollowing, setIsFollowing] = useState(followed);
 
   const toggleFollowed = () => {
-    setAuthUser((visiting.isFollowingUser = !visiting.isFollowingUser));
     //add/remove 'username' from auth.user followee list.
+    followed = !followed;
+    setIsFollowing(followed);
   };
 
   return (
     <button
       className={`follow-button btn  ${extraClass} ${
-        visiting.isFollowingUser ? 'btn-outline-primary' : 'btn-primary'
+        isFollowing ? 'btn-outline-primary' : 'btn-primary'
       }`}
       onClick={toggleFollowed}
     >
-      {visiting.isFollowingUser ? 'unfollow' : 'follow'}
+      {isFollowing ? 'unfollow' : 'follow'}
     </button>
   );
 };

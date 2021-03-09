@@ -14,12 +14,6 @@ const Profile = ({match}) => {
   const [auth] = useContext(AuthContext);
   const [profileData, setProfileData] = useContext(ProfileContext);
 
-  //hard-coded example of the user who is viewing the profile. (eventually auth.user)
-  const visitingUser = {
-    username: auth.username,
-    isFollowingUser: true,
-  };
-
   useEffect(() => {
     const getProfile = async () => {
       await fetchProfile(match.params.username);
@@ -93,13 +87,9 @@ const Profile = ({match}) => {
                   <div>{/* <p>{profileData.profile.bio}</p> */}</div>
                   <div>
                     {
-                      //to be replace with auth.user and user who's profile it is (visiting user will not need to be passed)
-                      //*****AAAA FIX THIS! */
+                      //display follow/unfollow button if user is not viewing their own profile
                       auth.user.username !== profileData.profile.username ? (
-                        <FollowButton
-                          username={profileData.profile.username}
-                          visiting={visitingUser}
-                        />
+                        <FollowButton username={profileData.profile.username} />
                       ) : (
                         ''
                       )
