@@ -2,12 +2,6 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import FollowButton from './FollowButton';
 
-//hard-coded example of the user who is viewing the tag. (eventually auth.user)
-const visitingUser = {
-  username: 'example02',
-  isFollowingUser: false,
-};
-
 const UserTag = ({username, profilePicture}) => {
   return (
     <div className="row align-items-center">
@@ -35,11 +29,7 @@ const UserTag = ({username, profilePicture}) => {
           username === visitingUser.username ? (
             ''
           ) : (
-            <FollowButton
-              extraClass="btn-sm py-0"
-              username={username}
-              visiting={visitingUser}
-            />
+            <FollowButton extraClass="btn-sm py-0" username={username} />
           )
         }
       </div>
