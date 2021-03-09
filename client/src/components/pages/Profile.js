@@ -10,22 +10,6 @@ import Spinner from '../building-blocks/Spinner';
 import {AuthContext} from '../../context/AuthContext';
 import {ProfileContext} from '../../context/ProfileContext';
 
-//hard-coded example of the user who's profile is being viewed
-const user = {
-  username: 'example01',
-  bio: ' user defined bio',
-  profilePicture:
-    'https://images.unsplash.com/photo-1613140952277-1c6bd0386ff5?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80',
-  followingNumber: 1257,
-  followerNumber: 12,
-};
-
-//hard-coded example of the user who is viewing the profile. (eventually auth.user)
-const visitingUser = {
-  username: 'example02',
-  isFollowingUser: false,
-};
-
 //Hard-coded list of users to test follower/following lists
 const users = [
   {
@@ -48,6 +32,12 @@ const users = [
 const Profile = ({match}) => {
   const [auth] = useContext(AuthContext);
   const [profileData, setProfileData] = useContext(ProfileContext);
+
+  //hard-coded example of the user who is viewing the profile. (eventually auth.user)
+  const visitingUser = {
+    username: auth.username,
+    isFollowingUser: true,
+  };
 
   useEffect(() => {
     const getProfile = async () => {
@@ -124,7 +114,7 @@ const Profile = ({match}) => {
                     {
                       //to be replace with auth.user and user who's profile it is (visiting user will not need to be passed)
                       //*****AAAA FIX THIS! */
-                      visitingUser !== auth.user.username ? (
+                      auth.user.username !== profileData.profile.username ? (
                         <FollowButton
                           username={profileData.profile.username}
                           visiting={visitingUser}
