@@ -17,7 +17,6 @@ const FollowButton = ({ userId, extraClass }) => {
   useEffect(() => {
     let followed = false;
     for (let i = 0; i < auth.user.following.length; i++) {
-      // will be wrong, authentication doesnt have the latest: maybe set Auth also?
       if (auth.user.following[i].user_id === userId) {
         followed = true;
         break;
@@ -96,9 +95,7 @@ const FollowButton = ({ userId, extraClass }) => {
       }
       console.log(res);
     } catch (error) {
-      if (error.response) {
-        console.log(error.response.data.errors[0].msg); // => the response payload
-      }
+      console.log(error);
     }
   };
 
