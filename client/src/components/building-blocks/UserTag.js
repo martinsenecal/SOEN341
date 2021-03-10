@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, {useContext} from 'react';
+import {Link} from 'react-router-dom';
 
 import FollowButton from './FollowButton';
 
-import { AuthContext } from '../../context/AuthContext';
+import {AuthContext} from '../../context/AuthContext';
 
-const UserTag = ({ userId, username, profilePicture }) => {
+const UserTag = ({userId, username, profilePicture}) => {
   const [auth] = useContext(AuthContext);
   return (
     <div className="row align-items-center">
@@ -29,7 +29,7 @@ const UserTag = ({ userId, username, profilePicture }) => {
       </div>
       <div className="col">
         {
-          //visiting user to be switched to auth.user in condition, removed from follow button
+          //show button only if not the tag of the auth.user
           username === auth.user.username ? (
             ''
           ) : (

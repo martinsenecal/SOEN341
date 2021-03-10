@@ -1,14 +1,13 @@
 import axios from 'axios';
-import React, { useContext } from 'react';
-import { useState, useEffect } from 'react';
+import React, {useContext} from 'react';
+import {useState, useEffect} from 'react';
 
-import { AuthContext } from '../../context/AuthContext';
-import { ProfileContext } from '../../context/ProfileContext';
+import {AuthContext} from '../../context/AuthContext';
+import {ProfileContext} from '../../context/ProfileContext';
 
 //default state depends on whether user is viewing the usertag of someone in their following list
-//variable temporary. To be replaced when back end for adding/removing followers is connected
 
-const FollowButton = ({ userId, extraClass }) => {
+const FollowButton = ({userId, extraClass}) => {
   const [auth, setAuth] = useContext(AuthContext);
   const [profileData, setProfileData] = useContext(ProfileContext);
 
@@ -26,7 +25,6 @@ const FollowButton = ({ userId, extraClass }) => {
   }, [userId, auth.user.following]);
 
   const toggleFollowed = () => {
-    console.log(userId);
     if (isFollowing) {
       unfollowUser(userId);
     } else {
