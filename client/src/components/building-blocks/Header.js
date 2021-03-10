@@ -12,7 +12,7 @@ const Header = () => {
   useEffect(() => {
     const timeOutId = setTimeout(() => editSearchTerm(), 500);
     return () => clearTimeout(timeOutId);
-  }, [query]);
+  }, [query]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const editSearchTerm = async () => {
     if (query.length > 0) {

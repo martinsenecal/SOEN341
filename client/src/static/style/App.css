@@ -148,6 +148,13 @@ input .search-query {
   text-decoration: none;
 }
 
+/* follow button styling */
+.follow-button:active,
+.follow-button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 /* Styling for image card*/
 .card-profile-picture-container {
   height: 30px;
@@ -217,6 +224,17 @@ input .search-query {
   width: 100%;
 }
 
+/* Styling for following/follwer list on profile*/
+.user-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.user-list-item {
+  padding: 0.5em 0;
+}
+
 /* feed styling */
 #feed-list {
   margin: 2em auto auto auto;
@@ -260,9 +278,10 @@ input .search-query {
   transform: translateX(-50%);
 }
 
-.info-display {
+/* comment styling */
+.add-comment-display {
+  background-color: #fafafa;
 }
-
 #comment-list {
   margin: 15px 0;
   max-height: 30em;
@@ -283,17 +302,25 @@ input .search-query {
   padding-left: 5px;
 }
 
-/* comment styline */
 .image-card .add-comment-display {
   background-color: white;
 }
 
+#comment-list .follow-button,
+#feed-list .follow-button {
+  display: none;
+}
 /*bootstrap style overrides */
 
 .btn-primary {
   color: #fff;
   background-color: #3f51b5;
   border-color: #3f51b5;
+}
+
+.btn-primary:hover {
+  background-color: #455bd4;
+  border-color: #455bd4;
 }
 
 .hidden {
@@ -323,6 +350,11 @@ input .search-query {
 
 .btn-outline-primary {
   color: #3f51b5;
+  border-color: #3f51b5;
+}
+
+.btn-outline-primary:hover {
+  background-color: #3f51b5;
   border-color: #3f51b5;
 }
 
