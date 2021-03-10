@@ -1,13 +1,13 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Moment from 'react-moment';
 import axios from 'axios';
 
 import UserTag from '../building-blocks/UserTag';
 import Spinner from '../building-blocks/Spinner';
 
-import {PostContext} from '../../context/PostContext';
+import { PostContext } from '../../context/PostContext';
 
-const PhotoPage = ({match}) => {
+const PhotoPage = ({ match }) => {
   const [postData, setPostData] = useContext(PostContext);
   const [text, setText] = useState(''); // Local State for Comment
 
@@ -85,6 +85,7 @@ const PhotoPage = ({match}) => {
                   <div className="info-display container pt-3">
                     <div>
                       <UserTag
+                        userId={postData.post.user}
                         profilePicture={postData.post.profilePicture}
                         username={postData.post.username}
                       />
@@ -128,6 +129,7 @@ const PhotoPage = ({match}) => {
                             <div className="comment">
                               <UserTag
                                 key={comment._id}
+                                userId={comment.user}
                                 profilePicture={comment.profilePicture}
                                 username={comment.username}
                               />
@@ -160,7 +162,7 @@ const PhotoPage = ({match}) => {
                       className="form-row align-items-center"
                       onSubmit={(e) => {
                         e.preventDefault();
-                        addComment(postData.post._id, {text});
+                        addComment(postData.post._id, { text });
                         setText('');
                       }}
                     >

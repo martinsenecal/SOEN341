@@ -1,25 +1,70 @@
-import {set} from 'mongoose';
-import React, {useContext} from 'react';
-import {useState} from 'react';
+import axios from 'axios';
+import React, { useContext } from 'react';
+import { useState, useEffect } from 'react';
 
-import {AuthContext} from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
+import { ProfileContext } from '../../context/ProfileContext';
 
 //default state depends on whether user is viewing the usertag of someone in their following list
 //variable temporary. To be replaced when back end for adding/removing followers is connected
-var followed = false;
 
-const FollowButton = ({username, extraClass}) => {
+const FollowButton = ({ userId, extraClass }) => {
   const [auth] = useContext(AuthContext);
+  const [profileData, setProfileData] = useContext(ProfileContext);
 
-  for (var i = 0; i < auth.user.following.length; i++)
-    followed = auth.user.following[i].username === username ? true : false;
+  const [isFollowing, setIsFollowing] = useState(false);
 
-  const [isFollowing, setIsFollowing] = useState(followed);
+  useEffect(() => {
+    let followed = false;
+    for (let i = 0; i < auth.user.following.length; i++) {
+      if (auth.user.following[i].user_id === userId) {
+        followed = true;
+        break;
+      }
+    }
+    setIsFollowing(followed);
+  }, []);
 
   const toggleFollowed = () => {
-    //add/remove 'username' from auth.user followee list.
-    followed = !followed;
-    setIsFollowing(followed);
+    console.log(userId);
+    if (isFollowing) {
+      unfollowUser(userId);
+    } else {
+      followUser(userId);
+    }
+    setIsFollowing(!isFollowing);
+  };
+
+  const followUser = async (id) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      const res = await axios.put(`/api/users/follow/${id}`, config);
+      console.log(res);
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.errors[0].msg); // => the response payload
+      }
+    }
+  };
+
+  const unfollowUser = async (id) => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    try {
+      const res = await axios.delete(`/api/users/follow/${id}`, config);
+      console.log(res);
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.data.errors[0].msg); // => the response payload
+      }
+    }
   };
 
   return (

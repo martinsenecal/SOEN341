@@ -1,10 +1,11 @@
-import React, {useContext} from 'react';
-import {Link} from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+
 import FollowButton from './FollowButton';
 
-import {AuthContext} from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
-const UserTag = ({username, profilePicture}) => {
+const UserTag = ({ userId, username, profilePicture }) => {
   const [auth] = useContext(AuthContext);
   return (
     <div className="row align-items-center">
@@ -32,7 +33,7 @@ const UserTag = ({username, profilePicture}) => {
           username === auth.user.username ? (
             ''
           ) : (
-            <FollowButton extraClass="btn-sm py-0" username={username} />
+            <FollowButton extraClass="btn-sm py-0" userId={userId} />
           )
         }
       </div>

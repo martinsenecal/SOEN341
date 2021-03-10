@@ -1,14 +1,15 @@
 import React from 'react';
 import Moment from 'react-moment';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import UserTag from './UserTag';
 
-const ImageCard = ({photo}) => {
+const ImageCard = ({ photo }) => {
   return (
     <div className="card image-card">
       <div className="card-header p-1 poster-info-display">
         <UserTag
+          userId={photo.user}
           profilePicture={photo.profilePicture}
           username={photo.username}
         />

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
 
 import ImageCard from '../building-blocks/ImageCard';
@@ -7,10 +7,10 @@ import formatNumber from '../../utils/numberFormat';
 import UserTag from '../building-blocks/UserTag';
 import Spinner from '../building-blocks/Spinner';
 
-import {AuthContext} from '../../context/AuthContext';
-import {ProfileContext} from '../../context/ProfileContext';
+import { AuthContext } from '../../context/AuthContext';
+import { ProfileContext } from '../../context/ProfileContext';
 
-const Profile = ({match}) => {
+const Profile = ({ match }) => {
   const [auth] = useContext(AuthContext);
   const [profileData, setProfileData] = useContext(ProfileContext);
 
@@ -18,7 +18,6 @@ const Profile = ({match}) => {
     const getProfile = async () => {
       await fetchProfile(match.params.username);
     };
-
     getProfile();
   }, [match.params.username]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -89,7 +88,7 @@ const Profile = ({match}) => {
                     {
                       //display follow/unfollow button if user is not viewing their own profile
                       auth.user.username !== profileData.profile.username ? (
-                        <FollowButton username={profileData.profile.username} />
+                        <FollowButton userId={profileData.profile._id} />
                       ) : (
                         ''
                       )
@@ -146,6 +145,7 @@ const Profile = ({match}) => {
                     {profileData.profile.followers.map((u) => (
                       <li key={u.username} className="user-list-item">
                         <UserTag
+                          userId={u.user_id}
                           profilePicture={u.profilePicture}
                           username={u.username}
                         />
@@ -183,6 +183,7 @@ const Profile = ({match}) => {
                     {profileData.profile.following.map((u) => (
                       <li key={u.username} className="user-list-item">
                         <UserTag
+                          userId={u.user_id}
                           profilePicture={u.profilePicture}
                           username={u.username}
                         />
