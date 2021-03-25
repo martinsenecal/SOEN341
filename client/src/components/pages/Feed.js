@@ -17,11 +17,11 @@ const Feed = () => {
       await fetchPosts();
     };
     getPosts();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [auth.user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchPosts = async () => {
     try {
-      const res = await axios.get('/api/feed');
+      const res = await axios.get(`/api/feed/${auth.user._id}`);
       setPostData({
         ...postData,
         posts: res.data,
@@ -32,16 +32,16 @@ const Feed = () => {
     }
   };
 
-  return (
-    <>
-      {auth.loading ||
-      auth.user === null ||
-      postData.loading ||
-      postData.posts === null ? (
-        <Spinner />
-      ) : (
-        <>
-          {' '}
+  const renderFeed = () => {
+    return (
+      <>
+        {postData.posts.length <= 0 ? (
+          <div className="container">
+            <h2>Oops!</h2>
+            <h3>No post found...</h3>
+            <Spinner />
+          </div>
+        ) : (
           <div className="container">
             <div id="feed-list" className="container w-50">
               <div className="row">
@@ -51,7 +51,17 @@ const Feed = () => {
               </div>
             </div>
           </div>
-        </>
+        )}
+      </>
+    );
+  };
+
+  return (
+    <>
+      {auth.loading || auth.user === null || postData.loading ? (
+        <Spinner />
+      ) : (
+        renderFeed()
       )}
     </>
   );

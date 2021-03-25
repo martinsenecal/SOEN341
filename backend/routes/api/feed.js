@@ -57,9 +57,19 @@ router.get('/posts/:id', auth, async (req, res) => {
 // @route    GET api/feed
 // @desc     Get all posts
 // @access   Private
-router.get('/', auth, async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   try {
-    const posts = await Post.find().sort({ date: -1 }); //Sort by most recent
+    const userId = req.params.id;
+    const rawObjectUserFollowing = await User.findById(userId).select(
+      'following'
+    );
+    const rawArrayUserFollowing = rawObjectUserFollowing.following;
+    const userFollowing = rawArrayUserFollowing.map((item) => {
+      return item['user_id'];
+    });
+    const posts = await Post.find({ user: { $in: userFollowing } }).sort({
+      date: -1,
+    }); //Sort by most recent
     res.json(posts);
   } catch (err) {
     console.error(err.message);
