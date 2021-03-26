@@ -1,13 +1,13 @@
 import axios from 'axios';
-import React, {useContext} from 'react';
-import {useState, useEffect} from 'react';
+import React, { useContext } from 'react';
+import { useState, useEffect } from 'react';
 
-import {AuthContext} from '../../context/AuthContext';
-import {ProfileContext} from '../../context/ProfileContext';
+import { AuthContext } from '../../context/AuthContext';
+import { ProfileContext } from '../../context/ProfileContext';
 
 //default state depends on whether user is viewing the usertag of someone in their following list
 
-const FollowButton = ({userId, extraClass}) => {
+const FollowButton = ({ userId, extraClass }) => {
   const [auth, setAuth] = useContext(AuthContext);
   const [profileData, setProfileData] = useContext(ProfileContext);
 
@@ -58,7 +58,6 @@ const FollowButton = ({userId, extraClass}) => {
           profile: res.data[1],
         });
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
@@ -91,7 +90,6 @@ const FollowButton = ({userId, extraClass}) => {
           profile: res.data[1],
         });
       }
-      console.log(res);
     } catch (error) {
       console.log(error);
     }
