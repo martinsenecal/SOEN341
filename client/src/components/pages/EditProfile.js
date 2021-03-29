@@ -1,11 +1,12 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
-import {AuthContext} from '../../context/AuthContext';
 import UploadImage from '../posts/UploadImage';
 import Spinner from '../building-blocks/Spinner';
 
-const EditProfile = ({match}) => {
+import { AuthContext } from '../../context/AuthContext';
+
+const EditProfile = ({ match }) => {
   const [auth] = useContext(AuthContext);
 
   const [username, setUsername] = useState('');
@@ -13,10 +14,11 @@ const EditProfile = ({match}) => {
   const [profilePicture, setProfilePicture] = useState('');
 
   useEffect(() => {
-    setUsername(auth.user.username);
-    setBio(auth.user.bio);
-    setProfilePicture(auth.user.profilePicture);
-  }, [auth.user]);
+    // setUsername(auth.user.username);
+    // setBio(auth.user.bio);
+    // setProfilePicture(auth.user.profilePicture);
+    // To Do: setup backend + check example from EditProfile (Brad)
+  }, []);
 
   return (
     <>
@@ -26,11 +28,11 @@ const EditProfile = ({match}) => {
         <div className="container mt-5">
           <form>
             <div id="edit-pic" className="row">
-              <label for="profilePic" className="col-sm-2 col-form-label">
+              <label className="col-sm-2 col-form-label">
                 <strong>Profile picture</strong>
               </label>
               <div className="edit-profile-photo-container">
-                <img src={profilePicture} />
+                <img src={profilePicture} alt="Profile" />
               </div>
               <div id="pic-edit-icons">
                 <span
@@ -40,7 +42,7 @@ const EditProfile = ({match}) => {
                   data-target="#edit-photo-modal"
                   role="button"
                 >
-                  <i class="fa fa-pencil"></i>
+                  <i className="fa fa-pencil"></i>
                 </span>
                 <span
                   id="delete-photo-icon"
@@ -49,13 +51,13 @@ const EditProfile = ({match}) => {
                   data-target="#delete-photo-modal"
                   role="button"
                 >
-                  <i class="fa fa-trash-o"></i>
+                  <i className="fa fa-trash-o"></i>
                 </span>
               </div>
             </div>
             {/* Portion of form for editing username and bio*/}
             <div id="edit-profile-form" className="form-group row">
-              <label for="username" className="col-sm-2 col-form-label">
+              <label className="col-sm-2 col-form-label">
                 <strong>Username</strong>
               </label>
               <div className="col-sm-10">
@@ -69,7 +71,7 @@ const EditProfile = ({match}) => {
               </div>
             </div>
             <div className="form-group row">
-              <label for="bio" className="col-sm-2 col-form-label">
+              <label className="col-sm-2 col-form-label">
                 <strong>Bio</strong>
               </label>
               <div className="col-sm-10">
