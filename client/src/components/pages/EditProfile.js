@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import axios from 'axios';
 
 import {AuthContext} from '../../context/AuthContext';
@@ -7,6 +7,16 @@ import Spinner from '../building-blocks/Spinner';
 
 const EditProfile = ({match}) => {
   const [auth] = useContext(AuthContext);
+
+  const [username, setUsername] = useState('');
+  const [bio, setBio] = useState('');
+  const [profilePicture, setProfilePicture] = useState('');
+
+  useEffect(() => {
+    setUsername(auth.user.username);
+    setBio(auth.user.bio);
+    setProfilePicture(auth.user.profilePicture);
+  }, [auth.user]);
 
   return (
     <>
@@ -20,7 +30,7 @@ const EditProfile = ({match}) => {
                 <strong>Profile picture</strong>
               </label>
               <div className="edit-profile-photo-container">
-                <img src={auth.user.profilePicture} />
+                <img src={profilePicture} />
               </div>
               <div id="pic-edit-icons">
                 <span
@@ -53,7 +63,8 @@ const EditProfile = ({match}) => {
                   type="text"
                   className="form-control"
                   id="username"
-                  placeholder={auth.user.username}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </div>
             </div>
@@ -66,7 +77,8 @@ const EditProfile = ({match}) => {
                   type="text"
                   className="form-control"
                   id="bio"
-                  placeholder={auth.user.bio}
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
                 />
               </div>
             </div>
