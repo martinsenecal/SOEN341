@@ -146,8 +146,7 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
 // @access  Private
 
 router.post(
-  '/like/:id',
-  [auth, [check('text', 'Text is required').not().isEmpty()]],
+  '/like/:id',auth,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
