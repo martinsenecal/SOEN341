@@ -235,6 +235,53 @@ input .search-query {
   padding: 0.5em 0;
 }
 
+#edit-profile-form ::placeholder {
+  color: #495057 !important;
+}
+
+#edit-profile-form ::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #495057 !important;
+}
+#edit-profile-form ::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #495057 !important;
+}
+#edit-profile-form :-ms-input-placeholder {
+  /* IE 10+ */
+  color: #495057 !important;
+}
+#edit-profile-form :-moz-placeholder {
+  /* Firefox 18- */
+  color: #495057 !important;
+}
+
+.edit-profile-photo-container {
+  width: 75px;
+  padding-top: 75px;
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+}
+#pic-edit-icons {
+  font-size: 1.5em;
+  color: #aaa;
+  line-height: 75px;
+  vertical-align: middle;
+}
+#pic-edit-icons i {
+  padding-left: 2px;
+}
+#edit-pic img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 75px;
+  height: 75px;
+  object-fit: cover;
+}
+
 /* feed styling */
 #feed-list {
   margin: 2em auto auto auto;

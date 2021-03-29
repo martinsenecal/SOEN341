@@ -1,5 +1,5 @@
 // General Import
-import React, { useEffect, useContext } from 'react';
+import React, {useEffect, useContext} from 'react';
 import axios from 'axios';
 import {
   BrowserRouter as Router,
@@ -16,13 +16,14 @@ import Landing from './components/pages/Landing';
 import Feed from './components/pages/Feed';
 import Header from './components/building-blocks/Header';
 import Profile from './components/pages/Profile';
+import EditProfile from './components/pages/EditProfile';
 import PhotoPage from './components/pages/PhotoPage';
 import PostForm from './components/posts/PostForm';
 
 // Context (State) Import
-import { AuthContext } from './context/AuthContext';
+import {AuthContext} from './context/AuthContext';
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const PrivateRoute = ({component: Component, ...rest}) => {
   const [auth] = useContext(AuthContext);
   return (
     <Route
@@ -77,6 +78,7 @@ const ChildApp = () => {
         <Route exact path="/signup" component={SignUp} />
         <PrivateRoute exact path="/feed" component={Feed} />
         <PrivateRoute exact path="/profile/:username" component={Profile} />
+        <PrivateRoute exact path="/editProfile/" component={EditProfile} />
         <PrivateRoute exact path="/posts/:id" component={PhotoPage} />
         <PrivateRoute exact path="/postForm" component={PostForm} />
       </Switch>

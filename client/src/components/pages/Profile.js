@@ -1,5 +1,6 @@
-import React, { useContext, useEffect } from 'react';
+import React, {useContext, useEffect} from 'react';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 import ImageCard from '../building-blocks/ImageCard';
 import FollowButton from '../building-blocks/FollowButton';
@@ -7,10 +8,10 @@ import formatNumber from '../../utils/numberFormat';
 import UserTag from '../building-blocks/UserTag';
 import Spinner from '../building-blocks/Spinner';
 
-import { AuthContext } from '../../context/AuthContext';
-import { ProfileContext } from '../../context/ProfileContext';
+import {AuthContext} from '../../context/AuthContext';
+import {ProfileContext} from '../../context/ProfileContext';
 
-const Profile = ({ match }) => {
+const Profile = ({match}) => {
   const [auth] = useContext(AuthContext);
   const [profileData, setProfileData] = useContext(ProfileContext);
 
@@ -90,7 +91,9 @@ const Profile = ({ match }) => {
                       auth.user.username !== profileData.profile.username ? (
                         <FollowButton userId={profileData.profile._id} />
                       ) : (
-                        ''
+                        <Link to="/editProfile" className="btn btn-primary">
+                          Edit Profile
+                        </Link>
                       )
                     }
                   </div>
