@@ -22,6 +22,6 @@ it('renders with or without a name', () => {
   act(() => {
     render(<LikeButton liked="true" />, container);
   });
-  console.log(container);
+  
   expect(container.classList.contains('fa-heart')).toBe(false);
 });

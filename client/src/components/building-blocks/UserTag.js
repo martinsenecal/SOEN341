@@ -22,7 +22,7 @@ const UserTag = ({userId, username, profilePicture}) => {
               </div>
             </div>
             <div className="col">
-              <div className="text-muted d-inline-block">{username}</div>
+              <div data-testid="usernameLabelUserTag" className="text-muted d-inline-block">{username}</div>
             </div>
           </div>
         </Link>

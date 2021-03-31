@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Copyright Test 1`] = `
+<p
+  className="MuiTypography-root MuiTypography-body2 MuiTypography-colorTextSecondary MuiTypography-alignCenter"
+>
+  Copyright © 
+  <a
+    color="inherit"
+    href="/"
+    onClick={[Function]}
+  >
+    PhotoX
+  </a>
+   
+  2021
+  .
+</p>
+`;

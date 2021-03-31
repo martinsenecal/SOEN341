@@ -58,7 +58,7 @@ const Profile = ({ match }) => {
               <div className="col-8">
                 <div className="container p-4">
                   <div>
-                    <h3>{profileData.profile.username}</h3>
+                    <h3 data-testid="usernameLabelProfile">{profileData.profile.username}</h3>
                   </div>
                   <div>
                     <h6>
