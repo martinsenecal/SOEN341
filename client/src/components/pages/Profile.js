@@ -1,6 +1,6 @@
-import React, {useContext, useEffect} from 'react';
+import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import ImageCard from '../building-blocks/ImageCard';
 import FollowButton from '../building-blocks/FollowButton';
@@ -8,10 +8,10 @@ import formatNumber from '../../utils/numberFormat';
 import UserTag from '../building-blocks/UserTag';
 import Spinner from '../building-blocks/Spinner';
 
-import {AuthContext} from '../../context/AuthContext';
-import {ProfileContext} from '../../context/ProfileContext';
+import { AuthContext } from '../../context/AuthContext';
+import { ProfileContext } from '../../context/ProfileContext';
 
-const Profile = ({match}) => {
+const Profile = ({ match }) => {
   const [auth] = useContext(AuthContext);
   const [profileData, setProfileData] = useContext(ProfileContext);
 
@@ -59,7 +59,10 @@ const Profile = ({match}) => {
               <div className="col-8">
                 <div className="container p-4">
                   <div>
-                    <h3>{profileData.profile.username}</h3>
+                    <h3>
+                      {profileData.profile.name} @(
+                      {profileData.profile.username})
+                    </h3>
                   </div>
                   <div>
                     <h6>
@@ -84,7 +87,9 @@ const Profile = ({match}) => {
                       </span>
                     </h6>
                   </div>
-                  <div>{/* <p>{profileData.profile.bio}</p> */}</div>
+                  <div>
+                    <p>{profileData.profile.bio}</p>
+                  </div>
                   <div>
                     {
                       //display follow/unfollow button if user is not viewing their own profile

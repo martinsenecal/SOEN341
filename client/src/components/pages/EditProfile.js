@@ -6,19 +6,60 @@ import Spinner from '../building-blocks/Spinner';
 
 import { AuthContext } from '../../context/AuthContext';
 
+//Make Name required, and profile pic also... or if no pic, then default pic.
 const EditProfile = ({ match }) => {
   const [auth] = useContext(AuthContext);
 
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [bio, setBio] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
 
   useEffect(() => {
-    // setUsername(auth.user.username);
-    // setBio(auth.user.bio);
-    // setProfilePicture(auth.user.profilePicture);
-    // To Do: setup backend + check example from EditProfile (Brad)
-  }, []);
+    const getUser = async () => {
+      await fetchUser();
+    };
+    getUser();
+  }, [auth.user]);
+
+  const fetchUser = async () => {
+    try {
+      const res = await axios.get(`/api/users/${auth.user.username}`);
+      const resData = res.data;
+      setName(resData.name);
+      setBio(resData.bio);
+      setProfilePicture(resData.profilePicture);
+    } catch (err) {
+      console.log('Error while fetching User');
+    }
+  };
+
+  const handleUploadModification = async () => {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const modification = {
+      username: auth.user.username,
+      name: name,
+      bio: bio,
+      profilePicture: profilePicture,
+    };
+
+    try {
+      await axios.put(
+        'http://localhost:5000/api/users/settings',
+        modification,
+        config
+      );
+
+      console.log('done');
+    } catch (error) {
+      //setError(true);
+      console.log('Error while saving modification...');
+    }
+  };
 
   return (
     <>
@@ -55,18 +96,18 @@ const EditProfile = ({ match }) => {
                 </span>
               </div>
             </div>
-            {/* Portion of form for editing username and bio*/}
+            {/* Portion of form for editing Name and bio*/}
             <div id="edit-profile-form" className="form-group row">
               <label className="col-sm-2 col-form-label">
-                <strong>Username</strong>
+                <strong>Name</strong>
               </label>
               <div className="col-sm-10">
                 <input
                   type="text"
                   className="form-control"
-                  id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
             </div>
@@ -84,7 +125,11 @@ const EditProfile = ({ match }) => {
                 />
               </div>
             </div>
-            <button type="button" className="btn btn-primary float-right">
+            <button
+              type="button"
+              onClick={handleUploadModification}
+              className="btn btn-primary float-right"
+            >
               Save changes
             </button>
           </form>

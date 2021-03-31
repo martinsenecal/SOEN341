@@ -1,9 +1,9 @@
-import React, {useRef, useState, useContext} from 'react';
-import {Redirect} from 'react-router-dom';
+import React, { useRef, useState, useContext } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import UploadImage from './UploadImage';
-import {AuthContext} from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
 const PostForm = () => {
   const [auth] = useContext(AuthContext);
@@ -56,7 +56,7 @@ const PostForm = () => {
       <div className="form-group">
         <label
           htmlFor="Description"
-          style={{marginLeft: '6.5%', fontSize: '15px'}}
+          style={{ marginLeft: '6.5%', fontSize: '15px' }}
         >
           Image Description
         </label>
@@ -73,12 +73,12 @@ const PostForm = () => {
       {error && (
         <p
           className="validationError"
-          style={{marginLeft: '6.95%', marginTop: '0.5em'}}
+          style={{ marginLeft: '6.95%', marginTop: '0.5em' }}
         >
           Image required
         </p>
       )}
-      <div style={{textAlign: 'center'}}>
+      <div style={{ textAlign: 'center' }}>
         <button
           type="button"
           className="btn btn-primary"
