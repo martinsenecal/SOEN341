@@ -1,12 +1,13 @@
-import React, { useContext, useEffect } from 'react';
+import React, {useContext, useEffect} from 'react';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 import ImageCard from '../building-blocks/ImageCard';
 import Spinner from '../building-blocks/Spinner';
 
 // Import State
-import { AuthContext } from '../../context/AuthContext';
-import { PostContext } from '../../context/PostContext';
+import {AuthContext} from '../../context/AuthContext';
+import {PostContext} from '../../context/PostContext';
 
 const Feed = () => {
   const [auth] = useContext(AuthContext);
@@ -37,9 +38,18 @@ const Feed = () => {
       <>
         {postData.posts.length <= 0 ? (
           <div className="container">
-            <h2>Oops!</h2>
-            <h3>No post found...</h3>
-            <Spinner />
+            <div id="feed-no-post-display">
+              <h5>You don't have any posts in your feed yet!</h5>
+              <p>Get started by posting to your profile.</p>
+              <p>
+                <Link to="/postForm" className="btn btn-primary">
+                  Post a photo
+                </Link>
+              </p>
+              <p>
+                You can also use the search bar to find and follow your friends.
+              </p>
+            </div>
           </div>
         ) : (
           <div className="container">
