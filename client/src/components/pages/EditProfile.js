@@ -7,7 +7,6 @@ import Spinner from '../building-blocks/Spinner';
 
 import { AuthContext } from '../../context/AuthContext';
 
-//Make Name required, and profile pic also... or if no pic, then default pic.
 const EditProfile = ({ match }) => {
   const [auth] = useContext(AuthContext);
   const [name, setName] = useState('');
