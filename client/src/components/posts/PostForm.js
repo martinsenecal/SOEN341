@@ -40,7 +40,7 @@ const PostForm = () => {
   };
 
   if (posted) {
-    return <Redirect to="/feed" />;
+    return <Redirect to={`/profile/${auth.user.username}`} />;
   }
   return (
     <div className="postForm">
