@@ -262,6 +262,7 @@ input .search-query {
   overflow: hidden;
   position: relative;
   display: inline-block;
+  text-align: center;
   padding-top: 4px;
   padding-left: 17px;
 }
