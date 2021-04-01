@@ -58,12 +58,14 @@ const Profile = ({ match }) => {
               </div>
               <div className="col-8">
                 <div className="container p-4">
-                  <div>
-                    <h3>
-                      {profileData.profile.name} @(
-                      {profileData.profile.username})
-                    </h3>
-                  </div>
+                  <h3 style={{ display: 'inline' }}>
+                    {profileData.profile.name}
+                  </h3>
+                  <h5 style={{ display: 'inline', paddingLeft: '5px' }}>
+                    @(
+                    {profileData.profile.username})
+                  </h5>
+
                   <div>
                     <h6>
                       <span

@@ -44,15 +44,7 @@ const PostForm = () => {
   }
   return (
     <div className="postForm">
-      <h5
-        style={{
-          textAlign: 'center',
-          marginTop: '0.5em',
-          marginBottom: '1em',
-        }}
-      >
-        Upload a New Photo
-      </h5>
+      <h5 className="formHeading">Upload a New Photo</h5>
       <div className="form-group">
         <label
           htmlFor="Description"

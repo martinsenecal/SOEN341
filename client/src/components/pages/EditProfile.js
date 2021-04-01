@@ -1,4 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useRef, useContext, useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 import UploadImage from '../posts/UploadImage';
@@ -9,10 +10,12 @@ import { AuthContext } from '../../context/AuthContext';
 //Make Name required, and profile pic also... or if no pic, then default pic.
 const EditProfile = ({ match }) => {
   const [auth] = useContext(AuthContext);
-
   const [name, setName] = useState('');
   const [bio, setBio] = useState('');
-  const [profilePicture, setProfilePicture] = useState('');
+  const [profilePic, setProfilePic] = useState('');
+  const uploadImageRef = useRef();
+  const [error, setError] = useState(false);
+  const [posted, setPosted] = useState(false);
 
   useEffect(() => {
     const getUser = async () => {
@@ -27,13 +30,17 @@ const EditProfile = ({ match }) => {
       const resData = res.data;
       setName(resData.name);
       setBio(resData.bio);
-      setProfilePicture(resData.profilePicture);
+      setProfilePic(resData.profilePicture);
     } catch (err) {
       console.log('Error while fetching User');
     }
   };
 
   const handleUploadModification = async () => {
+    let profileLink = await uploadImageRef.current.upload();
+    if (profileLink == null) {
+      profileLink = profilePic;
+    }
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +51,7 @@ const EditProfile = ({ match }) => {
       username: auth.user.username,
       name: name,
       bio: bio,
-      profilePicture: profilePicture,
+      profilePicture: profileLink,
     };
 
     try {
@@ -54,48 +61,27 @@ const EditProfile = ({ match }) => {
         config
       );
 
-      console.log('done');
+      setPosted(true);
     } catch (error) {
-      //setError(true);
+      if (error.response.data.errors[0].msg === 'Name is required') {
+        setError(true);
+      }
       console.log('Error while saving modification...');
     }
   };
+
+  if (posted) {
+    return <Redirect to={`/profile/${auth.user.username}`} />;
+  }
 
   return (
     <>
       {auth.loading || auth.user === null ? (
         <Spinner />
       ) : (
-        <div className="container mt-5">
+        <div className="postForm mt-5">
+          <h5 className="formHeading">Edit Profile</h5>
           <form>
-            <div id="edit-pic" className="row">
-              <label className="col-sm-2 col-form-label">
-                <strong>Profile picture</strong>
-              </label>
-              <div className="edit-profile-photo-container">
-                <img src={profilePicture} alt="Profile" />
-              </div>
-              <div id="pic-edit-icons">
-                <span
-                  id="edit-photo-icon"
-                  className="ml-3"
-                  data-toggle="modal"
-                  data-target="#edit-photo-modal"
-                  role="button"
-                >
-                  <i className="fa fa-pencil"></i>
-                </span>
-                <span
-                  id="delete-photo-icon"
-                  className="ml-3"
-                  data-toggle="modal"
-                  data-target="#delete-photo-modal"
-                  role="button"
-                >
-                  <i className="fa fa-trash-o"></i>
-                </span>
-              </div>
-            </div>
             {/* Portion of form for editing Name and bio*/}
             <div id="edit-profile-form" className="form-group row">
               <label className="col-sm-2 col-form-label">
@@ -109,6 +95,7 @@ const EditProfile = ({ match }) => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
+                {error && <p className="validationError">Name required</p>}
               </div>
             </div>
             <div className="form-group row">
@@ -125,81 +112,38 @@ const EditProfile = ({ match }) => {
                 />
               </div>
             </div>
+          </form>
+
+          <div className="flex-container">
+            <div
+              id="edit-pic flex-child one"
+              className="row"
+              style={{ width: '152px' }}
+            >
+              <label style={{ paddingLeft: '40px', marginBottom: '0px' }}>
+                <strong>Profile Picture</strong>
+              </label>
+              <div className="flex-child two edit-profile-photo-container">
+                <img className="profile-image" src={profilePic} alt="Profile" />
+              </div>
+            </div>
+
+            <div className="flex-child three" style={{ paddingLeft: '24px' }}>
+              <UploadImage ref={uploadImageRef} />
+            </div>
+          </div>
+
+          <div>
             <button
               type="button"
               onClick={handleUploadModification}
               className="btn btn-primary float-right"
+              style={{
+                marginTop: '2em',
+              }}
             >
               Save changes
             </button>
-          </form>
-
-          {/*Modal for selecting a photo*/}
-          <div
-            className="modal fade"
-            id="edit-photo-modal"
-            tabIndex="-1"
-            aria-labelledby="editPhotoModalLabel"
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="followingModalLabel">
-                    Select a photo
-                  </h5>
-                  <button
-                    type="button"
-                    className="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                  <UploadImage />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/*Modal for deleting a photo*/}
-          <div
-            className="modal fade"
-            id="delete-photo-modal"
-            tabIndex="-1"
-            aria-labelledby="deletePhotoModalLabel"
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="followingModalLabel">
-                    Delete your profile photo
-                  </h5>
-                  <button
-                    type="button"
-                    className="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                  <p>Are you sure you want to delete the photo?</p>
-                  <button className="btn btn-primary">yes</button>{' '}
-                  <button
-                    className="btn btn-light"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    cancel
-                  </button>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       )}
