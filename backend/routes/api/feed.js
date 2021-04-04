@@ -151,4 +151,76 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
   }
 });
 
+// @route   POST api/feed/like
+// @desc    Like a post
+// @access  Private
+
+router.post(
+  '/like/:id',auth,
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const user = await User.findById(req.user.id).select('-password');
+      const post = await Post.findById(req.params.id);
+
+      const newLike = {
+        //Not a new collection in db
+        user: req.user.id,
+      };
+
+      post.likes.unshift(newLike);
+
+      await post.save();
+
+      res.json(post.likes);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @route   DELETE api/feed/like/:id/:like_id
+// @desc    Unlike a post
+// @access  Private
+
+router.delete('/like/:id/:like_id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    //Pull out like
+    const like = post.likes.find(
+      (like) => like.id === req.params.like_id
+    );
+
+    //Make sure like exists
+    if (!like) {
+      return res.status(404).json({ msg: 'The post was not liked previoulsy' });
+    }
+
+    //Check user
+    if (like.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
+
+    //Get remove index
+    const removeIndex = post.likes
+      .map((like) => like.user.toString())
+      .indexOf(req.user.id);
+
+    post.likes.splice(removeIndex, 1);
+
+    await post.save();
+
+    return res.json(post.likes);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
