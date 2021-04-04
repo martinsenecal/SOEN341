@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 import ImageCard from '../building-blocks/ImageCard';
 import FollowButton from '../building-blocks/FollowButton';
@@ -57,9 +58,13 @@ const Profile = ({ match }) => {
               </div>
               <div className="col-8">
                 <div className="container p-4">
-                  <div>
-                    <h3 data-testid="usernameLabelProfile">{profileData.profile.username}</h3>
-                  </div>
+                  <h3 style={{ display: 'inline' }}>
+                    {profileData.profile.name}
+                  </h3>
+                  <h5 data-testid="usernameLabelProfile" style={{ display: 'inline', paddingLeft: '5px' }}>
+                    @(
+                    {profileData.profile.username})
+                  </h5>
                   <div>
                     <h6>
                       <span
@@ -83,14 +88,18 @@ const Profile = ({ match }) => {
                       </span>
                     </h6>
                   </div>
-                  <div>{/* <p>{profileData.profile.bio}</p> */}</div>
+                  <div>
+                    <p>{profileData.profile.bio}</p>
+                  </div>
                   <div>
                     {
                       //display follow/unfollow button if user is not viewing their own profile
                       auth.user.username !== profileData.profile.username ? (
                         <FollowButton userId={profileData.profile._id} />
                       ) : (
-                        ''
+                        <Link to="/editProfile" className="btn btn-primary">
+                          Edit Profile
+                        </Link>
                       )
                     }
                   </div>

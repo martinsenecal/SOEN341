@@ -25,6 +25,7 @@ const UserSchema = new Schema({
   },
   bio: {
     type: String,
+    default: 'Bio....',
   },
   date: {
     type: Date,

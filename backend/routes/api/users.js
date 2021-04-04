@@ -212,45 +212,30 @@ router.get('/settings/:username', auth, async (req, res) => {
   }
 });
 
-// @route   PUT api/users/settings
-// @desc    Modify user settings
+// @route   POST api/users/settings
+// @desc    Modify User profile
 // @access  Private
 router.put(
   '/settings',
-  [auth, [check('username', 'Username is required').not().isEmpty()]],
+  [auth],
+  [check('name', 'Name is required').not().isEmpty()],
   async (req, res) => {
-    // To Do: Let user modify his: bio, name, profile picture.
-
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { bio, profilePicture, name } = req.body;
-
-    //Build User Object
-    const userFields = {
-      profilePicture,
-      name,
-      bio,
-    };
-
-    let user = await User.findOne(req.user_id);
-    // let existingUsername = await User.findOne({ username });
-
-    // if (user.username !== username && existingUsername) {
-    //   return res
-    //     .status(400)
-    //     .json({ errors: [{ msg: 'Username already exists' }] });
-    // }
-
+    const { bio, profilePicture, name, username } = req.body;
     try {
-      let user = await User.findOneAndUpdate(
-        { id: req.user_id },
-        { $set: userFields },
-        { new: true, setDefaultsOnInsert: true, useFindAndModify: false }
-      );
+      let user = await User.findOne({ username }).select('-password');
 
+      user.name = name;
+      user.bio = bio;
+      user.profilePicture = profilePicture;
+
+      user.save();
+
+      console.log(user);
       res.json(user);
     } catch (err) {
       console.error(err.message);
