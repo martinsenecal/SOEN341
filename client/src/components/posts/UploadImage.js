@@ -39,6 +39,7 @@ const UploadImage = forwardRef((props, ref) => {
 
         .catch((err) => {
           //Empty image folder
+          console.log(err);
         });
     },
   }));
@@ -61,7 +62,7 @@ const UploadImage = forwardRef((props, ref) => {
       handleFiles(e.target.files[0]);
     }
   };
-  const openFile = (e) => {
+  const openFile = () => {
     inputImageRef.current.click();
   };
   const fileDrop = (e) => {
@@ -176,5 +177,7 @@ const UploadImage = forwardRef((props, ref) => {
     </div>
   );
 });
+
+UploadImage.displayName = 'UploadImage';
 
 export default UploadImage;

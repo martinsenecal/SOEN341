@@ -7,7 +7,7 @@ import Spinner from '../building-blocks/Spinner';
 
 import { AuthContext } from '../../context/AuthContext';
 
-const EditProfile = ({ match }) => {
+const EditProfile = () => {
   const [auth] = useContext(AuthContext);
   const [name, setName] = useState('');
   const [bio, setBio] = useState('');
