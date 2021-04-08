@@ -21,7 +21,7 @@ test('fetches erroneously data from an API', async () => {
 const data = [
   {
     _id: '6054110f76164c4d0d4811fa',
-    description: 'From my trip in Europe!',
+    description: 'From my trip in Europe',
     user: '605410bf76164c4d0d4811f9',
     postedPicture:
       'https://soen341insta.s3.amazonaws.com/photos/77f7cda8-7ab6-439c-9c22-783ba6c5ed6f.jpeg',
